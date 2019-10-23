@@ -28,5 +28,4 @@ Kerbal Alarm Clock
 KRASH flight simulator
 Oh Scrap! part failure mod
 Scrapyard
-Stage Recovery.
-
+Stage Recovery
