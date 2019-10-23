@@ -7,7 +7,7 @@ At it's core it is a modified version of RP-1 (https://github.com/KSP-RO/RP-0) p
 
 It is intended to be as light weight as possible and to be more 'Kerbal' than the full RO/RP-1.
 
-It's very in development and has only been tested on KSP 1.7.3
+It's very early in development and has only been tested on KSP 1.7.3
 
 Minimum Install:
 
