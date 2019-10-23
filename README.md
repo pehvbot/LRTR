@@ -28,5 +28,6 @@ Kerbal Alarm Clock<br/>
 Kerbal Construction Time<br/>
 KRASH (simulation mod)<br/>
 Oh Scrap!<br/>
+RSS DateTime Formatter<br/>
 Scrapyard<br/>
 Stage Recovery<br/>
