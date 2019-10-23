@@ -11,14 +11,14 @@ It's very in development and has only been tested on KSP 1.7.3
 
 Minimum Install:
 
-Kopernicus Planetary System Modifier 
-ModularFlightIntegrator  
-Module Manager   
-Contract Configurator   
-Custom Barn Kit - RO build 
-Real Solar System               
-ReStock (needed for Restock+)                      
-ReStock+ (needed for some mission critical parts)
+Kopernicus Planetary System Modifier<br/>
+ModularFlightIntegrator<br/>
+Module Manager<br/>
+Contract Configurator<br/>
+Custom Barn Kit - RO build<br/>
+Real Solar System<br/>
+ReStock (needed for Restock+)<br/>
+ReStock+ (needed for some mission critical parts)<br/>
 
 Suggested Mods:
 
