@@ -3,7 +3,7 @@ Kerbal Space Program - Less Real Than Real(ism)
 
 LRTR is a less real than real(ism) mod for Kerbal Space Program to allow you to to play a Real Solar System RP-1 game without Realism Overhaul.
 
-At it's core it is a modified version of RP-1 (https://github.com/KSP-RO/RP-0) and a resizing mod to make parts something close to realistic in size, mass, and performance.
+At it's core it is a modified version of RP-1 (https://github.com/KSP-RO/RP-0) plus a resizing mod to make parts something close to realistic in size, mass, and performance.
 
 It is intended to be as light weight as possible and to be more 'Kerbal' than the full RO/RP-1.
 
