@@ -26,6 +26,6 @@ BetterTimeWarp
 Crew R&R
 Kerbal Alarm Clock
 KRASH flight simulator
-Oh Scrap! part failure mod
+Oh Scrap!
 Scrapyard
 Stage Recovery
