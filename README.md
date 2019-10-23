@@ -10,6 +10,7 @@ It is intended to be as light weight as possible and to be more 'Kerbal' than th
 It's very in development and has only been tested on KSP 1.7.3
 
 Minimum Install:
+
 Kopernicus Planetary System Modifier 
 ModularFlightIntegrator  
 Module Manager   
@@ -20,6 +21,7 @@ ReStock (needed for Restock+)
 ReStock+ (needed for some mission critical parts)
 
 Suggested Mods:
+
 BetterTimeWarp
 Crew R&R
 Kerbal Alarm Clock
