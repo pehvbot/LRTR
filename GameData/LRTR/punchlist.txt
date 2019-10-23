@@ -1,0 +1,9 @@
+Punchlist
+
+RPWS03-RPWS.cfg needs fixing
+PHOTO04-DigitalCamera.cfg needs fixing
+PHOTO03-HighResFilmCamera.cfg needs fixing
+PHOTO02-ImprovedFilmCamera.cfg needs fixing
+MAGNET03-FluxgateMagnet.cfg needs fixing
+IS04-VIMS.cfg needs fixing
+IR04-PMIRR.cfg
