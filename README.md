@@ -23,9 +23,9 @@ ReStock+ (needed for some mission critical parts)
 Suggested Mods:
 
 BetterTimeWarp<br/>
-Crew R&R
-Kerbal Alarm Clock
-KRASH flight simulator
-Oh Scrap!
-Scrapyard
-Stage Recovery
+Crew R&R<br/>
+Kerbal Alarm Clock<br/>
+KRASH flight simulator<br/>
+Oh Scrap!<br/>
+Scrapyard<br/>
+Stage Recovery<br/>
