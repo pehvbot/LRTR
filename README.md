@@ -25,7 +25,8 @@ Suggested Mods:
 BetterTimeWarp<br/>
 Crew R&R<br/>
 Kerbal Alarm Clock<br/>
-KRASH flight simulator<br/>
+Kerbal Construction Time<br/>
+KRASH (simulation mod)<br/>
 Oh Scrap!<br/>
 Scrapyard<br/>
 Stage Recovery<br/>
