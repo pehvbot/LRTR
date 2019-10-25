@@ -1,0 +1,25 @@
+PARTS:
+RPWS03-RPWS.cfg
+PHOTO04-DigitalCamera.cfg
+PHOTO03-HighResFilmCamera.cfg
+PHOTO02-ImprovedFilmCamera.cfg
+MAGNET03-FluxgateMagnet.cfg
+IS04-VIMS.cfg
+IR04-PMIRR.cfg
+
+ISSUES:
+KerbalEVA ladder stand-off 'floating'
+Breaking Ground robotic parts reapply resize on daughter parts
+
+TECHTREE:
+start - orbit
+-stable
+
+orbit - manned orbit
+-needs life support
+
+manned orbit - lunar landing
+-untested
+
+lunar landing - planetary missions
+-untested
