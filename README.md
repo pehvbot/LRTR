@@ -20,6 +20,10 @@ Real Solar System<br/>
 ReStock (needed for Restock+)<br/>
 ReStock+ (needed for some mission critical parts)<br/>
 
+Supported Life Support Mods:
+
+Kerbalism - using the KerbalismConfig folder in the source file.
+
 Suggested Mods:
 
 BetterTimeWarp<br/>
@@ -31,3 +35,4 @@ Oh Scrap!<br/>
 RSS DateTime Formatter<br/>
 Scrapyard<br/>
 Stage Recovery<br/>
+
