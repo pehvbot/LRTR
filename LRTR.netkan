@@ -1,0 +1,26 @@
+{
+    "spec_version" : 1,
+    "identifier"   : "LRTR",
+    "name"
+    "$kref"        : "#/ckan/github/pehvbot/LRTR",
+    "ksp_version"  : "1.6.1",
+    "license"      : "",
+    "depends"      : [
+    	{ "name"   : "ModuleManager" },
+    	{ "name"   : "RealSolarSystem" },
+    	{ "name"   : "CustomBarnKit" },
+    	{ "name"   : "ContractConfigurator" },
+    	{ "name"   : "ReStockPlus" }
+    ],
+    "recommends"   : [
+		{ "name" : "KerbalAlarmClock" },
+		{ "name" : "KRASH" },
+		{ "name" : "KSCSwitcher" },
+        { "name" : "KerbalConstructionTime" }
+    ]
+
+    	
+    "resources": {
+        "homepage": ""
+    }
+}
