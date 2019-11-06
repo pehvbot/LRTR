@@ -90,6 +90,7 @@
     <Compile Include="UI\TopWindow.cs" />
     <Compile Include="UI\UIBase.cs" />
     <Compile Include="UI\UIHolder.cs" />
+    <Compile Include="ModuleShowInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System">
