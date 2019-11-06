@@ -34,7 +34,7 @@ CONTRACT_TYPE
     // ************ REWARDS ************
 
     prestige            	= Exceptional // 1.50
-    advanceFunds        	= 2000 * @RP0:globalHardContractMultiplier
+    advanceFunds        	= 2000 * @LRTR:globalHardContractMultiplier
     rewardScience       	= 0
     rewardReputation    	= 20
     rewardFunds         	= @advanceFunds * 4
@@ -47,7 +47,7 @@ CONTRACT_TYPE
     DATA_EXPAND
 	{
 		type				= CelestialBody
-		targetBody1			= @RP0:jupiterMoons
+		targetBody1			= @LRTR:jupiterMoons
 	}
 	
 	DATA
@@ -74,7 +74,7 @@ CONTRACT_TYPE
 		title				= Reached Bodies
 		type				= List<CelestialBody>
 		requiredValue		= false
-		targetBodyList1		= @RP0:reachBodies
+		targetBodyList1		= @LRTR:reachBodies
 	}
 
 
