@@ -4,7 +4,7 @@ using System.Text;
 using UnityEngine;
 using KSP;
 
-namespace RP0
+namespace LRTR
 {
     [KSPAddon(KSPAddon.Startup.MainMenu, true)]
     public class DifficultyPresetChanger : MonoBehaviour
@@ -17,7 +17,7 @@ namespace RP0
 
             if (paramsNode == null)
             {
-                Debug.LogError("[RP-0]: Could not find GAMEPARAMETERS node.");
+                Debug.LogError("[LRTR]: Could not find GAMEPARAMETERS node.");
                 return;
             }
 
@@ -30,16 +30,16 @@ namespace RP0
                     kvp.Value.Load(n);
             }
 
-            Debug.Log("[RP-0]: Reset difficulty presets.");
+            Debug.Log("[LRTR]: Reset difficulty presets.");
         }
     }
 
-    public class RP0Settings : GameParameters.CustomParameterNode
+    public class LRTRSettings : GameParameters.CustomParameterNode
     {
         public override string Title { get { return "General Settings"; } }
         public override GameParameters.GameMode GameMode { get { return GameParameters.GameMode.ANY; } }
-        public override string Section { get { return "RP-1"; } }
-        public override string DisplaySection { get { return "RP-1"; } }
+        public override string Section { get { return "LRTR"; } }
+        public override string DisplaySection { get { return "LRTR"; } }
         public override int SectionOrder { get { return 1; } }
         public override bool HasPresets { get { return true; } }
 

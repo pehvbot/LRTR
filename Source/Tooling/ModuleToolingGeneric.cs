@@ -4,7 +4,7 @@ using System.Text;
 using KSP;
 using UnityEngine;
 
-namespace RP0
+namespace LRTR
 {
     public class ModuleToolingGeneric : ModuleToolingDiamLen
     {

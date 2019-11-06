@@ -4,7 +4,7 @@ using System.Text;
 using UnityEngine;
 using KSP;
 
-namespace RP0
+namespace LRTR
 {
     public class ModuleUnpressurizedCockpit : PartModule
     {

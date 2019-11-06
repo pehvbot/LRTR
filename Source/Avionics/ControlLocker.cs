@@ -5,7 +5,7 @@ using KSP.UI;
 using System.Linq;
 using System.Reflection;
 
-namespace RP0
+namespace LRTR
 {
     class ControlLockerUtils
     {
@@ -81,14 +81,14 @@ namespace RP0
         private bool requested = false;
         private const ControlTypes lockmask = ControlTypes.YAW | ControlTypes.PITCH | ControlTypes.ROLL | ControlTypes.SAS | 
                                               ControlTypes.THROTTLE | ControlTypes.WHEEL_STEER | ControlTypes.WHEEL_THROTTLE;
-        private const string lockID = "RP0ControlLocker";
+        private const string lockID = "ControlLocker";
         private float maxMass, vesselMass;
         private double lastUT = -1d;
 
         private const double updateFrequency = 1d; // run a check every second, unless staging.
 
         private readonly ScreenMessage message = new ScreenMessage("", 8f, ScreenMessageStyle.UPPER_CENTER);
-        private const string ModTag = "[RP-1 ControlLocker]";
+        private const string ModTag = "[LRTR ControlLocker]";
 
         // For locking MJ.
         private static bool isFirstLoad = true;

@@ -1,0 +1,6 @@
+/Users/haslam/Documents/GitHub/LRTR/GameData/LRTR/Plugins/LRTR.dll
+/Users/haslam/Documents/GitHub/LRTR/GameData/LRTR/Plugins/LRTR.pdb
+/Users/haslam/Documents/GitHub/LRTR/Source/obj/Debug/LRTR.csproj.CopyComplete
+/Users/haslam/Documents/GitHub/LRTR/Source/obj/Debug/LRTR.dll
+/Users/haslam/Documents/GitHub/LRTR/Source/obj/Debug/LRTR.pdb
+/Users/haslam/Documents/GitHub/LRTR/Source/obj/Debug/LRTR.csprojAssemblyReference.cache

@@ -3,7 +3,7 @@ using System.Collections;
 using UniLinq;
 using UnityEngine;
 
-namespace RP0
+namespace LRTR
 {
     class ModuleAvionics : PartModule
     {
@@ -106,7 +106,7 @@ namespace RP0
         protected void UpdateRate()
         {
 			if (commandChargeResource == null) {
-				UnityEngine.Debug.Log("[RP-0] - Can't change rate with no commandChargeResource");
+				UnityEngine.Debug.Log("[LRTR] - Can't change rate with no commandChargeResource");
 				return;
 			}
             if (part.protoModuleCrew != null && part.protoModuleCrew.Count > 0)

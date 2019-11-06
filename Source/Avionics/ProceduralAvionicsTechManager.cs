@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace RP0.ProceduralAvionics
+namespace LRTR.ProceduralAvionics
 {
 	/// <summary>
 	/// This clas does all the work of determining which tech nodes are available

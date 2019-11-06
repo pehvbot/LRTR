@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("RP0")]
-[assembly: AssemblyDescription("Plugin for RP-0 mod")]
+[assembly: AssemblyTitle("LRTR")]
+[assembly: AssemblyDescription("Plugin for LRTR mod")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("KSP-RO")]
 [assembly: AssemblyProduct("")]
@@ -35,6 +35,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
-[assembly: KSPAssembly("RP-0", 1, 0)]
+[assembly: KSPAssembly("LRTR", 1, 0)]
 [assembly: KSPAssemblyDependency("ModularFlightIntegrator", 1, 0)]
-[assembly: KSPAssemblyDependency("RealFuels", 12, 7)]

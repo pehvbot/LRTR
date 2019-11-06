@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Reflection;
 using KSP.UI.Screens;
 
-namespace RP0.Crew
+namespace LRTR.Crew
 {
     [KSPScenario(ScenarioCreationOptions.AddToAllGames, new GameScenes[] { GameScenes.EDITOR, GameScenes.FLIGHT, GameScenes.SPACECENTER, GameScenes.TRACKSTATION })]
     public class CrewHandler : ScenarioModule
@@ -554,7 +554,7 @@ namespace RP0.Crew
 
         protected void LoadSettings()
         {
-            retirementEnabled = HighLogic.CurrentGame.Parameters.CustomParams<RP0Settings>().IsRetirementEnabled;
+            retirementEnabled = HighLogic.CurrentGame.Parameters.CustomParams<LRTRSettings>().IsRetirementEnabled;
         }
 
         private void VesselRecoveryProcessing(ProtoVessel v, MissionRecoveryDialog mrDialog, float data)

@@ -4,12 +4,12 @@ using System.IO;
 using System.Text;
 using UnityEngine;
 
-namespace RP0
+namespace LRTR
 {
     [KSPAddon(KSPAddon.Startup.Instantly, true)]
     class LoadingScreenChanger : MonoBehaviour
     {
-        public const string TipFilePath = @"GameData/RP-0/PluginData/LoadingScreenTips.txt";
+        public const string TipFilePath = @"GameData/LRTR/PluginData/LoadingScreenTips.txt";
         protected bool done = false;
 
         protected void Awake()
@@ -37,14 +37,14 @@ namespace RP0
 
             try
             {
-                Debug.Log("[RP-0]: Replacing loading screens.");
+                Debug.Log("[LRTR]: Replacing loading screens.");
                 int loadingScreenIdx = Versioning.version_minor < 4 ? 1 : 3;    // KSP 1.4+ has 2 extra loading screens
 
                 LoadingScreen.LoadingScreenState origState = LoadingScreen.Instance.Screens[loadingScreenIdx];
 
                 List<Texture2D> textures = new List<Texture2D>();
 
-                DirectoryInfo di = new DirectoryInfo(KSPUtil.ApplicationRootPath + "GameData/RP-0/PluginData/Screens");
+                DirectoryInfo di = new DirectoryInfo(KSPUtil.ApplicationRootPath + "GameData/LRTR/PluginData/Screens");
                 foreach (FileInfo fi in di.GetFiles())
                 {
                     if (fi.FullName.ToLowerInvariant().EndsWith(".dds"))
@@ -58,7 +58,7 @@ namespace RP0
                         }
                         catch (Exception e)
                         {
-                            Debug.LogError("[RP-0]: Exception loading " + fi.FullName + ":\n" + e);
+                            Debug.LogError("[LRTR]: Exception loading " + fi.FullName + ":\n" + e);
                         }
                     }
                 }
@@ -76,18 +76,18 @@ namespace RP0
                         sc.tipTime = float.MaxValue;    // Change only when the loading screen image is switched
                     }
 
-                    string msgStr = "[RP-0]: Loading screens replaced.";
+                    string msgStr = "[LRTR]: Loading screens replaced.";
 
                     Debug.Log(msgStr);
                 }
                 else
                 {
-                    Debug.LogError("[RP-0]: No screens found in RP-0/PluginData/Screens!");
+                    Debug.LogError("[LRTR]: No screens found in LRTR/PluginData/Screens!");
                 }
             }
             catch (Exception e)
             {
-                Debug.LogError("[RP-0]: Patching failed: with error " + error + ", exception " + e);
+                Debug.LogError("[LRTR]: Patching failed: with error " + error + ", exception " + e);
             }
 
             GameObject.Destroy(this);
@@ -268,7 +268,7 @@ namespace RP0
 
                 texture.LoadRawTextureData(dxtBytes);
 
-                texture.name = path.Substring(path.IndexOf("RP-0"));
+                texture.name = path.Substring(path.IndexOf("LRTR"));
 
                 texture.Apply(false, true);
 

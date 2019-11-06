@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace RP0.ModuleTags
+namespace LRTR.ModuleTags
 {
     public class ModuleTagNoResourceCostMult : ModuleTag
     {

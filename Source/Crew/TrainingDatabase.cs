@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
-namespace RP0.Crew
+namespace LRTR.Crew
 {
     public class TrainingDatabase
     {

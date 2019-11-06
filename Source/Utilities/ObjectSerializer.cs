@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace RP0
+namespace LRTR
 {
 	//Taken from Procedural Parts
 	internal static class ObjectSerializer

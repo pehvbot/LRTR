@@ -1,7 +1,7 @@
 ﻿using RealFuels.Tanks;
 using UnityEngine;
 
-namespace RP0
+namespace LRTR
 {
     public class ModuleToolingROTanks : ModuleToolingPTank
     {

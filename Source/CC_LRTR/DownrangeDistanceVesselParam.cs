@@ -1,7 +1,7 @@
 ﻿using ContractConfigurator.Parameters;
 using UnityEngine;
 
-namespace ContractConfigurator.RP0
+namespace ContractConfigurator.LRTR
 {
     public class DownrangeDistance : VesselParameter
     {

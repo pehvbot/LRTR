@@ -5,7 +5,7 @@ using System.Text;
 using KSP;
 using UnityEngine;
 
-namespace RP0.Crew
+namespace LRTR.Crew
 {
     public class FSGUI : UIBase
     {
@@ -16,7 +16,7 @@ namespace RP0.Crew
         private Vector2 courseSelectorScroll = new Vector2();
         private GUIStyle courseBtnStyle = null;
         private GUIStyle tempCourseLblStyle = null;
-        private GUIContent nautRowAlarmBtnContent = new GUIContent(GameDatabase.Instance.GetTexture("RP-0/KACIcon15", false));
+        private GUIContent nautRowAlarmBtnContent = new GUIContent(GameDatabase.Instance.GetTexture("LRTR/KACIcon15", false));
         
         protected void nautListHeading()
         {

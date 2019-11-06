@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using RP0.Crew;
+using LRTR.Crew;
 using UnityEngine;
 using Upgradeables;
 
-namespace RP0
+namespace LRTR
 {
     [KSPScenario((ScenarioCreationOptions)480, new GameScenes[] { GameScenes.EDITOR, GameScenes.FLIGHT, GameScenes.SPACECENTER, GameScenes.TRACKSTATION })]
     public class MaintenanceHandler : ScenarioModule
@@ -287,7 +287,7 @@ namespace RP0
 
         private void LoadSettings(ConfigNode data)
         {
-            maintenanceCostMult = HighLogic.CurrentGame.Parameters.CustomParams<RP0Settings>().MaintenanceCostMult;
+            maintenanceCostMult = HighLogic.CurrentGame.Parameters.CustomParams<LRTRSettings>().MaintenanceCostMult;
         }
 
         private void SettingsChanged()

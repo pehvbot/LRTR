@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 using System.Reflection;
 
-namespace RP0
+namespace LRTR
 {
     [KSPAddon(KSPAddon.Startup.SpaceCentre, false)]
     public class ModuleShowInfoUpdater : MonoBehaviour

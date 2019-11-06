@@ -1,0 +1,30 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workbench>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="LRTR" expanded="True">
+            <Node name="CC_LRTR" expanded="True">
+              <Node name="DownrangeDistanceFactory.cs" selected="True" />
+            </Node>
+            <Node name="ClearInputLocks" expanded="True" />
+            <Node name="LRTR" expanded="True">
+              <Node name="Crew" expanded="True" />
+              <Node name="UI" expanded="True" />
+            </Node>
+            <Node name="LRTRKCTBinder" expanded="True" />
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <DisabledProjects>
+    <String>CC_RP0/CC_LRTR.csproj</String>
+  </DisabledProjects>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

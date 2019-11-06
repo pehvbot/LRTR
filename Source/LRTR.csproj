@@ -7,17 +7,17 @@
     <ProjectGuid>{997854F8-4EFB-4A78-87BC-F7C8CEA64669}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RP0</RootNamespace>
-    <AssemblyName>RP0</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <RootNamespace>LRTR</RootNamespace>
+    <AssemblyName>LRTR</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\GameData\RP-0\Plugins\</OutputPath>
+    <OutputPath>..\GameData\LRTR\Plugins</OutputPath>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -25,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\GameData\RP-0\Plugins\</OutputPath>
+    <OutputPath>..\..\GameData\LRTR\Plugins\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -79,31 +79,9 @@
     <Compile Include="ModuleTag\Nuclear.cs" />
     <Compile Include="ModuleTag\EngineLiquidTurbo.cs" />
     <Compile Include="ModuleTag\EngineSolid.cs" />
-    <Compile Include="Avionics\ProceduralAvionicsConfig.cs" />
-    <Compile Include="Avionics\ControlLocker.cs" />
-    <Compile Include="Avionics\ModuleAvionicsModifier.cs" />
-    <Compile Include="Avionics\ModuleProceduralAvionics.cs" />
     <Compile Include="ModuleRangeSafety.cs" />
     <Compile Include="ModuleTag\DummyModule.cs" />
-    <Compile Include="Avionics\ModuleAvionics.cs" />
-    <Compile Include="Avionics\ModuleScienceCore.cs" />
-    <Compile Include="ModuleShowInfo.cs" />
-    <Compile Include="Avionics\ProceduralAvionicsTechManager.cs" />
-    <Compile Include="Avionics\ProceduralAvionicsTechNode.cs" />
-    <Compile Include="Avionics\ProceduralAvionicsUnlockedNodes.cs" />
-    <Compile Include="Avionics\ProceduralAvionicsUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tooling\ModuleToolingDiamLen.cs" />
-    <Compile Include="Tooling\ModuleTooling.cs" />
-    <Compile Include="Tooling\ModuleToolingROTanks.cs" />
-    <Compile Include="Tooling\ModuleToolingStockFairing.cs" />
-    <Compile Include="Tooling\ModuleToolingPFSide.cs" />
-    <Compile Include="Tooling\ModuleToolingGeneric.cs" />
-    <Compile Include="Tooling\ModuleToolingSSTUTank.cs" />
-    <Compile Include="Tooling\ToolingDatabase.cs" />
-    <Compile Include="Tooling\ToolingDefinition.cs" />
-    <Compile Include="Tooling\ToolingScenario.cs" />
-    <Compile Include="Tooling\ModuleToolingPTank.cs" />
     <Compile Include="Utilities\KACWrapper.cs" />
     <Compile Include="Utilities\KSPUtils.cs" />
     <Compile Include="Utilities\MathUtils.cs" />
@@ -112,43 +90,47 @@
     <Compile Include="UI\TopWindow.cs" />
     <Compile Include="UI\UIBase.cs" />
     <Compile Include="UI\UIHolder.cs" />
-    <Compile Include="Tooling\ToolingGUI.cs" />
-    <Compile Include="Avionics\AvionicsGUI.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\..\..\..\..\..\..\Games\Kerbal Space Program 1.3.1 - RO\KSP_x64_Data\Managed\Assembly-CSharp.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>..\..\..\..\..\..\..\..\Games\Kerbal Space Program 1.3.1 - RO\KSP_x64_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="ModularFlightIntegrator">
-      <HintPath>..\..\..\..\..\..\Games\RP1\GameData\ModularFlightIntegrator\ModularFlightIntegrator.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="RealFuels">
-      <HintPath>..\..\..\..\..\..\Games\RP1\GameData\RealFuels\Plugins\RealFuels.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>..\dlls\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\dlls\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="ModularFlightIntegrator">
+      <HintPath>..\dlls\ModularFlightIntegrator.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AnimationModule">
+      <HintPath>..\dlls\UnityEngine.AnimationModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\dlls\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>..\..\..\..\..\..\..\..\Games\Kerbal Space Program 1.3.1 - RO\KSP_x64_Data\Managed\UnityEngine.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\dlls\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>..\dlls\UnityEngine.IMGUIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>..\dlls\UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>..\dlls\UnityEngine.TextRenderingModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>..\..\..\..\..\..\..\..\Games\Kerbal Space Program 1.3.1 - RO\KSP_x64_Data\Managed\UnityEngine.UI.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\dlls\UnityEngine.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>del "System.Core.dll"</PostBuildEvent>
+    <PostBuildEvent></PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

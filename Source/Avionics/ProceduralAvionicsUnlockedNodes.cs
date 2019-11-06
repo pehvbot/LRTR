@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace RP0.ProceduralAvionics
+namespace LRTR.ProceduralAvionics
 {
 	[KSPScenario(ScenarioCreationOptions.AddToAllGames, new GameScenes[] { GameScenes.EDITOR, GameScenes.SPACECENTER })]
 	public class ProceduralAvionicsUnlockedTechSaver : ScenarioModule

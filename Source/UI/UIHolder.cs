@@ -2,7 +2,7 @@
 using UnityEngine;
 using KSP.UI.Screens;
 
-namespace RP0
+namespace LRTR
 {
     [KSPAddon(KSPAddon.Startup.FlightEditorAndKSC, false)]
     class UIHolder : MonoBehaviour
@@ -17,7 +17,7 @@ namespace RP0
             try {
                 GameEvents.onGUIApplicationLauncherReady.Add(this.OnGuiAppLauncherReady);
             } catch (Exception ex) {
-                Debug.LogError("RP0 failed to register UIHolder.OnGuiAppLauncherReady");
+                Debug.LogError("LRTR failed to register UIHolder.OnGuiAppLauncherReady");
                 Debug.LogException(ex);
             }
         }
@@ -49,10 +49,10 @@ namespace RP0
                     null,
                     null,
                     ApplicationLauncher.AppScenes.SPACECENTER | ApplicationLauncher.AppScenes.VAB | ApplicationLauncher.AppScenes.SPH,
-                    GameDatabase.Instance.GetTexture("RP-0/maintecost", false));
+                    GameDatabase.Instance.GetTexture("LRTR/maintecost", false));
                 GameEvents.onGameSceneLoadRequested.Add(this.OnSceneChange);
             } catch (Exception ex) {
-                Debug.LogError("RP0 failed to register UIHolder");
+                Debug.LogError("LRTR failed to register UIHolder");
                 Debug.LogException(ex);
             }
         }

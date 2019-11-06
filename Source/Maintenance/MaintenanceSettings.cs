@@ -5,7 +5,7 @@ using KSP;
 using UnityEngine;
 using System.Reflection;
 
-namespace RP0
+namespace LRTR
 {
     public class MaintenanceSettings : IConfigNode
     {

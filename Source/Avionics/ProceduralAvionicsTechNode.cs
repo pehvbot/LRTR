@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace RP0.ProceduralAvionics
+namespace LRTR.ProceduralAvionics
 {
 	[Serializable]
 	public class ProceduralAvionicsTechNode : IConfigNode

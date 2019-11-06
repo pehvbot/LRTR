@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace RP0.Crew
+namespace LRTR.Crew
 {
     public enum RepeatMode {NEVER, EXPIRED, ALWAYS}; //is the course repeatable?
 

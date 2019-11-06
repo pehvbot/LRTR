@@ -3,7 +3,7 @@ using System.Collections;
 using UniLinq;
 using UnityEngine;
 
-namespace RP0
+namespace LRTR
 {
     public class ModuleRangeSafety : PartModule
     {

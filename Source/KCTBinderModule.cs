@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections;
 using KerbalConstructionTime;
-using RP0.Crew;
+using LRTR.Crew;
 using UnityEngine;
 
-namespace RP0
+namespace LRTR
 {
     [KSPScenario(ScenarioCreationOptions.AddToAllGames, new GameScenes[] { GameScenes.EDITOR, GameScenes.FLIGHT, GameScenes.SPACECENTER, GameScenes.TRACKSTATION })]
     public class KCTBinderModule : ScenarioModule
@@ -52,7 +52,7 @@ namespace RP0
             if (pcm == null)
                 return false;
 
-            bool requireTraining = HighLogic.CurrentGame.Parameters.CustomParams<RP0Settings>().IsTrainingEnabled;
+            bool requireTraining = HighLogic.CurrentGame.Parameters.CustomParams<LRTRSettings>().IsTrainingEnabled;
 
             if (!requireTraining || EntryCostStorage.GetCost(partName) == 1)
                 return true;

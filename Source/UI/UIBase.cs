@@ -2,7 +2,7 @@
 using UnityEngine;
 using KSP.UI.Screens;
 
-namespace RP0
+namespace LRTR
 {
     public class UIBase
     {

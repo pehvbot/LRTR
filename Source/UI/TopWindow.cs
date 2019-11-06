@@ -2,16 +2,16 @@
 using UnityEngine;
 using KSP.UI.Screens;
 
-namespace RP0
+namespace LRTR
 {
     public class TopWindow : UIBase
     {
         // GUI
         static Rect windowPos = new Rect(500, 240, 0, 0);
         private MaintenanceGUI maintUI = new MaintenanceGUI();
-        private ToolingGUI toolUI = new ToolingGUI();
-        private Crew.FSGUI fsUI = new RP0.Crew.FSGUI();
-        private AvionicsGUI avUI = new AvionicsGUI();
+        //private ToolingGUI toolUI = new ToolingGUI();
+        private Crew.FSGUI fsUI = new LRTR.Crew.FSGUI();
+        //private AvionicsGUI avUI = new AvionicsGUI();
         private static tabs currentTab;
 
         public TopWindow()
@@ -22,7 +22,7 @@ namespace RP0
 
         public void OnGUI()
         {
-            windowPos = GUILayout.Window("RP0Top".GetHashCode(), windowPos, DrawWindow, "RP-1");
+            windowPos = GUILayout.Window("LRTRTop".GetHashCode(), windowPos, DrawWindow, "LRTR");
         }
 
         public static void SwitchTabTo(tabs newTab)
@@ -36,8 +36,8 @@ namespace RP0
             try {
                 if (showTab(tabs.Maintenance) && toggleButton("Maintenance", currentTab == tabs.Maintenance))
                     currentTab = tabs.Maintenance;
-                if (showTab(tabs.Tooling) && toggleButton("Tooling", currentTab == tabs.Tooling))
-                    currentTab = tabs.Tooling;
+                //if (showTab(tabs.Tooling) && toggleButton("Tooling", currentTab == tabs.Tooling))
+                //    currentTab = tabs.Tooling;
                 if (showTab(tabs.Training) && toggleButton("Astronauts", currentTab == tabs.Training))
                     currentTab = tabs.Training;
                 if (showTab(tabs.Courses) && toggleButton("Courses", currentTab == tabs.Courses))
@@ -73,12 +73,12 @@ namespace RP0
                         case tabs.Astronauts:
                             maintUI.astronautsTab();
                             break;
-                        case tabs.Tooling:
-                            currentTab = toolUI.toolingTab();
-                            break;
-                        case tabs.ToolingType:
-                            toolUI.toolingTypeTab();
-                            break;
+                        //case tabs.Tooling:
+                        //    currentTab = toolUI.toolingTab();
+                        //    break;
+                        //case tabs.ToolingType:
+                        //    toolUI.toolingTypeTab();
+                        //    break;
                         case tabs.Training:
                             currentTab = fsUI.summaryTab();
                             break;
@@ -91,9 +91,9 @@ namespace RP0
                         case tabs.Naut:
                             fsUI.nautTab();
                             break;
-                        case tabs.Avionics:
-                            avUI.avionicsTab();
-                            break;
+                        //case tabs.Avionics:
+                        //    avUI.avionicsTab();
+                        //    break;
                         default: // can't happen
                             break;
                         }

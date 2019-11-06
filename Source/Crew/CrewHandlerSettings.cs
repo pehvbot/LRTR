@@ -5,7 +5,7 @@ using KSP;
 using UnityEngine;
 using System.Reflection;
 
-namespace RP0.Crew
+namespace LRTR.Crew
 {
     public class CrewHandlerSettings : IConfigNode
     {

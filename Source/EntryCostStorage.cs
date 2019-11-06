@@ -4,7 +4,7 @@ using System.Text;
 using UnityEngine;
 using KSP;
 
-namespace RP0
+namespace LRTR
 {
     [KSPAddon(KSPAddon.Startup.MainMenu, true)]
     public class EntryCostStorage : MonoBehaviour

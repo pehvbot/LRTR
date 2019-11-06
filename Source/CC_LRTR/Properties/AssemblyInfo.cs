@@ -5,10 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CC_RP0")]
-[assembly: AssemblyDescription("ContractConfigurator extension for RP-0 mod")]
+// Taken from the RP-0 mod
+[assembly: AssemblyTitle("CC_LRTR")]
+[assembly: AssemblyDescription("ContractConfigurator extension for LRTR mod")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("KSP-RO")]
+[assembly: AssemblyCompany("pehvbot")]
 [assembly: AssemblyProduct("")]
 [assembly: AssemblyCopyright("Copyright ©  2018 CC-BY-NC-SA 4.0")]
 [assembly: AssemblyTrademark("")]
@@ -35,4 +36,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
-[assembly: KSPAssembly("RP-0", 1, 00)]
+[assembly: KSPAssembly("LRTR", 1, 00)]

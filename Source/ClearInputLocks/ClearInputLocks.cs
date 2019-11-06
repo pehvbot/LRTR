@@ -4,7 +4,7 @@ using System.Text;
 using UnityEngine;
 using KSP;
 
-namespace ClearInputLocks.RP0
+namespace ClearInputLocks.LRTR
 {
     [KSPScenario(ScenarioCreationOptions.AddToAllGames, new GameScenes[] { GameScenes.EDITOR, GameScenes.FLIGHT, GameScenes.SPACECENTER, GameScenes.TRACKSTATION })]
     public class ClearInputLocks : ScenarioModule

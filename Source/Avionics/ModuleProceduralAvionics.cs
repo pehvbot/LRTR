@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-using static RP0.ProceduralAvionics.ProceduralAvionicsUtils;
+using static LRTR.ProceduralAvionics.ProceduralAvionicsUtils;
 
-namespace RP0.ProceduralAvionics
+namespace LRTR.ProceduralAvionics
 {
 	class ModuleProceduralAvionics : ModuleAvionics, IPartMassModifier, IPartCostModifier
 	{

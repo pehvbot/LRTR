@@ -4,7 +4,7 @@ using System.Text;
 using UnityEngine;
 using KSP;
 
-namespace RP0
+namespace LRTR
 {
     public class ModuleNonReentryRated : PartModule
     {
@@ -15,11 +15,11 @@ namespace RP0
     }
 
     [KSPAddon(KSPAddon.Startup.SpaceCentre, true)]
-    public class RP0ThermoChanger : MonoBehaviour
+    public class LRTRThermoChanger : MonoBehaviour
     {
         public void Start()
         {
-            print("Registering RP-0 overrides with ModularFlightIntegrator");
+            print("Registering LRTR overrides with ModularFlightIntegrator");
             ModularFI.ModularFlightIntegrator.RegisterUpdateThermodynamicsPre(UpdateThermodynamicsPre);
         }
 

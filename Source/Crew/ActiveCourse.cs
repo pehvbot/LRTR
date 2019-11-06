@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UniLinq;
 using System.Text;
 
-namespace RP0.Crew
+namespace LRTR.Crew
 {
     public class ActiveCourse : CourseTemplate
     {
