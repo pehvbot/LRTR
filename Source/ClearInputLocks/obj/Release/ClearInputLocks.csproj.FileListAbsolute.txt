@@ -1,0 +1,4 @@
+/Users/haslam/Documents/GitHub/LRTR/GameData/LRTR/Plugins/ClearInputLocks.dll
+/Users/haslam/Documents/GitHub/LRTR/GameData/LRTR/Plugins/ClearInputLocks.pdb
+/Users/haslam/Documents/GitHub/LRTR/Source/ClearInputLocks/obj/Release/ClearInputLocks.dll
+/Users/haslam/Documents/GitHub/LRTR/Source/ClearInputLocks/obj/Release/ClearInputLocks.pdb

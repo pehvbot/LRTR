@@ -41,8 +41,8 @@ namespace LRTR
     {
        // public static Dictionary<string, RealFuels.PartEntryCostHolder> holders = null;
         public static Dictionary<string, AvailablePart> nameToPart = null;
-        private static FieldInfo holdersField = null, nameToPartField = null;
-        //private static FieldInfo nameToPartField = null;
+        //private static FieldInfo holdersField = null, nameToPartField = null;
+        private static FieldInfo nameToPartField = null;
         private static bool initialized = false;
 
         public static void Init()

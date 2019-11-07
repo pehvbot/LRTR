@@ -1,0 +1,3 @@
+/Users/haslam/Documents/GitHub/GameData/LRTR/Plugins/LRTRKCTBinder.dll
+/Users/haslam/Documents/GitHub/LRTR/GameData/LRTR/Plugins/LRTRKCTBinder.dll
+/Users/haslam/Documents/GitHub/LRTR/Source/obj/Release/LRTRKCTBinder.dll
