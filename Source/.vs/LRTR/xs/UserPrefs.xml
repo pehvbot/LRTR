@@ -2,15 +2,15 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="ModuleUnpressurizedCockpit.cs">
     <Files>
       <File FileName="../../../../../../Library/Frameworks/Mono.framework/Versions/6.4.0/lib/mono/msbuild/Current/bin/Microsoft.Common.CurrentVersion.targets" Line="2126" Column="5" />
-      <File FileName="ModuleShowInfo.cs" Line="35" Column="28" />
-      <File FileName="ModuleTag/Avionics.cs" Line="1" Column="1" />
-      <File FileName="DifficultyPresets.cs" Line="1" Column="1" />
-      <File FileName="EntryCostStorage.cs" Line="1" Column="1" />
-      <File FileName="LoadingScreenChanger.cs" Line="1" Column="1" />
-      <File FileName="ModuleNoEVA.cs" Line="1" Column="1" />
-      <File FileName="ModuleNonRecharge.cs" Line="1" Column="1" />
-      <File FileName="ModuleNonReentryRated.cs" Line="1" Column="1" />
-      <File FileName="ModuleRangeSafety.cs" Line="1" Column="1" />
+      <File FileName="ModuleShowInfo.cs" />
+      <File FileName="ModuleTag/Avionics.cs" />
+      <File FileName="DifficultyPresets.cs" />
+      <File FileName="EntryCostStorage.cs" />
+      <File FileName="LoadingScreenChanger.cs" />
+      <File FileName="ModuleNoEVA.cs" />
+      <File FileName="ModuleNonRecharge.cs" />
+      <File FileName="ModuleNonReentryRated.cs" />
+      <File FileName="ModuleRangeSafety.cs" />
       <File FileName="ModuleUnpressurizedCockpit.cs" Line="1" Column="1" />
     </Files>
     <Pads>
