@@ -1,24 +1,26 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workbench ActiveDocument="ModuleUnpressurizedCockpit.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ModuleShowInfo.cs">
     <Files>
       <File FileName="../../../../../../Library/Frameworks/Mono.framework/Versions/6.4.0/lib/mono/msbuild/Current/bin/Microsoft.Common.CurrentVersion.targets" Line="2126" Column="5" />
-      <File FileName="ModuleShowInfo.cs" />
+      <File FileName="ModuleShowInfo.cs" Line="1" Column="1" />
       <File FileName="ModuleTag/Avionics.cs" />
-      <File FileName="DifficultyPresets.cs" />
-      <File FileName="EntryCostStorage.cs" />
+      <File FileName="DifficultyPresets.cs" Line="1" Column="1" />
+      <File FileName="EntryCostStorage.cs" Line="1" Column="1" />
       <File FileName="LoadingScreenChanger.cs" />
       <File FileName="ModuleNoEVA.cs" />
       <File FileName="ModuleNonRecharge.cs" />
       <File FileName="ModuleNonReentryRated.cs" />
-      <File FileName="ModuleRangeSafety.cs" />
+      <File FileName="ModuleRangeSafety.cs" Line="1" Column="1" />
       <File FileName="ModuleUnpressurizedCockpit.cs" Line="1" Column="1" />
+      <File FileName="Utilities/ObjectSerializer.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="LRTR" expanded="True">
             <Node name="LRTR" expanded="True">
-              <Node name="ModuleUnpressurizedCockpit.cs" selected="True" />
+              <Node name="Utilities" expanded="True" />
+              <Node name="ModuleShowInfo.cs" selected="True" />
             </Node>
           </Node>
         </State>

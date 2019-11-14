@@ -1,3 +1,8 @@
+//
+//LRTR config was taken from two sources:  The stock KerbalismConfig and the RealismOverhaul config created by Standecco
+//https://github.com/Kerbalism/Kerbalism
+//https://github.com/Standecco/ROKerbalism
+//
 //changes to science mechanics based on kerbalism's modules.
 //patches are structured in this convoluted way for ease of patching new parts and mods.
 //=================================================================================================================================================================
