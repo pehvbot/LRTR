@@ -18,7 +18,8 @@ Real Solar System<br/>
 
 Supported Life Support Mods:
 
-Kerbalism - using the KerbalismConfig folder in the source file.
+Kerbalism - using the LRKerbalism KerbalismConfig folder.
+https://github.com/pehvbot/LRKerbalism
 
 Suggested Mods:
 
