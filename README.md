@@ -12,14 +12,14 @@ Minimum Install:
 Kopernicus Planetary System Modifier<br/>
 ModularFlightIntegrator<br/>
 Module Manager<br/>
+DMagicScienceAnimate<br/>
 Contract Configurator<br/>
 Custom Barn Kit - RO build<br/>
 Real Solar System<br/>
 
 Supported Life Support Mods:
 
-Kerbalism - using the LRKerbalism KerbalismConfig folder.
-https://github.com/pehvbot/LRKerbalism
+Kerbalism - using the LRKerbalism KerbalismConfig folder: https://github.com/pehvbot/LRKerbalism
 
 Suggested Mods:
 
