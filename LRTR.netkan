@@ -3,20 +3,21 @@
     "identifier"   : "LRTR",
     "name"
     "$kref"        : "#/ckan/github/pehvbot/LRTR",
-    "ksp_version"  : "1.6.1",
+    "ksp_version"  : "1.7.3",
     "license"      : "",
     "depends"      : [
     	{ "name"   : "ModuleManager" },
     	{ "name"   : "RealSolarSystem" },
     	{ "name"   : "CustomBarnKit" },
-    	{ "name"   : "ContractConfigurator" },
-    	{ "name"   : "ReStockPlus" }
+    	{ "name"   : "ContractConfigurator" }
     ],
     "recommends"   : [
+    	{ "name" : "ReStockPlus" },
 		{ "name" : "KerbalAlarmClock" },
 		{ "name" : "KRASH" },
 		{ "name" : "KSCSwitcher" },
-        { "name" : "KerbalConstructionTime" }
+        { "name" : "KerbalConstructionTime" },
+        { "name" : "Kerbalism" }
     ]
 
     	
