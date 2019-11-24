@@ -35,4 +35,11 @@ RSS DateTime Formatter<br/>
 Scrapyard<br/>
 Stage Recovery<br/>
 
+Supported Parts Mods:
+
+<a href="https://github.com/CobaltWolf/Bluedog-Design-Bureau">Bluedog Design Bureau</a><br />
+<a href="https://github.com/DylanSemrau/CompletelyNonAggressiveRocketry">Completely Non-Aggressive Rocketry</a><br />
+<a href="https://github.com/Tantares/Tantares/releases">Tantares Spacecraft</a><br />
+
+
 License: CC-BY-NC-SA-4.0
