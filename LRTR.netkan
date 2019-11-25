@@ -10,6 +10,7 @@
     	{ "name"   : "ModuleManager" },
     	{ "name"   : "RealSolarSystem" },
     	{ "name"   : "CustomBarnKit" },
+    	{ "name"   : "RSSDateTimeFormatter" },
     	{ "name"   : "ContractConfigurator" },
     	{ "name"   : "DMagicScienceAnimate" }
     ],
