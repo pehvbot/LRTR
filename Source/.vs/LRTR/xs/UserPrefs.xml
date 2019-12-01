@@ -1,33 +1,20 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workbench ActiveDocument="Maintenance/MaintenanceGUI.cs">
     <Files>
-      <File FileName="../../../../../../Library/Frameworks/Mono.framework/Versions/6.4.0/lib/mono/msbuild/Current/bin/Microsoft.Common.CurrentVersion.targets" Line="2126" Column="5" />
+      <File FileName="ModuleTag/Avionics.cs" Line="1" Column="1" />
+      <File FileName="ModuleTag/Decoupler.cs" Line="1" Column="1" />
+      <File FileName="ModuleTag/DecreaseA.cs" Line="1" Column="1" />
+      <File FileName="ModuleTag/DecreaseB.cs" Line="1" Column="1" />
+      <File FileName="ModuleTag/DummyModule.cs" Line="1" Column="1" />
+      <File FileName="ModuleTag/EngineLiquidPF.cs" Line="1" Column="1" />
       <File FileName="ModuleShowInfo.cs" Line="1" Column="1" />
-      <File FileName="ModuleTag/Avionics.cs" />
-      <File FileName="DifficultyPresets.cs" />
-      <File FileName="EntryCostStorage.cs" />
-      <File FileName="LoadingScreenChanger.cs" />
-      <File FileName="ModuleNoEVA.cs" />
-      <File FileName="ModuleNonRecharge.cs" />
-      <File FileName="ModuleNonReentryRated.cs" />
-      <File FileName="ModuleRangeSafety.cs" />
-      <File FileName="ModuleUnpressurizedCockpit.cs" />
-      <File FileName="Utilities/ObjectSerializer.cs" />
-      <File FileName="Crew/ActiveCourse.cs" Line="1" Column="1" />
-      <File FileName="Crew/CourseTemplate.cs" Line="1" Column="1" />
-      <File FileName="Crew/CrewHandler.cs" Line="1" Column="1" />
-      <File FileName="Crew/CrewHandlerSettings.cs" Line="1" Column="1" />
-      <File FileName="Crew/FSGUI.cs" Line="1" Column="1" />
-      <File FileName="Maintenance/MaintenanceGUI.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="LRTR" expanded="True">
             <Node name="LRTR" expanded="True">
-              <Node name="Maintenance" expanded="True">
-                <Node name="MaintenanceGUI.cs" selected="True" />
-              </Node>
+              <Node name="ModuleShowInfo.cs" selected="True" />
             </Node>
           </Node>
         </State>
