@@ -1,0 +1,74 @@
+{
+    "spec_version": 1,
+    "identifier": "LRTR",
+    "name": "Less Real Than Real(ism)",
+    "abstract": "Real Progression One without RealismOverhaul",
+    "author": "pehvbot",
+    "license": "CC-BY-NC-SA-4.0",
+    "resources": {
+        "repository": "https://github.com/pehvbot/LRTR"
+    },
+    "version": "v0.4",
+    "ksp_version": "1.7.3",
+    "depends": [
+        {
+            "name": "ModuleManager"
+        },
+        {
+            "name": "RealSolarSystem"
+        },
+        {
+            "name": "CustomBarnKit"
+        },
+        {
+            "name": "RSSDateTimeFormatter"
+        },
+        {
+            "name": "ContractConfigurator"
+        },
+        {
+            "name": "DMagicScienceAnimate"
+        }
+    ],
+    "recommends": [
+        {
+            "name": "ReStockPlus"
+        },
+        {
+            "name": "KSCSwitcher"
+        },
+        {
+            "name": "KerbalConstructionTime"
+        },
+        {
+            "name": "Kerbalism"
+        }
+    ],
+    "suggests": [
+        {
+            "name": "KerbalAlarmClock"
+        },
+        {
+            "name": "KRASH"
+        },
+        {
+            "name": "ScrapYard"
+        },
+        {
+            "name": "OhScrap"
+        }
+    ],
+    "conflicts": [
+        {
+            "name": "RealismOverhaul"
+        }
+    ],
+    "download": "https://github.com/pehvbot/LRTR/releases/download/v0.4/LRTR-v0.4.zip",
+    "download_size": 20354582,
+    "download_hash": {
+        "sha1": "E72675EE725F79B1BACD1879C90ABF6E568737CE",
+        "sha256": "2A2D5F3BF91D8F925046544551D327D3A13884659732B031277D260F3862F86A"
+    },
+    "download_content_type": "application/zip",
+    "x_generated_by": "netkan"
+}
