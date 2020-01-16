@@ -1,4 +1,6 @@
-/Users/haslam/Documents/GitHub/GameData/LRTR/Plugins/LRTRKCTBinder.dll
-/Users/haslam/Documents/GitHub/GameData/LRTR/Plugins/LRTRKCTBinder.pdb
+/Users/haslam/Documents/GitHub/LRTR/Source/obj/Debug/LRTRKCTBinder.csprojAssemblyReference.cache
+/Users/haslam/Documents/GitHub/LRTR/GameData/LRTR/Plugins/LRTRKCTBinder.dll
+/Users/haslam/Documents/GitHub/LRTR/GameData/LRTR/Plugins/LRTRKCTBinder.pdb
+/Users/haslam/Documents/GitHub/LRTR/Source/obj/Debug/LRTRKCTBinder.csproj.CopyComplete
 /Users/haslam/Documents/GitHub/LRTR/Source/obj/Debug/LRTRKCTBinder.dll
 /Users/haslam/Documents/GitHub/LRTR/Source/obj/Debug/LRTRKCTBinder.pdb

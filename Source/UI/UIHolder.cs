@@ -10,7 +10,7 @@ namespace LRTR
         // GUI
         private bool guiEnabled = false;
         private ApplicationLauncherButton button;
-        private TopWindow tw = new TopWindow();
+        private TopWindow tw;
 
         protected void Awake()
         {
@@ -20,6 +20,11 @@ namespace LRTR
                 Debug.LogError("LRTR failed to register UIHolder.OnGuiAppLauncherReady");
                 Debug.LogException(ex);
             }
+        }
+
+        protected void Start()
+        {
+            tw = new TopWindow();
         }
 
         private void ShowWindow()

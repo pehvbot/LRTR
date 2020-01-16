@@ -311,7 +311,7 @@ namespace LRTR
                     }
                     facilityLevelCosts[(SpaceCenterFacility)Enum.Parse(typeof(SpaceCenterFacility), facility.name)] = costArr;
                 }
-                Debug.Log($"[RP-0] Updated facilityLevelsCosts, count: {facilityLevelCosts.Count}");
+                Debug.Log($"[LRTR] Updated facilityLevelsCosts, count: {facilityLevelCosts.Count}");
             }
         }
 

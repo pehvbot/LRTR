@@ -9,9 +9,7 @@ namespace LRTR
         // GUI
         static Rect windowPos = new Rect(500, 240, 0, 0);
         private MaintenanceGUI maintUI = new MaintenanceGUI();
-        //private ToolingGUI toolUI = new ToolingGUI();
         private Crew.FSGUI fsUI = new LRTR.Crew.FSGUI();
-        //private AvionicsGUI avUI = new AvionicsGUI();
         private static tabs currentTab;
 
         public TopWindow()
@@ -36,14 +34,10 @@ namespace LRTR
             try {
                 if (showTab(tabs.Maintenance) && toggleButton("Maintenance", currentTab == tabs.Maintenance))
                     currentTab = tabs.Maintenance;
-                //if (showTab(tabs.Tooling) && toggleButton("Tooling", currentTab == tabs.Tooling))
-                //    currentTab = tabs.Tooling;
                 if (showTab(tabs.Training) && toggleButton("Astronauts", currentTab == tabs.Training))
                     currentTab = tabs.Training;
                 if (showTab(tabs.Courses) && toggleButton("Courses", currentTab == tabs.Courses))
                     currentTab = tabs.Courses;
-                if (showTab(tabs.Avionics) && toggleButton("Avionics", currentTab == tabs.Avionics))
-                    currentTab = tabs.Avionics;
             } finally {
                 GUILayout.EndHorizontal();
             }
@@ -73,12 +67,6 @@ namespace LRTR
                         case tabs.Astronauts:
                             maintUI.astronautsTab();
                             break;
-                        //case tabs.Tooling:
-                        //    currentTab = toolUI.toolingTab();
-                        //    break;
-                        //case tabs.ToolingType:
-                        //    toolUI.toolingTypeTab();
-                        //    break;
                         case tabs.Training:
                             currentTab = fsUI.summaryTab();
                             break;
@@ -91,9 +79,6 @@ namespace LRTR
                         case tabs.Naut:
                             fsUI.nautTab();
                             break;
-                        //case tabs.Avionics:
-                        //    avUI.avionicsTab();
-                        //    break;
                         default: // can't happen
                             break;
                         }

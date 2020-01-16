@@ -1,3 +1,0 @@
-/Users/haslam/Documents/GitHub/GameData/LRTR/Plugins/LRTR.dll
-/Users/haslam/Documents/GitHub/LRTR/Source/obj/Release/LRTR.dll
-/Users/haslam/Documents/GitHub/LRTR/GameData/LRTR/Plugins/LRTR.dll

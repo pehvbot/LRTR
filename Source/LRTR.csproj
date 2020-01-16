@@ -9,26 +9,28 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LRTR</RootNamespace>
     <AssemblyName>LRTR</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\GameData\LRTR\Plugins</OutputPath>
+    <OutputPath>..\GameData\LRTR\Plugins\</OutputPath>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\GameData\LRTR\Plugins</OutputPath>
+    <OutputPath>..\GameData\LRTR\Plugins\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -59,10 +61,10 @@
     <Compile Include="Maintenance\MaintenanceHandler.cs" />
     <Compile Include="Crew\CrewHandler.cs" />
     <Compile Include="DifficultyPresets.cs" />
-    <Compile Include="ModuleNonRecharge.cs" />
     <Compile Include="ModuleNonReentryRated.cs" />
     <Compile Include="ModuleNoEVA.cs" />
     <Compile Include="ModuleTag\NoResourceCostMult.cs" />
+    <Compile Include="ModuleTag\NuclearRTG.cs" />
     <Compile Include="ModuleUnpressurizedCockpit.cs" />
     <Compile Include="ModuleTag\DecreaseB.cs" />
     <Compile Include="ModuleTag\EngineLiquidPF.cs" />
@@ -81,6 +83,7 @@
     <Compile Include="ModuleTag\EngineSolid.cs" />
     <Compile Include="ModuleRangeSafety.cs" />
     <Compile Include="ModuleTag\DummyModule.cs" />
+    <Compile Include="ModuleShowInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\KACWrapper.cs" />
     <Compile Include="Utilities\KSPUtils.cs" />
@@ -90,51 +93,54 @@
     <Compile Include="UI\TopWindow.cs" />
     <Compile Include="UI\UIBase.cs" />
     <Compile Include="UI\UIHolder.cs" />
-    <Compile Include="ModuleShowInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="System">
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\dlls\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>..\dlls\Assembly-CSharp-firstpass.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>..\dlls\Assembly-CSharp.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="ModularFlightIntegrator">
       <HintPath>..\dlls\ModularFlightIntegrator.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.AnimationModule">
-      <HintPath>..\dlls\UnityEngine.AnimationModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\dlls\UnityEngine.CoreModule.dll</HintPath>
+    <Reference Include="System">
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine">
       <HintPath>..\dlls\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.IMGUIModule">
-      <HintPath>..\dlls\UnityEngine.IMGUIModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.PhysicsModule">
-      <HintPath>..\dlls\UnityEngine.PhysicsModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.TextRenderingModule">
-      <HintPath>..\dlls\UnityEngine.TextRenderingModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>..\dlls\UnityEngine.UI.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\dlls\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>..\dlls\UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>..\dlls\UnityEngine.IMGUIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AnimationModule">
+      <HintPath>..\dlls\UnityEngine.AnimationModule.dll</HintPath>
+    </Reference>
+    <Reference Include="ContractConfigurator">
+      <HintPath>..\dlls\ContractConfigurator.dll</HintPath>
+    </Reference>
+    <Reference Include="KerbalConstructionTime">
+      <HintPath>..\dlls\KerbalConstructionTime.dll</HintPath>
+    </Reference>
+    <Reference Include="RealFuels">
+      <HintPath>..\dlls\RealFuels.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>..\dlls\UnityEngine.TextRenderingModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -27,7 +27,7 @@ namespace LRTR
 
             //foreach (LoadingScreen.LoadingScreenState state in LoadingScreen.Instance.Screens)
             //{
-            //    Debug.Log("*pRP1 found a state. Disp/In/Out" + state.displayTime + ", " + state.fadeInTime + ", " + state.fadeOutTime
+            //    Debug.Log("*pLRTR found a state. Disp/In/Out" + state.displayTime + ", " + state.fadeInTime + ", " + state.fadeOutTime
             //        + "\nHas " + state.screens.Length + " screens. Tips:");
             //    string s = string.Empty;
             //    foreach (string t in state.tips)

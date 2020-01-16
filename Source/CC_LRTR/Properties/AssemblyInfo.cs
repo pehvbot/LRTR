@@ -5,7 +5,6 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-// Taken from the RP-0 mod
 [assembly: AssemblyTitle("CC_LRTR")]
 [assembly: AssemblyDescription("ContractConfigurator extension for LRTR mod")]
 [assembly: AssemblyConfiguration("")]
@@ -34,6 +33,6 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.2.0.0")]
 
 [assembly: KSPAssembly("LRTR", 1, 00)]

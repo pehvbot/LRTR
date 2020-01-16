@@ -30,15 +30,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System">
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\..\dlls\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>..\..\dlls\Assembly-CSharp-firstpass.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ContractConfigurator">
       <HintPath>..\..\dlls\ContractConfigurator.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\dlls\Assembly-CSharp.dll</HintPath>
+    <Reference Include="System">
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine">
@@ -47,12 +51,13 @@
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\..\dlls\UnityEngine.CoreModule.dll</HintPath>
-      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DownrangeDistanceFactory.cs" />
     <Compile Include="DownrangeDistanceVesselParam.cs" />
+    <Compile Include="ImpactCBFactory.cs" />
+    <Compile Include="ImpactCBParam.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
