@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LRTR</RootNamespace>
     <AssemblyName>LRTR</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -40,6 +40,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -48,6 +49,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Crew\ActiveCourse.cs" />
@@ -96,51 +98,48 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
-      <HintPath>..\dlls\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\dlls_18\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>..\dlls\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>..\dlls_18\Assembly-CSharp-firstpass.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ModularFlightIntegrator">
-      <HintPath>..\dlls\ModularFlightIntegrator.dll</HintPath>
+      <HintPath>..\dlls_18\ModularFlightIntegrator.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>..\dlls\UnityEngine.dll</HintPath>
+      <HintPath>..\dlls_18\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>..\dlls\UnityEngine.UI.dll</HintPath>
+      <HintPath>..\dlls_18\UnityEngine.UI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\dlls\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\dlls_18\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule">
-      <HintPath>..\dlls\UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>..\dlls_18\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.IMGUIModule">
-      <HintPath>..\dlls\UnityEngine.IMGUIModule.dll</HintPath>
+      <HintPath>..\dlls_18\UnityEngine.IMGUIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AnimationModule">
-      <HintPath>..\dlls\UnityEngine.AnimationModule.dll</HintPath>
+      <HintPath>..\dlls_18\UnityEngine.AnimationModule.dll</HintPath>
     </Reference>
     <Reference Include="ContractConfigurator">
-      <HintPath>..\dlls\ContractConfigurator.dll</HintPath>
+      <HintPath>..\dlls_18\ContractConfigurator.dll</HintPath>
     </Reference>
     <Reference Include="KerbalConstructionTime">
-      <HintPath>..\dlls\KerbalConstructionTime.dll</HintPath>
-    </Reference>
-    <Reference Include="RealFuels">
-      <HintPath>..\dlls\RealFuels.dll</HintPath>
+      <HintPath>..\dlls_18\KerbalConstructionTime.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TextRenderingModule">
-      <HintPath>..\dlls\UnityEngine.TextRenderingModule.dll</HintPath>
+      <HintPath>..\dlls_18\UnityEngine.TextRenderingModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -9,7 +9,6 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LRTRKCTBinder</RootNamespace>
     <AssemblyName>LRTRKCTBinder</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -53,31 +52,31 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
-      <HintPath>..\dlls\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\dlls_18\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dlls\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>..\dlls_18\Assembly-CSharp-firstpass.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="KerbalConstructionTime">
-      <HintPath>..\dlls\KerbalConstructionTime.dll</HintPath>
+      <HintPath>..\dlls_18\KerbalConstructionTime.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>..\dlls\UnityEngine.dll</HintPath>
+      <HintPath>..\dlls_18\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>..\dlls\UnityEngine.UI.dll</HintPath>
+      <HintPath>..\dlls_18\UnityEngine.UI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\dlls\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\dlls_18\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

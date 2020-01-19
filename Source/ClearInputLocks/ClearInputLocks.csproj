@@ -8,7 +8,6 @@
     <OutputType>Library</OutputType>
     <RootNamespace>ClearInputLocks</RootNamespace>
     <AssemblyName>ClearInputLocks</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
@@ -36,22 +35,25 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\dlls\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\dlls_18\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>..\..\dlls\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>..\..\dlls_18\Assembly-CSharp-firstpass.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>..\..\dlls\UnityEngine.dll</HintPath>
+      <HintPath>..\..\dlls_18\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\..\dlls\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\..\dlls_18\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>..\..\dlls_18\UnityEngine.InputLegacyModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

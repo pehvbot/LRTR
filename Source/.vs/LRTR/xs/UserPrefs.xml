@@ -1,15 +1,20 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workbench ActiveDocument="ModuleUnpressurizedCockpit.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ModuleNonReentryRated.cs">
     <Files>
-      <File FileName="ModuleUnpressurizedCockpit.cs" Line="3" Column="15" />
+      <File FileName="ClearInputLocks/ClearInputLocks.cs" Line="14" Column="17" />
+      <File FileName="ModuleNonReentryRated.cs" Line="29" Column="52" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="LRTR" expanded="True">
-            <Node name="LRTR" expanded="True">
-              <Node name="ModuleUnpressurizedCockpit.cs" selected="True" />
+            <Node name="CC_LRTR" expanded="True">
+              <Node name="References" expanded="True" />
             </Node>
+            <Node name="ClearInputLocks" expanded="True">
+              <Node name="References" expanded="True" />
+            </Node>
+            <Node name="LRTRKCTBinder" selected="True" />
           </Node>
         </State>
       </Pad>

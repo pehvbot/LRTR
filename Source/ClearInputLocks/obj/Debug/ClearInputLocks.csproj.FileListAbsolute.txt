@@ -3,3 +3,4 @@
 /Users/haslam/Documents/GitHub/LRTR/Source/ClearInputLocks/obj/Debug/ClearInputLocks.csproj.CopyComplete
 /Users/haslam/Documents/GitHub/LRTR/Source/ClearInputLocks/obj/Debug/ClearInputLocks.dll
 /Users/haslam/Documents/GitHub/LRTR/Source/ClearInputLocks/obj/Debug/ClearInputLocks.pdb
+/Users/haslam/Documents/GitHub/LRTR/Source/ClearInputLocks/obj/Debug/ClearInputLocks.csprojAssemblyReference.cache
