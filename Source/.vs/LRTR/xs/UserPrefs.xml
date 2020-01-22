@@ -1,27 +1,14 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workbench ActiveDocument="ClearInputLocks/ClearInputLocks.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ModuleUnpressurizedCockpit.cs">
     <Files>
-      <File FileName="ModuleTag/DummyModule.cs" Line="7" Column="30" />
-      <File FileName="ModuleNoEVA.cs" Line="11" Column="24" />
-      <File FileName="UI/TopWindow.cs" Line="82" Column="1" />
-      <File FileName="UI/UIHolder.cs" Line="49" Column="26" />
-      <File FileName="UI/UIBase.cs" Line="13" Column="24" />
-      <File FileName="KCTBinderModule.cs" Line="9" Column="6" />
-      <File FileName="CC_LRTR/DownrangeDistanceVesselParam.cs" Line="29" Column="13" />
-      <File FileName="ClearInputLocks/ClearInputLocks.cs" Line="9" Column="6" />
+      <File FileName="ModuleUnpressurizedCockpit.cs" Line="3" Column="15" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="LRTR" expanded="True">
-            <Node name="CC_LRTR" expanded="True">
-              <Node name="References" expanded="True" />
-            </Node>
-            <Node name="ClearInputLocks" expanded="True">
-              <Node name="References" expanded="True" selected="True" />
-            </Node>
-            <Node name="LRTRKCTBinder" expanded="True">
-              <Node name="References" expanded="True" />
+            <Node name="LRTR" expanded="True">
+              <Node name="ModuleUnpressurizedCockpit.cs" selected="True" />
             </Node>
           </Node>
         </State>
