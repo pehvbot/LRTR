@@ -1,20 +1,19 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workbench ActiveDocument="ModuleNonReentryRated.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ModuleTag/NotRescaled.cs">
     <Files>
       <File FileName="ClearInputLocks/ClearInputLocks.cs" Line="14" Column="17" />
       <File FileName="ModuleNonReentryRated.cs" Line="29" Column="52" />
+      <File FileName="ModuleTag/NotRescaled.cs" Line="7" Column="36" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="LRTR" expanded="True">
-            <Node name="CC_LRTR" expanded="True">
-              <Node name="References" expanded="True" />
+            <Node name="LRTR" expanded="True">
+              <Node name="ModuleTag" expanded="True">
+                <Node name="NotRescaled.cs" selected="True" />
+              </Node>
             </Node>
-            <Node name="ClearInputLocks" expanded="True">
-              <Node name="References" expanded="True" />
-            </Node>
-            <Node name="LRTRKCTBinder" selected="True" />
           </Node>
         </State>
       </Pad>
