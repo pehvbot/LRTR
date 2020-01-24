@@ -647,6 +647,7 @@ namespace LRTR.Crew
                 }
                 double multiplier = 1d;
                 double constant = 0.5d;
+                
                 if (hasSpace)
                 {
                     multiplier += settings.recSpace.x;
@@ -713,7 +714,7 @@ namespace LRTR.Crew
 
                 multiplier /= (ScenarioUpgradeableFacilities.GetFacilityLevel(SpaceCenterFacility.AstronautComplex) + 1d);
 
-                double inactiveTime = elapsedTime * multiplier + constant * 86400d;
+                double inactiveTime = (pcm.isBadass ? settings.recBadAss : 1) * (elapsedTime * multiplier + constant * 86400d);
                 Debug.Log("[VR] inactive for: " + KSPUtil.PrintDateDeltaCompact(inactiveTime, true, false));
 
                 pcm.SetInactive(inactiveTime, false);
@@ -770,7 +771,8 @@ namespace LRTR.Crew
         {
             return 86400d * 365d * (settings.retireBaseYears
                 + UtilMath.Lerp(settings.retireCourageMin, settings.retireCourageMax, pcm.courage)
-                + UtilMath.Lerp(settings.retireStupidMin, settings.retireStupidMax, pcm.stupidity));
+                + UtilMath.Lerp(settings.retireStupidMin, settings.retireStupidMax, pcm.stupidity))
+                * (pcm.veteran ? settings.retireVeteran : 1);
         }
 
         protected void FixTooltip(KSP.UI.CrewListItem cli)

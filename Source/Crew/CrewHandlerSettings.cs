@@ -14,10 +14,10 @@ namespace LRTR.Crew
             recEVA = new Vector2(15, 20), recEVAOther = new Vector2(20, 25), recOrbitOther = new Vector2(15, 10), recLandOther = new Vector2(30, 30);
 
         [Persistent]
-        public double retireOffsetBaseMult = 100d, retireOffsetFlightNumPow = 1.5d, retireOffsetFlightNumOffset = -3d, retireOffsetStupidMin = 1.4d, retireOffsetStupidMax = 0.8d;
+        public double recBadAss = 1d, retireOffsetBaseMult = 100d, retireOffsetFlightNumPow = 1.5d, retireOffsetFlightNumOffset = -3d, retireOffsetStupidMin = 1.4d, retireOffsetStupidMax = 0.8d;
 
         [Persistent]
-        public double retireBaseYears = 5d, retireCourageMin = 0d, retireCourageMax = 3d, retireStupidMin = 1d, retireStupidMax = 0d;
+        public double retireBaseYears = 5d, retireCourageMin = 0d, retireCourageMax = 3d, retireStupidMin = 1d, retireStupidMax = 0d, retireVeteran = 1d;
 
         [Persistent]
         public double trainingProficiencyStupidMin = 1.5d, trainingProficiencyStupidMax = 0.5d, trainingProficiencyRefresherTimeMult = 0.25d;

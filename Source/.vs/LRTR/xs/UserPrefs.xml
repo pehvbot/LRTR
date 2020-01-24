@@ -1,17 +1,18 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workbench ActiveDocument="ModuleTag/NotRescaled.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Crew/CrewHandler.cs">
     <Files>
       <File FileName="ClearInputLocks/ClearInputLocks.cs" Line="14" Column="17" />
       <File FileName="ModuleNonReentryRated.cs" Line="29" Column="52" />
-      <File FileName="ModuleTag/NotRescaled.cs" Line="7" Column="36" />
+      <File FileName="Crew/CrewHandler.cs" Line="717" Column="127" />
+      <File FileName="Crew/CrewHandlerSettings.cs" Line="17" Column="39" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="LRTR" expanded="True">
             <Node name="LRTR" expanded="True">
-              <Node name="ModuleTag" expanded="True">
-                <Node name="NotRescaled.cs" selected="True" />
+              <Node name="Crew" expanded="True">
+                <Node name="CrewHandler.cs" selected="True" />
               </Node>
             </Node>
           </Node>
