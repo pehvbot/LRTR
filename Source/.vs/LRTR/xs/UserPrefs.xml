@@ -1,20 +1,5 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workbench ActiveDocument="ModuleUnpressurizedCockpit.cs">
-    <Files>
-      <File FileName="ModuleUnpressurizedCockpit.cs" Line="3" Column="15" />
-    </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="LRTR" expanded="True">
-            <Node name="LRTR" expanded="True">
-              <Node name="ModuleUnpressurizedCockpit.cs" selected="True" />
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
