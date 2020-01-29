@@ -17,10 +17,14 @@ namespace LRTR.Crew
         public double recBadAss = 1d, retireOffsetBaseMult = 100d, retireOffsetFlightNumPow = 1.5d, retireOffsetFlightNumOffset = -3d, retireOffsetStupidMin = 1.4d, retireOffsetStupidMax = 0.8d;
 
         [Persistent]
-        public double retireBaseYears = 5d, retireCourageMin = 0d, retireCourageMax = 3d, retireStupidMin = 1d, retireStupidMax = 0d, retireVeteran = 1d;
+        public double retireBaseYears = 5d, retireCourageMin = 0d, retireCourageMax = 3d, retireStupidMin = 1d, retireStupidMax = 0d,
+            retireVeteran = 1d, retireVeteranYears = 0d;
 
         [Persistent]
         public double trainingProficiencyStupidMin = 1.5d, trainingProficiencyStupidMax = 0.5d, trainingProficiencyRefresherTimeMult = 0.25d;
+
+        [Persistent]
+        public double achiveBadAssMod = 0d, achiveVeteranMod = 0d;
 
         [Persistent]
         public int trainingProficiencyXP = 1;

@@ -1,0 +1,437 @@
+//
+//Used to dump unknown parts into ORPHAN tech for sorting
+//
+
+//Level 2
+//basicRocketry
+@PART[*]:HAS[#TechRequired[basicRocketry]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHAN
+}
+
+//engineering101
+@PART[*]:HAS[#TechRequired[engineering101]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//Level 3
+//generalRocketry
+@PART[*]:HAS[#TechRequired[generalRocketry]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//stability
+@PART[*]:HAS[#TechRequired[stability]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//survivability
+@PART[*]:HAS[#TechRequired[survivability]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//Level 4
+//advRocketry
+@PART[*]:HAS[#TechRequired[advRocketry]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//generalConstruction
+@PART[*]:HAS[#TechRequired[generalConstruction]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//aviation
+@PART[*]:HAS[#TechRequired[aviation]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//flightControl
+@PART[*]:HAS[#TechRequired[flightControl]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//basicScience
+@PART[*]:HAS[#TechRequired[basicScience]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//Level 5
+//heavyRocketry
+@PART[*]:HAS[#TechRequired[heavyRocketry]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//propulsionSystems
+@PART[*]:HAS[#TechRequired[propulsionSystems]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//fuelSystems
+@PART[*]:HAS[#TechRequired[fuelSystems]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//advConstruction
+@PART[*]:HAS[#TechRequired[advConstruction]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//miniaturization
+@PART[*]:HAS[#TechRequired[miniaturization]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//spaceExploration
+@PART[*]:HAS[#TechRequired[spaceExploration]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//advFlightControl
+@PART[*]:HAS[#TechRequired[advFlightControl]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//landing
+@PART[*]:HAS[#TechRequired[landing]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//aerodynamicSystems
+@PART[*]:HAS[#TechRequired[aerodynamicSystems]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//electrics
+@PART[*]:HAS[#TechRequired[electrics]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//Level 6
+//actuators
+@PART[*]:HAS[#TechRequired[actuators]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//commandModules
+@PART[*]:HAS[#TechRequired[commandModules]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//heavierRocketry
+@PART[*]:HAS[#TechRequired[heavierRocketry]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//precisionEngineering
+@PART[*]:HAS[#TechRequired[precisionEngineering]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//advExploration
+@PART[*]:HAS[#TechRequired[advExploration]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//specializedControl
+@PART[*]:HAS[#TechRequired[specializedControl]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//advLanding
+@PART[*]:HAS[#TechRequired[advLanding]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//supersonicFlight
+@PART[*]:HAS[#TechRequired[supersonicFlight]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//advFuelSystems
+@PART[*]:HAS[#TechRequired[advFuelSystems]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//advElectrics
+@PART[*]:HAS[#TechRequired[advElectrics]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//specializedConstruction
+@PART[*]:HAS[#TechRequired[specializedConstruction]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//advAerodynamics
+@PART[*]:HAS[#TechRequired[advAerodynamics]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//Level 7
+//heavyLanding
+@PART[*]:HAS[#TechRequired[heavyLanding]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//scienceTech
+@PART[*]:HAS[#TechRequired[scienceTech]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//unmannedTech
+@PART[*]:HAS[#TechRequired[unmannedTech]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//nuclearPropulsion
+@PART[*]:HAS[#TechRequired[nuclearPropulsion]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//advMetalworks
+@PART[*]:HAS[#TechRequired[advMetalworks]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//fieldScience
+@PART[*]:HAS[#TechRequired[fieldScience]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//highAltitudeFlight
+@PART[*]:HAS[#TechRequired[highAltitudeFlight]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//largeVolumeContainment
+@PART[*]:HAS[#TechRequired[largeVolumeContainment]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//composites
+@PART[*]:HAS[#TechRequired[composites]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//electronics
+@PART[*]:HAS[#TechRequired[electronics]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//largeElectrics
+@PART[*]:HAS[#TechRequired[largeElectrics]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//heavyAerodynamics
+@PART[*]:HAS[#TechRequired[heavyAerodynamics]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//veryHeavyRocketry
+@PART[*]:HAS[#TechRequired[veryHeavyRocketry]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//Level 8
+//ionPropulsion
+@PART[*]:HAS[#TechRequired[ionPropulsion]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//hypersonicFlight
+@PART[*]:HAS[#TechRequired[hypersonicFlight]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//nanolathing
+@PART[*]:HAS[#TechRequired[nanolathing]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//advUnmanned
+@PART[*]:HAS[#TechRequired[advUnmanned]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//metaMaterials
+@PART[*]:HAS[#TechRequired[metaMaterials]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//advScienceTech
+@PART[*]:HAS[#TechRequired[advScienceTech]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//advancedMotors
+@PART[*]:HAS[#TechRequired[advancedMotors]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//specializedElectrics
+@PART[*]:HAS[#TechRequired[specializedElectrics]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//highPerformanceFuelSystems
+@PART[*]:HAS[#TechRequired[highPerformanceFuelSystems]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//experimentalAerodynamics
+@PART[*]:HAS[#TechRequired[experimentalAerodynamics]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//automation
+@PART[*]:HAS[#TechRequired[automation]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//Level 9
+//aerospaceTech
+@PART[*]:HAS[#TechRequired[aerospaceTech]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//largeUnmanned
+@PART[*]:HAS[#TechRequired[largeUnmanned]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//experimentalScience
+@PART[*]:HAS[#TechRequired[experimentalScience]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//experimentalMotors
+@PART[*]:HAS[#TechRequired[experimentalMotors]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}
+
+//experimentalElectrics
+@PART[*]:HAS[#TechRequired[experimentalElectrics]]:AFTER[zLRTR]
+{
+	@TechRequired = ORPHANS
+
+}

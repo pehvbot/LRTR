@@ -2,9 +2,14 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="Crew/CrewHandler.cs">
     <Files>
       <File FileName="ClearInputLocks/ClearInputLocks.cs" Line="14" Column="17" />
-      <File FileName="ModuleNonReentryRated.cs" Line="29" Column="52" />
-      <File FileName="Crew/CrewHandler.cs" Line="717" Column="127" />
-      <File FileName="Crew/CrewHandlerSettings.cs" Line="17" Column="39" />
+      <File FileName="ModuleNonReentryRated.cs" />
+      <File FileName="Crew/CrewHandlerSettings.cs" Line="20" Column="23" />
+      <File FileName="EntryCostStorage.cs" />
+      <File FileName="Crew/CrewHandler.cs" Line="816" Column="100" />
+      <File FileName="ModuleUnpressurizedCockpit.cs" />
+      <File FileName="DifficultyPresets.cs" />
+      <File FileName="LRTRConfigs.cs" Line="77" Column="70" />
+      <File FileName="EmptyClass.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -14,6 +19,7 @@
               <Node name="Crew" expanded="True">
                 <Node name="CrewHandler.cs" selected="True" />
               </Node>
+              <Node name="Utilities" expanded="True" />
             </Node>
           </Node>
         </State>

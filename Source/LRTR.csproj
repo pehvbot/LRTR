@@ -79,6 +79,8 @@
     <Compile Include="UI\UIBase.cs" />
     <Compile Include="UI\UIHolder.cs" />
     <Compile Include="ModuleTag\NotRescaled.cs" />
+    <Compile Include="LRTRConfigs.cs" />
+    <Compile Include="EmptyClass.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
@@ -124,6 +126,9 @@
     </Reference>
     <Reference Include="UnityEngine.TextRenderingModule">
       <HintPath>..\dlls_18\UnityEngine.TextRenderingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="ModuleManager.4.1.3">
+      <HintPath>..\dlls_18\ModuleManager.4.1.3.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
