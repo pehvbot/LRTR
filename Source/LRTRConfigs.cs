@@ -1,13 +1,10 @@
-﻿using System;
-using System.Reflection;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using KSP.UI.Screens;
 
-namespace LRTR.Utilities
+namespace LRTR
 {
 
-	public static class MM40Injector
+    public static class MM40Injector
 	{
 		private static List<string> injectors = new List<string>();
 
@@ -39,35 +36,42 @@ namespace LRTR.Utilities
 
 			if (paramsNode == null)
 			{
-				Debug.LogError("[LRTR]: Could not find LRTRCONFIG node.");
+				Debug.LogError("[LRTRCONFIG] Could not find LRTRCONFIG node.");
 				return;
 			}
-			
+
 			// get configs from DB
 			UrlDir.UrlFile root = null;
 			foreach (UrlDir.UrlConfig url in GameDatabase.Instance.root.AllConfigs) { root = url.parent; break; }
+			foreach (ConfigNode feature in paramsNode.GetNodes())
+			{
+				bool enableFeature = false;
 
-            // inject MM patches on-the-fly, so that profile/features can be queried with NEEDS[]
-            if (paramsNode.GetValue("Contracts").ToLower() == "true")
-			    Inject(root, "LRTR", "Contracts");
-
-			if (paramsNode.GetValue("TechTree").ToLower() == "true")
-				Inject(root, "LRTR", "TechTree");
-
-			if (paramsNode.GetValue("Science").ToLower() == "true")
-				Inject(root, "LRTR", "Science");
-
-			if (paramsNode.GetValue("Rescale").ToLower() == "true")
-				Inject(root, "LRTR", "Rescale");
-
-			if (paramsNode.GetValue("CustomBarnKit").ToLower() == "true")
-				Inject(root, "LRTR", "CustomBarnKit");
+				if (feature.GetValue("enabled") != null)
+				{
+					enableFeature = feature.GetValue("enabled").ToLower() == "true";
+				}
+				string[] disabledBy = feature.GetValues("disabledBy");
+                foreach (string modName in disabledBy)
+                {
+                    ConfigNode disableMod = null;
+                    foreach (ConfigNode n in GameDatabase.Instance.GetConfigNodes(modName))
+                        disableMod = n;
+                    if (disableMod != null)
+                    {
+                        enableFeature = false;
+                        Debug.Log("[LRTRCONFIG] " + feature.name + " disabled by " + modName);
+                    }
+                }
+				if (enableFeature)
+					Inject(root, "LRTR", feature.name);
+			}
 	    }
 
 		// inject an MM patch on-the-fly, so that NEEDS[TypeId] can be used in MM patches
 		static void Inject(UrlDir.UrlFile root, string type, string id)
 		{
-			Debug.LogError("[LRTRCONFIG] Injecting "+type+id);
+			Debug.Log("[LRTRCONFIG] " +id+ " enabled");
 			if (ModuleManager.MM_major >= 4)
 			{
 				MM40Injector.AddInjector(type, id);

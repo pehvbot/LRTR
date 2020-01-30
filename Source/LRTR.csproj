@@ -80,7 +80,7 @@
     <Compile Include="UI\UIHolder.cs" />
     <Compile Include="ModuleTag\NotRescaled.cs" />
     <Compile Include="LRTRConfigs.cs" />
-    <Compile Include="EmptyClass.cs" />
+    <Compile Include="ModuleManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
