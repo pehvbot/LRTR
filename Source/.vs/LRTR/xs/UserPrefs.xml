@@ -8,8 +8,8 @@
       <File FileName="Crew/CrewHandler.cs" />
       <File FileName="ModuleUnpressurizedCockpit.cs" />
       <File FileName="DifficultyPresets.cs" />
-      <File FileName="LRTRConfigs.cs" Line="1" Column="1" />
-      <File FileName="ModuleManager.cs" Line="1" Column="1" />
+      <File FileName="LRTRConfigs.cs" Line="79" Column="1" />
+      <File FileName="ModuleManager.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
