@@ -1,14 +1,27 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workbench ActiveDocument="ModuleUnpressurizedCockpit.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="LRTRConfigs.cs">
     <Files>
-      <File FileName="ModuleUnpressurizedCockpit.cs" Line="3" Column="15" />
+      <File FileName="ClearInputLocks/ClearInputLocks.cs" Line="14" Column="17" />
+      <File FileName="ModuleNonReentryRated.cs" />
+      <File FileName="Crew/CrewHandlerSettings.cs" />
+      <File FileName="EntryCostStorage.cs" />
+      <File FileName="Crew/CrewHandler.cs" />
+      <File FileName="ModuleUnpressurizedCockpit.cs" />
+      <File FileName="DifficultyPresets.cs" />
+      <File FileName="LRTRConfigs.cs" Line="4" Column="78" />
+      <File FileName="ModuleManager.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="LRTR" expanded="True">
+            <Node name="ClearInputLocks" expanded="True" />
             <Node name="LRTR" expanded="True">
-              <Node name="ModuleUnpressurizedCockpit.cs" selected="True" />
+              <Node name="References" expanded="True" />
+              <Node name="Crew" expanded="True" />
+              <Node name="Properties" expanded="True" />
+              <Node name="Utilities" expanded="True" />
+              <Node name="LRTRConfigs.cs" selected="True" />
             </Node>
           </Node>
         </State>

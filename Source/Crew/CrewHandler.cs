@@ -128,6 +128,8 @@ namespace LRTR.Crew
 
         public FSGUI fsGUI;
 
+        protected System.Random rnd;
+
         #region Instance
 
         private static CrewHandler _instance = null;
@@ -568,6 +570,9 @@ namespace LRTR.Crew
 
             List<string> retirementChanges = new List<string>();
             List<string> inactivity = new List<string>();
+            List<string> statusChanges = new List<string>();
+
+            rnd = new System.Random();
 
             double UT = Planetarium.GetUniversalTime();
 
@@ -647,57 +652,84 @@ namespace LRTR.Crew
                 }
                 double multiplier = 1d;
                 double constant = 0.5d;
+                double badAssChance = 0d;
+
                 if (hasSpace)
                 {
                     multiplier += settings.recSpace.x;
                     constant += settings.recSpace.y;
                     Debug.Log($"[VR]  has space, mult {settings.recSpace.x}; constant {settings.recSpace.y}");
+                    badAssChance += 0.01;
                 }
                 if (hasOrbit)
                 {
                     multiplier += settings.recOrbit.x;
                     constant += settings.recOrbit.y;
                     Debug.Log($"[VR]  has orbit, mult {settings.recOrbit.x}; constant {settings.recOrbit.y}");
+                    badAssChance += 0.05;
                 }
                 if (hasOther)
                 {
                     multiplier += settings.recOtherBody.x;
                     constant += settings.recOtherBody.y;
                     Debug.Log($"[VR]  has other body, mult {settings.recOtherBody.x}; constant {settings.recOtherBody.y}");
+                    badAssChance += 0.25;
                 }
                 if (hasOrbit && hasEVA)    // EVA should only count while in orbit, not when walking on Earth
                 {
                     multiplier += settings.recEVA.x;
                     constant += settings.recEVA.y;
                     Debug.Log($"[VR]  has EVA, mult {settings.recEVA.x}; constant {settings.recEVA.y}");
+                    badAssChance += 0.14;
                 }
                 if (hasEVAOther)
                 {
                     multiplier += settings.recEVAOther.x;
                     constant += settings.recEVAOther.y;
                     Debug.Log($"[VR]  has EVA at another body, mult {settings.recEVAOther.x}; constant {settings.recEVAOther.y}");
+                    badAssChance += 0.05;
                 }
                 if (hasOrbitOther)
                 {
                     multiplier += settings.recOrbitOther.x;
                     constant += settings.recOrbitOther.y;
                     Debug.Log($"[VR]  has orbit around another body, mult {settings.recOrbitOther.x}; constant {settings.recOrbitOther.y}");
+                    badAssChance += 0.20;
                 }
                 if (hasLandOther)
                 {
                     multiplier += settings.recLandOther.x;
                     constant += settings.recLandOther.y;
                     Debug.Log($"[VR]  has landed on another body, mult {settings.recLandOther.x}; constant {settings.recLandOther.y}");
+                    badAssChance += 0.30;
                 }
+                badAssChance *= settings.achiveBadAssMod;
 
                 Debug.Log("[VR]  multiplier: " + multiplier);
                 Debug.Log("[VR]  AC multiplier: " + (ScenarioUpgradeableFacilities.GetFacilityLevel(SpaceCenterFacility.AstronautComplex) + 1d));
                 Debug.Log("[VR]  constant: " + constant);
+                Debug.Log("[VR]  badAssChance: " + badAssChance);
+                if (!pcm.isBadass && hasSpace)
+                {
+                    if(rnd.NextDouble() < badAssChance)
+                    {
+                        pcm.isBadass = true;
+                        statusChanges.Add("\n" + pcm.name + " is now a Bad Ass and takes less time to recover between missions!");
+                    }
+                }
+                if(!pcm.veteran && hasSpace)
+                {
+                    if(rnd.NextDouble()<settings.achiveVeteranMod)
+                    {
+                        pcm.veteran = true;
+                        statusChanges.Add("\n" + pcm.name + " is now a Veteran, which extends retirement times.\n");
+                    }
+                }
 
                 double retTime;
                 if (kerbalRetireTimes.TryGetValue(pcm.name, out retTime))
                 {
-                    double offset = constant * 86400d * settings.retireOffsetBaseMult / (1 + Math.Pow(Math.Max(numFlightsDone + settings.retireOffsetFlightNumOffset, 0d), settings.retireOffsetFlightNumPow)
+                    double offset = constant * 86400d * settings.retireOffsetBaseMult * (pcm.veteran ? settings.retireVeteran : 1) / (1 + Math.Pow(Math.Max(numFlightsDone + settings.retireOffsetFlightNumOffset, 0d), settings.retireOffsetFlightNumPow)
                         * UtilMath.Lerp(settings.retireOffsetStupidMin, settings.retireOffsetStupidMax, pcm.stupidity));
 
                     if (offset > 0d)
@@ -713,22 +745,33 @@ namespace LRTR.Crew
 
                 multiplier /= (ScenarioUpgradeableFacilities.GetFacilityLevel(SpaceCenterFacility.AstronautComplex) + 1d);
 
-                double inactiveTime = elapsedTime * multiplier + constant * 86400d;
+                double inactiveTime = (pcm.isBadass ? settings.recBadAss : 1) * (elapsedTime * multiplier + constant * 86400d);
                 Debug.Log("[VR] inactive for: " + KSPUtil.PrintDateDeltaCompact(inactiveTime, true, false));
 
                 pcm.SetInactive(inactiveTime, false);
                 inactivity.Add("\n" + pcm.name + ", until " + KSPUtil.PrintDate(inactiveTime + UT, true, false));
             }
-            if (inactivity.Count > 0)
+ 
+            if (statusChanges.Count + inactivity.Count > 0)
             {
-                Debug.Log("[VR] - showing on leave message");
+                Debug.Log("[VR] - showing status change messages");
 
-                string msgStr = "The following crew members will be on leave:";
-                foreach (string s in inactivity)
+                string msgStr = "The following crew members have status changes:";
+
+                foreach (string s in statusChanges)
                 {
                     msgStr += s;
                 }
 
+                if (inactivity.Count > 0)
+                {
+                    msgStr += "\n\nThe following crew members will be on leave:";
+
+                    foreach (string s in inactivity)
+                    {
+                        msgStr += s;
+                    }
+                }
                 if (retirementEnabled && retirementChanges.Count > 0)
                 {
                     msgStr += "\n\nThe following retirement changes have occurred:";
@@ -768,7 +811,7 @@ namespace LRTR.Crew
 
         protected double GetServiceTime(ProtoCrewMember pcm)
         {
-            return 86400d * 365d * (settings.retireBaseYears
+            return 86400d * 365d * (settings.retireBaseYears + (pcm.veteran ? settings.retireVeteranYears : 0) +
                 + UtilMath.Lerp(settings.retireCourageMin, settings.retireCourageMax, pcm.courage)
                 + UtilMath.Lerp(settings.retireStupidMin, settings.retireStupidMax, pcm.stupidity));
         }
