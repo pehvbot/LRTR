@@ -28,5 +28,10 @@
 	],
     "conflicts" : [
     	{ "name" : "RealismOverhaul" }
+    ],
+    "tags" : [
+    	"career",
+    	"tech-tree",
+    	"science"
     ]
 }
