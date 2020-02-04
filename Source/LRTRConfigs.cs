@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+//original code copied from Kerbalism: https://github.com/Kerbalism/Kerbalism
 namespace LRTR
 {
 
@@ -65,22 +66,6 @@ namespace LRTR
                 }
 				if (enableFeature)
 				{
-					if (feature.name == "BreakingGround")
-					{
-						foreach (ConfigNode stockROC in GameDatabase.Instance.GetConfigNodes("ROC_DEFINITION"))
-						{
-                            foreach (ConfigNode lrtrROC in GameDatabase.Instance.GetConfigNodes("ROC_LRTR"))
-                            {
-								if (lrtrROC.GetValue("Type") == stockROC.GetValue("Type"))
-								{
-									stockROC.ClearData();
-									lrtrROC.CopyTo(stockROC);
-									Debug.Log("[LRTRCONFIG] inserting " + stockROC.GetValue("Type") + " feature");
-									break;
-								}
-                            }
-  						}
-					}
 					Inject(root, "LRTR", feature.name);
 				}
 			}

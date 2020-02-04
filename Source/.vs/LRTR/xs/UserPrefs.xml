@@ -8,7 +8,7 @@
       <File FileName="Crew/CrewHandler.cs" />
       <File FileName="ModuleUnpressurizedCockpit.cs" />
       <File FileName="DifficultyPresets.cs" />
-      <File FileName="LRTRConfigs.cs" Line="79" Column="1" />
+      <File FileName="LRTRConfigs.cs" Line="4" Column="78" />
       <File FileName="ModuleManager.cs" />
     </Files>
     <Pads>
