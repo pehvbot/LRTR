@@ -381,8 +381,10 @@ namespace LRTR.Crew
                     foreach (string s in toRemove)
                     {
                         kerbalRetireTimes.Remove(s);
-                        if (HighLogic.CurrentGame.CrewRoster[s] != null)
-                            msgStr += "\n" + s;
+						if (HighLogic.CurrentGame.CrewRoster[s] != null && retirees.Contains(s))
+                        {
+                            msgStr = $"{msgStr}\n{s}";
+                        }
                     }
                     if (!string.IsNullOrEmpty(msgStr))
                     {
