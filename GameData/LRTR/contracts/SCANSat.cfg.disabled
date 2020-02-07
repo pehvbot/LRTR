@@ -3,7 +3,7 @@
 	@maxSimultaneous = 18
 }
 
-@CONTRACT_TYPE[SCAN_*LoRes]:FOR[LRTR]
+@CONTRACT_TYPE:NEEDS[LRTRContracts][SCAN_*LoRes]:FOR[LRTR]
 {
 	%maxSimultaneous = 5
 	
@@ -28,7 +28,7 @@
 	}
 }
 
-@CONTRACT_TYPE[SCAN_*HiRes]:FOR[LRTR]
+@CONTRACT_TYPE:NEEDS[LRTRContracts][SCAN_*HiRes]:FOR[LRTR]
 {
 	%maxSimultaneous = 5
 	
@@ -53,7 +53,7 @@
 	}
 }
 
-@CONTRACT_TYPE[SCAN_*Biome]:FOR[LRTR]
+@CONTRACT_TYPE:NEEDS[LRTRContracts][SCAN_*Biome]:FOR[LRTR]
 {
 	%maxSimultaneous = 5
 	
@@ -78,10 +78,10 @@
 	}
 }
 
-!CONTRACT_TYPE[SCAN_*M700]:FOR[LRTR]
+!CONTRACT_TYPE:NEEDS[LRTRContracts][SCAN_*M700]:FOR[LRTR]
 {
 }
 
-!CONTRACT_TYPE[SCAN_*NarrowBand]:FOR[LRTR]
+!CONTRACT_TYPE:NEEDS[LRTRContracts][SCAN_*NarrowBand]:FOR[LRTR]
 {
 }

@@ -1,4 +1,4 @@
-CONTRACT_TYPE
+CONTRACT_TYPE:NEEDS[LRTRContracts]
 {
 	name = IridiumNEXT
 	title = Iridium NEXT Constellation
