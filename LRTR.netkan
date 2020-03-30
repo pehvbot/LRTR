@@ -11,13 +11,13 @@
     	{ "name"   : "RealSolarSystem" },
     	{ "name"   : "CustomBarnKit" },
     	{ "name"   : "RSSDateTimeFormatter" },
+        { "name"   : "KerbalConstructionTime" },
     	{ "name"   : "ContractConfigurator" },
     	{ "name"   : "DMagicScienceAnimate" }
     ],
     "recommends"   : [
     	{ "name" : "ReStockPlus" },
 		{ "name" : "KSCSwitcher" },
-        { "name" : "KerbalConstructionTime" },
         { "name" : "Kerbalism" }
     ],
     "suggests"	: [
