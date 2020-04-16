@@ -1,15 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workbench ActiveDocument="LRTRConfigs.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="KCTBinderModule.cs">
     <Files>
-      <File FileName="ClearInputLocks/ClearInputLocks.cs" Line="14" Column="17" />
-      <File FileName="ModuleNonReentryRated.cs" />
-      <File FileName="Crew/CrewHandlerSettings.cs" />
-      <File FileName="EntryCostStorage.cs" />
-      <File FileName="Crew/CrewHandler.cs" />
-      <File FileName="ModuleUnpressurizedCockpit.cs" />
-      <File FileName="DifficultyPresets.cs" />
-      <File FileName="LRTRConfigs.cs" Line="71" Column="1" />
-      <File FileName="ModuleManager.cs" />
+      <File FileName="KCTBinderModule.cs" Line="29" Column="13" />
+      <File FileName="Properties/AssemblyInfoKCT.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -17,11 +10,14 @@
           <Node name="LRTR" expanded="True">
             <Node name="ClearInputLocks" expanded="True" />
             <Node name="LRTR" expanded="True">
-              <Node name="References" expanded="True" />
               <Node name="Crew" expanded="True" />
               <Node name="Properties" expanded="True" />
               <Node name="Utilities" expanded="True" />
-              <Node name="LRTRConfigs.cs" selected="True" />
+            </Node>
+            <Node name="LRTRKCTBinder" expanded="True">
+              <Node name="References" expanded="True" />
+              <Node name="Properties" expanded="True" />
+              <Node name="KCTBinderModule.cs" selected="True" />
             </Node>
           </Node>
         </State>
