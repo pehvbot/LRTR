@@ -16,10 +16,12 @@ DMagicScienceAnimate<br/>
 Contract Configurator<br/>
 Custom Barn Kit - RO build<br/>
 Real Solar System<br/>
+Kerbal Construction Time<br/>
 
 Supported Life Support Mods:
 
-Kerbalism - using the LRKerbalism KerbalismConfig folder: https://github.com/pehvbot/LRKerbalism
+Kerbalism - using the LRKerbalism KerbalismConfig folder: https://github.com/pehvbot/LRKerbalism<br/>
+Snacks!<br/>
 
 Suggested Mods:
 
@@ -28,7 +30,6 @@ ReStock+<br/>
 BetterTimeWarp<br/>
 Crew R&R<br/>
 Kerbal Alarm Clock<br/>
-Kerbal Construction Time<br/>
 KRASH (simulation mod)<br/>
 Oh Scrap!<br/>
 RSS DateTime Formatter<br/>
