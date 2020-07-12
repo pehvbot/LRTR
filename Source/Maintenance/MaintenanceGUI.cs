@@ -61,7 +61,7 @@ namespace LRTR
                 GUILayout.Label((MaintenanceHandler.Instance.facilityUpkeep * perFactor).ToString(perFormat), rightLabel, GUILayout.Width(160));
                 if (GUILayout.Button("ⓘ", GUILayout.ExpandWidth(false)))
                 {
-                    TopWindow.SwitchTabTo(tabs.Facilities);
+                    TopWindow.SwitchTabTo(Tabs.Facilities);
                 }
             } finally {
                 GUILayout.EndHorizontal();
@@ -72,7 +72,7 @@ namespace LRTR
                 GUILayout.Label((MaintenanceHandler.Instance.integrationUpkeep * perFactor).ToString(perFormat), rightLabel, GUILayout.Width(160));
                 if (GUILayout.Button("ⓘ", GUILayout.ExpandWidth(false)))
                 {
-                    TopWindow.SwitchTabTo(tabs.Integration);
+                    TopWindow.SwitchTabTo(Tabs.Integration);
                 }
             } finally {
                 GUILayout.EndHorizontal();
@@ -90,7 +90,7 @@ namespace LRTR
                 GUILayout.Label((MaintenanceHandler.Instance.nautTotalUpkeep * perFactor).ToString(perFormat), rightLabel, GUILayout.Width(160));
                 if (GUILayout.Button("ⓘ", GUILayout.ExpandWidth(false)))
                 {
-                    TopWindow.SwitchTabTo(tabs.Astronauts);
+                    TopWindow.SwitchTabTo(Tabs.Astronauts);
                 }
             } finally {
                 GUILayout.EndHorizontal();
@@ -229,13 +229,13 @@ namespace LRTR
             } finally {
                 GUILayout.EndHorizontal();
             }
-            foreach (string name in Crew.CrewHandler.Instance.kerbalRetireTimes.Keys) {
+            foreach (string name in Crew.CrewHandler.Instance.KerbalRetireTimes.Keys) {
                 GUILayout.BeginHorizontal();
                 try {
                     GUILayout.Space(20);
-                    double rt = Crew.CrewHandler.Instance.kerbalRetireTimes[name];
+                    double rt = Crew.CrewHandler.Instance.KerbalRetireTimes[name];
                     GUILayout.Label(name, HighLogic.Skin.label, GUILayout.Width(144));
-                    GUILayout.Label(Crew.CrewHandler.Instance.retirementEnabled ? KSPUtil.PrintDate(rt, false) : "(n/a)", HighLogic.Skin.label, GUILayout.Width(160));
+                    GUILayout.Label(Crew.CrewHandler.Instance.RetirementEnabled ? KSPUtil.PrintDate(rt, false) : "(n/a)", HighLogic.Skin.label, GUILayout.Width(160));
                 } finally {
                     GUILayout.EndHorizontal();
                 }

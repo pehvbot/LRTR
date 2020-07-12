@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using System;
+
 
 //original code copied from Kerbalism: https://github.com/Kerbalism/Kerbalism
 namespace LRTR
@@ -44,6 +47,10 @@ namespace LRTR
 			// get configs from DB
 			UrlDir.UrlFile root = null;
 			foreach (UrlDir.UrlConfig url in GameDatabase.Instance.root.AllConfigs) { root = url.parent; break; }
+
+			// get mod directories
+			UrlDir gameData = GameDatabase.Instance.root.children.First(dir => dir.type == UrlDir.DirectoryType.GameData);
+				
 			foreach (ConfigNode feature in paramsNode.GetNodes())
 			{
 				bool enableFeature = false;
@@ -55,13 +62,13 @@ namespace LRTR
 				string[] disabledBy = feature.GetValues("disabledBy");
                 foreach (string modName in disabledBy)
                 {
-                    ConfigNode disableMod = null;
-                    foreach (ConfigNode n in GameDatabase.Instance.GetConfigNodes(modName))
-                        disableMod = n;
-                    if (disableMod != null)
+					foreach (UrlDir subDir in gameData.children)
                     {
-                        enableFeature = false;
-                        Debug.Log("[LRTRCONFIG] " + feature.name + " disabled by " + modName);
+						if (String.Compare(modName, subDir.name,true)==0)
+						{
+							enableFeature = false;
+							Debug.Log("[LRTRCONFIG] " + feature.name + " disabled by " + modName);
+						}
                     }
                 }
 				if (enableFeature)

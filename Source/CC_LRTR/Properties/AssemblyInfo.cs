@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
@@ -8,9 +7,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("CC_LRTR")]
 [assembly: AssemblyDescription("ContractConfigurator extension for LRTR mod")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("pehvbot")]
+[assembly: AssemblyCompany("LRTR")]
 [assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("Copyright ©  2018 CC-BY-NC-SA 4.0")]
+[assembly: AssemblyCopyright("Copyright © KSP-RO 2020 CC-BY-NC-SA 4.0")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -33,6 +32,7 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.2.0.0")]
+[assembly: AssemblyFileVersion("1.5.0.0")]
 
-[assembly: KSPAssembly("LRTR", 1, 00)]
+[assembly: KSPAssembly("CC_LRTR", 1, 0)]
+[assembly: KSPAssemblyDependency("ContractConfigurator", 1, 0)]

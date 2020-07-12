@@ -19,26 +19,24 @@ namespace LRTR
             pressedButton.normal = pressedButton.active;
         }
 
-        public enum tabs { Maintenance, Facilities, Integration, Astronauts, Tooling, ToolingType, Training, Courses, NewCourse, Naut, Avionics };
+        public enum Tabs
+        { 
+            Maintenance, Facilities, Integration, Astronauts, 
+            Training, Courses, NewCourse, Naut, CareerLog
+        };
 
-        protected bool showTab(tabs tab)
+        protected bool showTab(Tabs tab)
         {
             switch (tab) {
-                case tabs.Maintenance:
-                case tabs.Facilities:
-                case tabs.Integration:
-                    return HighLogic.LoadedScene == GameScenes.SPACECENTER && HighLogic.CurrentGame.Mode == Game.Modes.CAREER;
-                case tabs.Tooling:
-                case tabs.ToolingType:
-                    return HighLogic.CurrentGame.Mode == Game.Modes.CAREER;
-                case tabs.Avionics:
-                    return HighLogic.LoadedSceneIsEditor;
-                case tabs.Astronauts:
+                case Tabs.Maintenance:
+                case Tabs.Facilities:
+                case Tabs.Astronauts:
                     return HighLogic.LoadedScene == GameScenes.SPACECENTER;
-                case tabs.Training:
-                case tabs.Courses:
-                case tabs.NewCourse:
-                case tabs.Naut:
+                case Tabs.Training:
+                case Tabs.Courses:
+                case Tabs.NewCourse:
+                case Tabs.Naut:
+                case Tabs.CareerLog:
                 default:
                     return true;
             }

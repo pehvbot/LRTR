@@ -2,231 +2,144 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using UnityEngine;
+using KSP.UI;
 using KSP.UI.Screens;
+using KSP.UI.TooltipTypes;
 
 namespace LRTR.Crew
 {
     [KSPScenario(ScenarioCreationOptions.AddToAllGames, new GameScenes[] { GameScenes.EDITOR, GameScenes.FLIGHT, GameScenes.SPACECENTER, GameScenes.TRACKSTATION })]
     public class CrewHandler : ScenarioModule
     {
-        #region TrainingExpiration
+        public const string Situation_FlightHigh = "Flight-High";
+        public const double UpdateInterval = 3600;
+        public const int FlightLogUpdateInterval = 50;
+        public const int KarmanAltitude = 100000;
 
-        public class TrainingExpiration : IConfigNode
-        {
-            public string pcmName;
-
-            public List<string> entries = new List<string>();
-
-            public double expiration;
-
-            public TrainingExpiration() { }
-
-            public TrainingExpiration(ConfigNode node)
-            {
-                Load(node);
-            }
-
-            public static bool Compare(string str, FlightLog.Entry e)
-            {
-                int tyLen = (string.IsNullOrEmpty(e.type) ? 0 : e.type.Length);
-                int tgLen = (string.IsNullOrEmpty(e.target) ? 0 : e.target.Length);
-                int iC = str.Length;
-                if (iC != 1 + tyLen + tgLen)
-                    return false;
-                int i = 0;
-                for (; i < tyLen; ++i)
-                {
-                    if (str[i] != e.type[i])
-                        return false;
-                }
-
-                if (str[i] != ',')
-                    return false;
-                ++i;
-                for (int j = 0; j < tgLen && i < iC; ++j)
-                {
-                    if (str[i] != e.target[j])
-                        return false;
-                    ++i;
-                }
-
-                return true;
-            }
-
-            public bool Compare(int idx, FlightLog.Entry e)
-            {
-                return Compare(entries[idx], e);
-            }
-
-            public void Load(ConfigNode node)
-            {
-                foreach (ConfigNode.Value v in node.values)
-                {
-                    switch (v.name)
-                    {
-                        case "pcmName":
-                            pcmName = v.value;
-                            break;
-                        case "expiration":
-                            double.TryParse(v.value, out expiration);
-                            break;
-
-                        default:
-                        case "entry":
-                            entries.Add(v.value);
-                            break;
-                    }
-                }
-            }
-
-            public void Save(ConfigNode node)
-            {
-                node.AddValue("pcmName", pcmName);
-                node.AddValue("expiration", expiration);
-                foreach (string s in entries)
-                    node.AddValue("entry", s);
-            }
-        }
-
-        #endregion
-
-        #region Fields
-
-        public CrewHandlerSettings settings = new CrewHandlerSettings();
-
-        public Dictionary<string, double> kerbalRetireTimes = new Dictionary<string, double>();
-
-        public bool retirementEnabled = true;
-
-        protected HashSet<string> retirees = new HashSet<string>();
-
-        protected static HashSet<string> toRemove = new HashSet<string>();
-
-        protected List<TrainingExpiration> expireTimes = new List<TrainingExpiration>();
-
-        protected bool inAC = false;
-
-        protected KSP.UI.Screens.AstronautComplex astronautComplex = null;
-
-        protected int countAvailable, countAssigned, countKIA;
-
-        protected bool firstLoad = true;
-
-        protected FieldInfo cliTooltip;
+        public static CrewHandler Instance { get; private set; } = null;
+        public static CrewHandlerSettings Settings { get; private set; } = null;
 
         [KSPField(isPersistant = true)]
-        public double nextUpdate = -1d;
+        public double NextUpdate = UpdateInterval;    // Get the first hour for free :)
 
-        public double updateInterval = 3600d;
-        
+        public Dictionary<string, double> KerbalRetireTimes = new Dictionary<string, double>();
+        public Dictionary<string, double> KerbalRetireIncreases = new Dictionary<string, double>();
         public List<CourseTemplate> CourseTemplates = new List<CourseTemplate>();
         public List<CourseTemplate> OfferedCourses = new List<CourseTemplate>();
         public List<ActiveCourse> ActiveCourses = new List<ActiveCourse>();
-        protected HashSet<string> partSynsHandled = new HashSet<string>();
-        protected TrainingDatabase trainingDatabase = new TrainingDatabase();
+        public bool RetirementEnabled = true;
 
-        public FSGUI fsGUI;
-
-        protected System.Random rnd;
-
-        #region Instance
-
-        private static CrewHandler _instance = null;
-        public static CrewHandler Instance
-        {
-            get
-            {
-                return _instance;
-            }
-        }
-
-        #endregion
-
-        #endregion
-
-        #region Overrides and Monobehaviour methods
+        private HashSet<string> _toRemove = new HashSet<string>();
+        private HashSet<string> _retirees = new HashSet<string>();
+        private HashSet<string> _partSynsHandled = new HashSet<string>();
+        private List<TrainingExpiration> _expireTimes = new List<TrainingExpiration>();
+        private bool _isFirstLoad = true;
+        private bool _inAC = false;
+        private int _flightLogUpdateCounter = 0;
+        private int _countAvailable, _countAssigned, _countKIA;
+        private Dictionary<Guid, double> _vesselAltitudes = new Dictionary<Guid, double>();
+        private AstronautComplex _astronautComplex = null;
+        private FieldInfo _cliTooltip;
 
         public override void OnAwake()
         {
-            if (_instance != null)
+            if (Instance != null)
             {
-                GameObject.Destroy(_instance);
+                Destroy(Instance);
             }
-            _instance = this;
+            Instance = this;
 
             GameEvents.onVesselRecoveryProcessing.Add(VesselRecoveryProcessing);
             GameEvents.OnCrewmemberHired.Add(OnCrewHired);
             GameEvents.onGUIAstronautComplexSpawn.Add(ACSpawn);
             GameEvents.onGUIAstronautComplexDespawn.Add(ACDespawn);
-            GameEvents.OnPartPurchased.Add(new EventData<AvailablePart>.OnEvent(onPartPurchased));
+            GameEvents.OnPartPurchased.Add(new EventData<AvailablePart>.OnEvent(OnPartPurchased));
             GameEvents.OnGameSettingsApplied.Add(LoadSettings);
             GameEvents.onGameStateLoad.Add(LoadSettings);
 
-            cliTooltip = typeof(KSP.UI.CrewListItem).GetField("tooltipController", BindingFlags.NonPublic | BindingFlags.Instance);
-            
-            FindAllCourseConfigs(); //find all applicable configs
-            GenerateOfferedCourses(); //turn the configs into offered courses
+            _cliTooltip = typeof(CrewListItem).GetField("tooltipController", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            FindAllCourseConfigs();     //find all applicable configs
         }
 
         public void Start()
         {
-            fsGUI = new FSGUI();
+            double ut = Planetarium.GetUniversalTime();
+            if (NextUpdate > ut + UpdateInterval)
+            {
+                // KRASH has a bad habit of not reverting state properly when exiting sims.
+                // This means that the updateInterval could end up years into the future.
+                NextUpdate = ut + 5;
+            }
         }
 
         public override void OnLoad(ConfigNode node)
         {
             base.OnLoad(node);
 
-            foreach (ConfigNode stg in GameDatabase.Instance.GetConfigNodes("CREWHANDLERSETTINGS"))
-                settings.Load(stg);
+            if (Settings == null)
+            {
+                Settings = new CrewHandlerSettings();
+                foreach (ConfigNode stg in GameDatabase.Instance.GetConfigNodes("CREWHANDLERSETTINGS"))
+                    Settings.Load(stg);
+            }
 
-            kerbalRetireTimes.Clear();
+            KerbalRetireTimes.Clear();
             ConfigNode n = node.GetNode("RETIRETIMES");
             if (n != null)
             {
                 foreach (ConfigNode.Value v in n.values)
-                    kerbalRetireTimes[v.name] = double.Parse(v.value);
+                    KerbalRetireTimes[v.name] = double.Parse(v.value);
             }
 
-            retirees.Clear();
+            KerbalRetireIncreases.Clear();
+            n = node.GetNode("RETIREINCREASES");
+            if (n != null)
+            {
+                foreach (ConfigNode.Value v in n.values)
+                    KerbalRetireIncreases[v.name] = double.Parse(v.value);
+            }
+
+            _retirees.Clear();
             n = node.GetNode("RETIREES");
             if (n != null)
             {
                 foreach (ConfigNode.Value v in n.values)
-                    retirees.Add(v.value);
+                    _retirees.Add(v.value);
             }
 
-            expireTimes.Clear();
+            _expireTimes.Clear();
             n = node.GetNode("EXPIRATIONS");
             if (n != null)
             {
                 foreach (ConfigNode eN in n.nodes)
                 {
-                    expireTimes.Add(new TrainingExpiration(eN));
+                    _expireTimes.Add(new TrainingExpiration(eN));
                 }
             }
 
             ConfigNode FSData = node.GetNode("FlightSchoolData");
-
-            if (FSData == null)
-                return;
-
-            //load all the active courses
-            ActiveCourses.Clear();
-            foreach (ConfigNode courseNode in FSData.GetNodes("ACTIVE_COURSE"))
+            if (FSData != null)
             {
-                try
+                //load all the active courses
+                ActiveCourses.Clear();
+                foreach (ConfigNode courseNode in FSData.GetNodes("ACTIVE_COURSE"))
                 {
-                    ActiveCourses.Add(new ActiveCourse(courseNode));
-                }
-                catch (Exception ex)
-                {
-                    Debug.LogException(ex);
+                    try
+                    {
+                        ActiveCourses.Add(new ActiveCourse(courseNode));
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogException(ex);
+                    }
                 }
             }
 
-            TrainingDatabase.Initialize();
+            TrainingDatabase.EnsureInitialized();
+            GenerateOfferedCourses();
             KACWrapper.InitKACWrapper();
         }
 
@@ -235,18 +148,22 @@ namespace LRTR.Crew
             base.OnSave(node);
 
             ConfigNode n = node.AddNode("RETIRETIMES");
-            foreach (KeyValuePair<string, double> kvp in kerbalRetireTimes)
+            foreach (KeyValuePair<string, double> kvp in KerbalRetireTimes)
+                n.AddValue(kvp.Key, kvp.Value);
+
+            n = node.AddNode("RETIREINCREASES");
+            foreach (KeyValuePair<string, double> kvp in KerbalRetireIncreases)
                 n.AddValue(kvp.Key, kvp.Value);
 
             n = node.AddNode("RETIREES");
-            foreach (string s in retirees)
+            foreach (string s in _retirees)
                 n.AddValue("retiree", s);
 
             n = node.AddNode("EXPIRATIONS");
-            foreach (TrainingExpiration e in expireTimes)
+            foreach (TrainingExpiration e in _expireTimes)
                 e.Save(n.AddNode("Expiration"));
 
-            ConfigNode FSData = new ConfigNode("FlightSchoolData");
+            var FSData = new ConfigNode("FlightSchoolData");
             //save all the active courses
             foreach (ActiveCourse course in ActiveCourses)
             {
@@ -261,234 +178,35 @@ namespace LRTR.Crew
             if (HighLogic.CurrentGame == null || HighLogic.CurrentGame.CrewRoster == null)
                 return;
 
-            // Catch earlies
-            if (firstLoad)
+            if (_isFirstLoad)
             {
-                firstLoad = false;
-                List<string> newHires = new List<string>();
-
-                foreach (ProtoCrewMember pcm in HighLogic.CurrentGame.CrewRoster.Crew)
-                {
-                    if ((pcm.rosterStatus == ProtoCrewMember.RosterStatus.Assigned || pcm.rosterStatus == ProtoCrewMember.RosterStatus.Available) && !kerbalRetireTimes.ContainsKey(pcm.name))
-                    {
-                        newHires.Add(pcm.name);
-                        OnCrewHired(pcm, int.MinValue);
-                    }
-                }
-                if (newHires.Count > 0)
-                {
-                    string msgStr = "Crew will retire as follows:";
-                    foreach (string s in newHires)
-                        msgStr += "\n" + s + ", no earlier than " + KSPUtil.PrintDate(kerbalRetireTimes[s], false);
-
-                    PopupDialog.SpawnPopupDialog(new Vector2(0.5f, 0.5f),
-                                                        new Vector2(0.5f, 0.5f),
-                                                        "InitialRetirementDateNotification",
-                                                        "Initial Retirement Date",
-                                                        msgStr
-                                                        + "\n(Retirement will be delayed the more interesting flights they fly.)",
-                                                        "OK",
-                                                        false,
-                                                        HighLogic.UISkin);
-                }
+                _isFirstLoad = false;
+                ProcessFirstLoad();
             }
 
-            // Retirements
+            if (HighLogic.LoadedSceneIsFlight && _flightLogUpdateCounter++ >= FlightLogUpdateInterval)
+            {
+                _flightLogUpdateCounter = 0;
+                UpdateFlightLog();
+            }
+
             double time = Planetarium.GetUniversalTime();
-            if (nextUpdate < time)
+            if (NextUpdate < time)
             {
                 // Ensure that CrewHandler updates happen at predictable times so that accurate KAC alarms can be set.
                 do
                 {
-                    nextUpdate += updateInterval;
+                    NextUpdate += UpdateInterval;
                 }
-                while (nextUpdate < time);
+                while (NextUpdate < time);
 
-                if (retirementEnabled)
-                {
-                    foreach (KeyValuePair<string, double> kvp in kerbalRetireTimes)
-                    {
-                        ProtoCrewMember pcm = HighLogic.CurrentGame.CrewRoster[kvp.Key];
-                        if (pcm == null)
-                            toRemove.Add(kvp.Key);
-                        else
-                        {
-                            if (pcm.rosterStatus != ProtoCrewMember.RosterStatus.Available)
-                            {
-                                if (pcm.rosterStatus != ProtoCrewMember.RosterStatus.Assigned)
-                                    toRemove.Add(kvp.Key);
-
-                                continue;
-                            }
-
-                            if (pcm.inactive)
-                                continue;
-
-                            if (time > kvp.Value)
-                            {
-                                toRemove.Add(kvp.Key);
-                                retirees.Add(kvp.Key);
-                                pcm.rosterStatus = ProtoCrewMember.RosterStatus.Dead;
-                            }
-                        }
-                    }
-                }
-
-                bool anyCourseEnded = false;
-                for (int i = ActiveCourses.Count; i-- > 0;)
-                {
-                    ActiveCourse course = ActiveCourses[i];
-                    if (course.ProgressTime(time)) //returns true when the course completes
-                    {
-                        ActiveCourses.RemoveAt(i);
-                        anyCourseEnded = true;
-                    }
-                }
-
-                for (int i = expireTimes.Count; i-- > 0;)
-                {
-                    TrainingExpiration e = expireTimes[i];
-                    if (time > e.expiration)
-                    {
-                        ProtoCrewMember pcm = HighLogic.CurrentGame.CrewRoster[e.pcmName];
-                        if (pcm != null)
-                        {
-                            for (int j = pcm.careerLog.Entries.Count; j-- > 0;)
-                            {
-                                int eC = e.entries.Count;
-                                if (eC == 0)
-                                    break;
-                                FlightLog.Entry ent = pcm.careerLog[j];
-                                for (int k = eC; k-- > 0;)
-                                {
-                                    // Allow only mission trainings to expire. 
-                                    // This check is actually only needed for old savegames as only these can have expirations on proficiencies.
-                                    if (ent.type == "TRAINING_mission" && e.Compare(k, ent))
-                                    {
-                                        ScreenMessages.PostScreenMessage(pcm.name + ": Expired: " + GetPrettyCourseName(ent.type) + ent.target);
-                                        ent.type = "expired_" + ent.type;
-                                        e.entries.RemoveAt(k);
-                                    }
-                                }
-                            }
-                        }
-                        expireTimes.RemoveAt(i);
-                    }
-                }
-
-                // TODO remove from courses? Except I think they won't retire if inactive either so that's ok.
-                if (toRemove.Count > 0)
-                {
-                    string msgStr = string.Empty;
-                    foreach (string s in toRemove)
-                    {
-                        kerbalRetireTimes.Remove(s);
-						if (HighLogic.CurrentGame.CrewRoster[s] != null && retirees.Contains(s))
-                        {
-                            msgStr = $"{msgStr}\n{s}";
-                        }
-                    }
-                    if (!string.IsNullOrEmpty(msgStr))
-                    {
-
-                        PopupDialog.SpawnPopupDialog(new Vector2(0.5f, 0.5f),
-                                                            new Vector2(0.5f, 0.5f),
-                                                            "CrewRetirementNotification",
-                                                            "Crew Retirement",
-                                                            "The following retirements have occurred:\n" + msgStr,
-                                                            "OK",
-                                                            true,
-                                                            HighLogic.UISkin);
-                    }
-
-                    toRemove.Clear();
-                }
-
-                if (anyCourseEnded || toRemove.Count > 0)
-                {
-                    MaintenanceHandler.Instance?.UpdateUpkeep();
-                }
+                ProcessRetirements(time);
+                ProcessCourses(time);
             }
 
-            // UI fixing
-            if (inAC)
+            if (_inAC)
             {
-                if (astronautComplex == null)
-                {
-                    KSP.UI.Screens.AstronautComplex[] mbs = GameObject.FindObjectsOfType<KSP.UI.Screens.AstronautComplex>();
-                    int maxCount = -1;
-                    foreach (KSP.UI.Screens.AstronautComplex c in mbs)
-                    {
-                        int count = c.ScrollListApplicants.Count + c.ScrollListAssigned.Count + c.ScrollListAvailable.Count + c.ScrollListKia.Count;
-                        if (count > maxCount)
-                        {
-                            maxCount = count;
-                            astronautComplex = c;
-                        }
-                    }
-
-                    if (astronautComplex == null)
-                        return;
-                }
-                int newAv = astronautComplex.ScrollListAvailable.Count;
-                int newAsgn = astronautComplex.ScrollListAssigned.Count;
-                int newKIA = astronautComplex.ScrollListKia.Count;
-                if (newAv != countAvailable || newKIA != countKIA || newAsgn != countAssigned)
-                {
-                    countAvailable = newAv;
-                    countAssigned = newAsgn;
-                    countKIA = newKIA;
-
-                    foreach (KSP.UI.UIListData<KSP.UI.UIListItem> u in astronautComplex.ScrollListAvailable)
-                    {
-                        KSP.UI.CrewListItem cli = u.listItem.GetComponent<KSP.UI.CrewListItem>();
-                        if (cli != null)
-                        {
-                            FixTooltip(cli);
-                            if (cli.GetCrewRef().inactive)
-                            {
-                                cli.MouseoverEnabled = false;
-                                bool notTraining = true;
-                                for (int i = ActiveCourses.Count; i-- > 0 && notTraining;)
-                                {
-                                    foreach (ProtoCrewMember pcm in ActiveCourses[i].Students)
-                                    {
-                                        if (pcm == cli.GetCrewRef())
-                                        {
-                                            notTraining = false;
-                                            cli.SetLabel("Training, done " + KSPUtil.PrintDate(ActiveCourses[i].startTime + ActiveCourses[i].GetTime(ActiveCourses[i].Students), false));
-                                            break;
-                                        }
-                                    }
-                                }
-                                if (notTraining)
-                                    cli.SetLabel("Recovering");
-                            }
-                        }
-                    }
-
-                    foreach (KSP.UI.UIListData<KSP.UI.UIListItem> u in astronautComplex.ScrollListAssigned)
-                    {
-                        KSP.UI.CrewListItem cli = u.listItem.GetComponent<KSP.UI.CrewListItem>();
-                        if (cli != null)
-                        {
-                            FixTooltip(cli);
-                        }
-                    }
-
-                    foreach (KSP.UI.UIListData<KSP.UI.UIListItem> u in astronautComplex.ScrollListKia)
-                    {
-                        KSP.UI.CrewListItem cli = u.listItem.GetComponent<KSP.UI.CrewListItem>();
-                        if (cli != null)
-                        {
-                            if (retirees.Contains(cli.GetName()))
-                            {
-                                cli.SetLabel("Retired");
-                                cli.MouseoverEnabled = false;
-                            }
-                        }
-                    }
-                }
+                FixAstronauComplexUI();
             }
         }
 
@@ -498,18 +216,14 @@ namespace LRTR.Crew
             GameEvents.OnCrewmemberHired.Remove(OnCrewHired);
             GameEvents.onGUIAstronautComplexSpawn.Remove(ACSpawn);
             GameEvents.onGUIAstronautComplexDespawn.Remove(ACDespawn);
-            GameEvents.OnPartPurchased.Remove(new EventData<AvailablePart>.OnEvent(onPartPurchased));
+            GameEvents.OnPartPurchased.Remove(new EventData<AvailablePart>.OnEvent(OnPartPurchased));
             GameEvents.OnGameSettingsApplied.Remove(LoadSettings);
             GameEvents.onGameStateLoad.Remove(LoadSettings);
         }
 
-        #endregion
-
-        #region Interfaces
-
         public void AddExpiration(TrainingExpiration e)
         {
-            expireTimes.Add(e);
+            _expireTimes.Add(e);
         }
 
         public void AddCoursesForTechNode(RDTech tech)
@@ -527,9 +241,9 @@ namespace LRTR.Crew
         public void AddPartCourses(AvailablePart ap)
         {
             string name = TrainingDatabase.SynonymReplace(ap.name);
-            if (!partSynsHandled.Contains(name))
+            if (!_partSynsHandled.Contains(name))
             {
-                partSynsHandled.Add(name);
+                _partSynsHandled.Add(name);
                 bool isPartUnlocked = ResearchAndDevelopment.PartModelPurchased(ap);
 
                 GenerateCourseProf(ap, !isPartUnlocked);
@@ -540,307 +254,46 @@ namespace LRTR.Crew
             }
         }
 
-        #endregion
-
-        #region Methods
-
-        protected void ACSpawn()
+        public bool NautHasTrainingForPart(ProtoCrewMember pcm, string partName)
         {
-            inAC = true;
-            countAvailable = countKIA = -1;
-        }
+            partName = TrainingDatabase.SynonymReplace(partName);
 
-        protected void ACDespawn()
-        {
-            inAC = false;
-            astronautComplex = null;
-        }
+            FlightLog.Entry ent = pcm.careerLog.Last();
+            if (ent == null)
+                return false;
 
-        protected void LoadSettings(ConfigNode n)
-        {
-            LoadSettings();
-        }
-
-        protected void LoadSettings()
-        {
-            retirementEnabled = HighLogic.CurrentGame.Parameters.CustomParams<LRTRSettings>().IsRetirementEnabled;
-        }
-
-        private void VesselRecoveryProcessing(ProtoVessel v, MissionRecoveryDialog mrDialog, float data)
-        {
-            Debug.Log("[VR] - Vessel recovery processing");
-
-            List<string> retirementChanges = new List<string>();
-            List<string> inactivity = new List<string>();
-            List<string> statusChanges = new List<string>();
-
-            rnd = new System.Random();
-
-            double UT = Planetarium.GetUniversalTime();
-
-            // normally we would use v.missionTime, but that doesn't seem to update
-            // when you're not actually controlling the vessel
-            double elapsedTime = UT - v.launchTime;
-
-            Debug.Log("[VR] mission elapsedTime: " + KSPUtil.PrintDateDeltaCompact(elapsedTime, true, true));
-
-            // When flight duration was too short, mission training should not be set as expired.
-            // This can happen when an on-the-pad failure occurs and the vessel is recovered.
-            // We could perhaps override this if they're not actually in flight
-            // (if the user didn't recover right from the pad I think this is a fair assumption)
-            if (elapsedTime < settings.minFlightDurationSecondsForTrainingExpire)
+            bool lacksMission = true;
+            for (int i = pcm.careerLog.Entries.Count; i-- > 0;)
             {
-                Debug.Log("[VR] - mission time too short for crew to be inactive (elapsed time was " + elapsedTime + ", settings set for " + settings.minFlightDurationSecondsForTrainingExpire + ")");
-                return;
-            }
-
-            foreach (ProtoCrewMember pcm in v.GetVesselCrew())
-            {
-                Debug.Log("[VR] - Found ProtoCrewMember: " + pcm.displayName);
-
-                bool hasSpace = false;
-                bool hasOrbit = false;
-                bool hasEVA = false;
-                bool hasEVAOther = false;
-                bool hasOther = false;
-                bool hasOrbitOther = false;
-                bool hasLandOther = false;
-                int curFlight = pcm.careerLog.Last().flight;
-                int numFlightsDone = pcm.careerLog.Entries.Count(e => e.type == "Recover");
-                foreach (FlightLog.Entry e in pcm.careerLog.Entries)
+                FlightLog.Entry e = pcm.careerLog.Entries[i];
+                if (lacksMission)
                 {
-                    if (e.type == "TRAINING_mission")
-                        SetExpiration(pcm.name, e, Planetarium.GetUniversalTime());
-
-                    if (e.flight != curFlight || e.type == "Nationality")
+                    if (string.IsNullOrEmpty(e.type) || string.IsNullOrEmpty(e.target))
                         continue;
 
-                    Debug.Log($"[VR]  processing flight entry: {e.type}; {e.target}");
-
-                    bool isOther = false;
-                    if (!string.IsNullOrEmpty(e.target) && e.target != Planetarium.fetch.Home.name)
+                    if (e.type == "TRAINING_mission" && e.target == partName)
                     {
-                        Debug.Log($"[VR]    flight is beyond Earth");
-                        isOther = hasOther = true;
-                    }
-
-                    if (!string.IsNullOrEmpty(e.type))
-                    {
-                        switch (e.type)
-                        {
-                            case "Suborbit":
-                                hasSpace = true;
-                                break;
-                            case "Orbit":
-                                if (isOther)
-                                    hasOrbitOther = true;
-                                else
-                                    hasOrbit = true;
-                                break;
-                            case "ExitVessel":
-                                if (isOther)
-                                    hasEVAOther = true;
-                                else
-                                    hasEVA = true;
-                                break;
-                            case "Land":
-                                if (isOther)
-                                    hasLandOther = true;
-                                break;
-                            default:
-                                break;
-                        }
+                        double exp = GetExpiration(pcm.name, e);
+                        lacksMission = exp == 0d || exp < Planetarium.GetUniversalTime();
                     }
                 }
-                double multiplier = 1d;
-                double constant = 0.5d;
-                double badAssChance = 0d;
+                else
+                {
+                    if (string.IsNullOrEmpty(e.type) || string.IsNullOrEmpty(e.target))
+                        continue;
 
-                if (hasSpace)
-                {
-                    multiplier += settings.recSpace.x;
-                    constant += settings.recSpace.y;
-                    Debug.Log($"[VR]  has space, mult {settings.recSpace.x}; constant {settings.recSpace.y}");
-                    badAssChance += 0.01;
+                    if (e.type == "TRAINING_proficiency" && e.target == partName)
+                        return true;
                 }
-                if (hasOrbit)
-                {
-                    multiplier += settings.recOrbit.x;
-                    constant += settings.recOrbit.y;
-                    Debug.Log($"[VR]  has orbit, mult {settings.recOrbit.x}; constant {settings.recOrbit.y}");
-                    badAssChance += 0.05;
-                }
-                if (hasOther)
-                {
-                    multiplier += settings.recOtherBody.x;
-                    constant += settings.recOtherBody.y;
-                    Debug.Log($"[VR]  has other body, mult {settings.recOtherBody.x}; constant {settings.recOtherBody.y}");
-                    badAssChance += 0.25;
-                }
-                if (hasOrbit && hasEVA)    // EVA should only count while in orbit, not when walking on Earth
-                {
-                    multiplier += settings.recEVA.x;
-                    constant += settings.recEVA.y;
-                    Debug.Log($"[VR]  has EVA, mult {settings.recEVA.x}; constant {settings.recEVA.y}");
-                    badAssChance += 0.14;
-                }
-                if (hasEVAOther)
-                {
-                    multiplier += settings.recEVAOther.x;
-                    constant += settings.recEVAOther.y;
-                    Debug.Log($"[VR]  has EVA at another body, mult {settings.recEVAOther.x}; constant {settings.recEVAOther.y}");
-                    badAssChance += 0.05;
-                }
-                if (hasOrbitOther)
-                {
-                    multiplier += settings.recOrbitOther.x;
-                    constant += settings.recOrbitOther.y;
-                    Debug.Log($"[VR]  has orbit around another body, mult {settings.recOrbitOther.x}; constant {settings.recOrbitOther.y}");
-                    badAssChance += 0.20;
-                }
-                if (hasLandOther)
-                {
-                    multiplier += settings.recLandOther.x;
-                    constant += settings.recLandOther.y;
-                    Debug.Log($"[VR]  has landed on another body, mult {settings.recLandOther.x}; constant {settings.recLandOther.y}");
-                    badAssChance += 0.30;
-                }
-                badAssChance *= settings.achiveBadAssMod;
-
-                Debug.Log("[VR]  multiplier: " + multiplier);
-                Debug.Log("[VR]  AC multiplier: " + (ScenarioUpgradeableFacilities.GetFacilityLevel(SpaceCenterFacility.AstronautComplex) + 1d));
-                Debug.Log("[VR]  constant: " + constant);
-                Debug.Log("[VR]  badAssChance: " + badAssChance);
-                if (!pcm.isBadass && hasSpace)
-                {
-                    if(rnd.NextDouble() < badAssChance)
-                    {
-                        pcm.isBadass = true;
-                        statusChanges.Add("\n" + pcm.name + " is now a Bad Ass and takes less time to recover between missions!");
-                    }
-                }
-                if(!pcm.veteran && hasSpace)
-                {
-                    if(rnd.NextDouble()<settings.achiveVeteranMod)
-                    {
-                        pcm.veteran = true;
-                        statusChanges.Add("\n" + pcm.name + " is now a Veteran, which extends retirement times.\n");
-                    }
-                }
-
-                double retTime;
-                if (kerbalRetireTimes.TryGetValue(pcm.name, out retTime))
-                {
-                    double offset = constant * 86400d * settings.retireOffsetBaseMult * (pcm.veteran ? settings.retireVeteran : 1) / (1 + Math.Pow(Math.Max(numFlightsDone + settings.retireOffsetFlightNumOffset, 0d), settings.retireOffsetFlightNumPow)
-                        * UtilMath.Lerp(settings.retireOffsetStupidMin, settings.retireOffsetStupidMax, pcm.stupidity));
-
-                    if (offset > 0d)
-                    {
-                        Debug.Log("[VR] retire date increased by: " + KSPUtil.PrintDateDeltaCompact(offset, true, false));
-                        Debug.Log($"[VR]  constant: {constant}; curFlight: {numFlightsDone}; stupidity: {pcm.stupidity}");
-
-                        retTime += offset;
-                        kerbalRetireTimes[pcm.name] = retTime;
-                        retirementChanges.Add("\n" + pcm.name + ", no earlier than " + KSPUtil.PrintDate(retTime, false));
-                    }
-                }
-
-                multiplier /= (ScenarioUpgradeableFacilities.GetFacilityLevel(SpaceCenterFacility.AstronautComplex) + 1d);
-
-                double inactiveTime = (pcm.isBadass ? settings.recBadAss : 1) * (elapsedTime * multiplier + constant * 86400d);
-                Debug.Log("[VR] inactive for: " + KSPUtil.PrintDateDeltaCompact(inactiveTime, true, false));
-
-                pcm.SetInactive(inactiveTime, false);
-                inactivity.Add("\n" + pcm.name + ", until " + KSPUtil.PrintDate(inactiveTime + UT, true, false));
             }
- 
-            if (statusChanges.Count + inactivity.Count > 0)
-            {
-                Debug.Log("[VR] - showing status change messages");
-
-                string msgStr = "The following crew members have status changes:";
-
-                foreach (string s in statusChanges)
-                {
-                    msgStr += s;
-                }
-
-                if (inactivity.Count > 0)
-                {
-                    msgStr += "\n\nThe following crew members will be on leave:";
-
-                    foreach (string s in inactivity)
-                    {
-                        msgStr += s;
-                    }
-                }
-                if (retirementEnabled && retirementChanges.Count > 0)
-                {
-                    msgStr += "\n\nThe following retirement changes have occurred:";
-                    foreach (string s in retirementChanges)
-                        msgStr += s;
-                }
-
-                PopupDialog.SpawnPopupDialog(new Vector2(0.5f, 0.5f),
-                                                        new Vector2(0.5f, 0.5f),
-                                                        "CrewUpdateNotification",
-                                                        "Crew Updates",
-                                                        msgStr,
-                                                        "OK",
-                                                        true,
-                                                        HighLogic.UISkin);
-            }
-        }
-
-        protected void OnCrewHired(ProtoCrewMember pcm, int idx)
-        {
-            double retireTime = Planetarium.GetUniversalTime() + GetServiceTime(pcm);
-            kerbalRetireTimes[pcm.name] = retireTime;
-
-            if (retirementEnabled && idx != int.MinValue)
-            {
-                PopupDialog.SpawnPopupDialog(new Vector2(0.5f, 0.5f),
-                                                        new Vector2(0.5f, 0.5f),
-                                                        "InitialRetirementDateNotification",
-                                                        "Initial Retirement Date",
-                                                        pcm.name + " will retire no earlier than " + KSPUtil.PrintDate(retireTime, false)
-                                                        + "\n(Retirement will be delayed the more interesting flights they fly.)",
-                                                        "OK",
-                                                        false,
-                                                        HighLogic.UISkin);
-            }
-        }
-
-        protected double GetServiceTime(ProtoCrewMember pcm)
-        {
-            return 86400d * 365d * (settings.retireBaseYears + (pcm.veteran ? settings.retireVeteranYears : 0) +
-                + UtilMath.Lerp(settings.retireCourageMin, settings.retireCourageMax, pcm.courage)
-                + UtilMath.Lerp(settings.retireStupidMin, settings.retireStupidMax, pcm.stupidity));
-        }
-
-        protected void FixTooltip(KSP.UI.CrewListItem cli)
-        {
-            ProtoCrewMember pcm = cli.GetCrewRef();
-            double retTime;
-            if (retirementEnabled && kerbalRetireTimes.TryGetValue(pcm.name, out retTime))
-            {
-                cli.SetTooltip(pcm);
-                KSP.UI.TooltipTypes.TooltipController_CrewAC ttc = cliTooltip.GetValue(cli) as KSP.UI.TooltipTypes.TooltipController_CrewAC;
-                ttc.descriptionString += "\n\nRetires no earlier than " + KSPUtil.PrintDate(retTime, false);
-
-                // Training
-
-                string trainingStr = GetTrainingString(pcm);
-                if (!string.IsNullOrEmpty(trainingStr))
-                    ttc.descriptionString += trainingStr;
-            }
+            return false;
         }
 
         public string GetTrainingString(ProtoCrewMember pcm)
         {
             bool found = false;
-            string trainingStr = "\n\nTraining:";
-            int lastFlight = pcm.careerLog.Last() == null ? 0 : pcm.careerLog.Last().flight;
+            StringBuilder sb = new StringBuilder();
+            sb.Append("\n\nTraining:");
             foreach (FlightLog.Entry ent in pcm.careerLog.Entries)
             {
                 string pretty = GetPrettyCourseName(ent.type);
@@ -849,186 +302,41 @@ namespace LRTR.Crew
                     if (ent.type == "TRAINING_proficiency")
                     {
                         found = true;
-                        trainingStr += "\n  " + pretty + ent.target;
+                        sb.Append($"\n  {pretty}{ent.target}");
                     }
                     else if (ent.type == "TRAINING_mission")
                     {
                         double exp = GetExpiration(pcm.name, ent);
                         if (exp > 0d)
                         {
-                            trainingStr += "\n  " + pretty + ent.target + ". Expires " + KSPUtil.PrintDate(exp, false);
+                            sb.Append($"\n  {pretty}{ent.target}. Expires {KSPUtil.PrintDate(exp, false)}");
                         }
                     }
                 }
             }
 
             if (found)
-                return trainingStr;
+                return sb.ToString();
             else
                 return string.Empty;
         }
 
-        public double GetExpiration(string pcmName, FlightLog.Entry ent)
-        {
-            for (int i = expireTimes.Count; i-- > 0;)
-            {
-                TrainingExpiration e = expireTimes[i];
-                if (e.pcmName == pcmName)
-                {
-                    for (int j = e.entries.Count; j-- > 0;)
-                    {
-                        if (e.Compare(j, ent))
-                            return e.expiration;
-                    }
-                }
-            }
-
-            return 0d;
-        }
-
-        protected bool SetExpiration(string pcmName, FlightLog.Entry ent, double expirationUT)
-        {
-            for (int i = expireTimes.Count; i-- > 0;)
-            {
-                TrainingExpiration e = expireTimes[i];
-                if (e.pcmName == pcmName)
-                {
-                    for (int j = e.entries.Count; j-- > 0;)
-                    {
-                        if (e.Compare(j, ent))
-                        {
-                            e.expiration = expirationUT;
-                            return true;
-                        }
-                    }
-                }
-            }
-
-            return false;
-        }
-
-        protected void FindAllCourseConfigs()
-        {
-            CourseTemplates.Clear();
-            //find all configs and save them
-            foreach (ConfigNode course in GameDatabase.Instance.GetConfigNodes("FS_COURSE"))
-            {
-                CourseTemplates.Add(new CourseTemplate(course));
-            }
-            Debug.Log("[FS] Found " + CourseTemplates.Count + " courses.");
-            //fire an event to let other mods add their configs
-        }
-        
-        protected void GenerateOfferedCourses() //somehow provide some variable options here?
-        {
-            //convert the saved configs to course offerings
-            foreach (CourseTemplate template in CourseTemplates)
-            {
-                CourseTemplate duplicate = new CourseTemplate(template.sourceNode, true); //creates a duplicate so the initial template is preserved
-                duplicate.PopulateFromSourceNode();
-                if (duplicate.Available)
-                    OfferedCourses.Add(duplicate);
-            }
-
-            foreach (AvailablePart ap in PartLoader.LoadedPartsList)
-            {
-                if (ap.partPrefab.CrewCapacity > 0 && /*&& ap.TechRequired != "start"*/
-                    ResearchAndDevelopment.PartModelPurchased(ap))
-                {
-                    AddPartCourses(ap);
-                }
-            }
-
-            Debug.Log("[FS] Offering " + OfferedCourses.Count + " courses.");
-            //fire an event to let other mods add available courses (where they can pass variables through then)
-        }
-
-        protected void GenerateCourseProf(AvailablePart ap, bool isTemporary)
-        {
-            ConfigNode n = new ConfigNode("FS_COURSE");
-            string name = TrainingDatabase.SynonymReplace(ap.name);
-
-            n.AddValue("id", "prof_" + name);
-            n.AddValue("name", "Proficiency: " + name);
-            n.AddValue("time", 1d + (TrainingDatabase.GetTime(name) * 86400d));
-            n.AddValue("isTemporary", isTemporary);
-
-            n.AddValue("conflicts", "TRAINING_proficiency:" + name);
-
-            ConfigNode r = n.AddNode("REWARD");
-            r.AddValue("XPAmt", settings.trainingProficiencyXP);
-            ConfigNode l = r.AddNode("FLIGHTLOG");
-            l.AddValue("0", "TRAINING_proficiency," + name);
-
-            CourseTemplate c = new CourseTemplate(n);
-            c.PopulateFromSourceNode();
-            OfferedCourses.Add(c);
-        }
-
-        protected void GenerateCourseMission(AvailablePart ap)
-        {
-            ConfigNode n = new ConfigNode("FS_COURSE");
-            string name = TrainingDatabase.SynonymReplace(ap.name);
-
-            n.AddValue("id", "msn_" + name);
-            n.AddValue("name", "Mission: " + name);
-            n.AddValue("time", 1d + TrainingDatabase.GetTime(name + "-Mission") * 86400d);
-            n.AddValue("isTemporary", false);
-            n.AddValue("timeUseStupid", true);
-            n.AddValue("seatMax", ap.partPrefab.CrewCapacity * 2);
-            n.AddValue("expiration", settings.trainingMissionExpirationDays * 86400d);
-
-            n.AddValue("preReqs", "TRAINING_proficiency:" + name);
-
-            ConfigNode r = n.AddNode("REWARD");
-            ConfigNode l = r.AddNode("FLIGHTLOG");
-            l.AddValue("0", "TRAINING_mission," + name);
-
-            CourseTemplate c = new CourseTemplate(n);
-            c.PopulateFromSourceNode();
-            OfferedCourses.Add(c);
-        }
-
-        protected void onPartPurchased(AvailablePart ap)
-        {
-            if (ap.partPrefab.CrewCapacity > 0)
-            {
-                AddPartCourses(ap);
-            }
-        }
-
-        protected string GetPrettyCourseName(string str)
-        {
-            switch (str)
-            {
-                case "TRAINING_proficiency":
-                    return "Proficiency with ";
-                case "TRAINING_mission":
-                    return "Mission training for ";
-                /*case "expired_TRAINING_mission":
-                    return "(Expired) Mission training for ";*/
-                default:
-                    return string.Empty;
-            }
-        }
-
         public bool RemoveExpiration(string pcmName, string entry)
         {
-            for (int i = expireTimes.Count; i-- > 0;)
+            for (int i = _expireTimes.Count; i-- > 0;)
             {
-                TrainingExpiration e = expireTimes[i];
-
-                if (e.pcmName != pcmName)
+                TrainingExpiration e = _expireTimes[i];
+                if (e.PcmName != pcmName)
                     continue;
 
-                for (int j = e.entries.Count; j-- > 0;)
+                for (int j = e.Entries.Count; j-- > 0;)
                 {
-                    if (e.entries[j] == entry)
+                    if (e.Entries[j] == entry)
                     {
-                        e.entries.RemoveAt(j);
+                        e.Entries.RemoveAt(j);
 
-                        if (e.entries.Count == 0)
-                            expireTimes.RemoveAt(i);
+                        if (e.Entries.Count == 0)
+                            _expireTimes.RemoveAt(i);
 
                         return true;
                     }
@@ -1038,6 +346,642 @@ namespace LRTR.Crew
             return false;
         }
 
-        #endregion
+        public double GetLatestRetireTime(ProtoCrewMember pcm)
+        {
+            if (KerbalRetireTimes.TryGetValue(pcm.name, out double retTime))
+            {
+                KerbalRetireIncreases.TryGetValue(pcm.name, out double retIncreaseTotal);
+                double retIncreaseLeft = Settings.retireIncreaseCap - retIncreaseTotal;
+                return retTime + retIncreaseLeft;
+            }
+
+            return 0;
+        }
+
+        private void ACSpawn()
+        {
+            _inAC = true;
+            _countAvailable = _countKIA = -1;
+        }
+
+        private void ACDespawn()
+        {
+            _inAC = false;
+            _astronautComplex = null;
+        }
+
+        private void LoadSettings(ConfigNode n)
+        {
+            LoadSettings();
+        }
+
+        private void LoadSettings()
+        {
+            RetirementEnabled = HighLogic.CurrentGame.Parameters.CustomParams<LRTRSettings>().IsRetirementEnabled;
+        }
+
+        private void VesselRecoveryProcessing(ProtoVessel v, MissionRecoveryDialog mrDialog, float data)
+        {
+            Debug.Log("[LRTR] - Vessel recovery processing");
+
+            var retirementChanges = new List<string>();
+            var inactivity = new List<string>();
+
+            double UT = Planetarium.GetUniversalTime();
+
+            // normally we would use v.missionTime, but that doesn't seem to update
+            // when you're not actually controlling the vessel
+            double elapsedTime = UT - v.launchTime;
+
+            Debug.Log($"[LRTR] mission elapsedTime: {KSPUtil.PrintDateDeltaCompact(elapsedTime, true, true)}");
+
+            // When flight duration was too short, mission training should not be set as expired.
+            // This can happen when an on-the-pad failure occurs and the vessel is recovered.
+            // We could perhaps override this if they're not actually in flight
+            // (if the user didn't recover right from the pad I think this is a fair assumption)
+            if (elapsedTime < Settings.minFlightDurationSecondsForTrainingExpire)
+            {
+                Debug.Log($"[LRTR] - mission time too short for crew to be inactive (elapsed time was {elapsedTime}, settings set for {Settings.minFlightDurationSecondsForTrainingExpire})");
+                return;
+            }
+
+            var validStatuses = new List<string>
+            {
+                FlightLog.EntryType.Flight.ToString(), Situation_FlightHigh, FlightLog.EntryType.Suborbit.ToString(),
+                FlightLog.EntryType.Orbit.ToString(), FlightLog.EntryType.ExitVessel.ToString(),
+                FlightLog.EntryType.Land.ToString(), FlightLog.EntryType.Flyby.ToString()
+            };
+
+            foreach (ProtoCrewMember pcm in v.GetVesselCrew())
+            {
+                Debug.Log("[LRTR] - Found ProtoCrewMember: " + pcm.displayName);
+
+                var allFlightsDict = new Dictionary<string, int>();
+                int curFlight = pcm.careerLog.Last().flight;
+                double inactivityMult = 0;
+                double retirementMult = 0;
+
+                foreach (FlightLog.Entry e in pcm.careerLog.Entries)
+                {
+                    if (e.type == "Nationality")
+                        continue;
+                    if (e.type == "TRAINING_mission")
+                        SetExpiration(pcm.name, e, Planetarium.GetUniversalTime());
+
+                    if (validStatuses.Contains(e.type))
+                    {
+                        int situationCount;
+                        var key = $"{e.target}-{e.type}";
+                        if (allFlightsDict.ContainsKey(key))
+                        {
+                            situationCount = allFlightsDict[key];
+                            allFlightsDict[key] = ++situationCount;
+                        }
+                        else
+                        {
+                            situationCount = 1;
+                            allFlightsDict.Add(key, situationCount);
+                        }
+
+                        if (e.flight != curFlight)
+                            continue;
+
+                        if (TryGetBestSituationMatch(e.target, e.type, "Retire", out double situationMult))
+                        {
+                            double countMult = 1 + Math.Pow(situationCount - 1, Settings.retireOffsetFlightNumPow);
+                            retirementMult += situationMult / countMult;
+                        }
+
+                        if (TryGetBestSituationMatch(e.target, e.type, "Inactive", out double inactivMult))
+                        {
+                            inactivityMult += inactivMult;
+                        }
+                    }
+                }
+
+                Debug.Log("[LRTR]  retirementMult: " + retirementMult);
+                Debug.Log("[LRTR]  inactivityMult: " + inactivityMult);
+
+                double acMult = ScenarioUpgradeableFacilities.GetFacilityLevel(SpaceCenterFacility.AstronautComplex) + 1;
+                Debug.Log("[LRTR]  AC multiplier: " + acMult);
+
+                if (KerbalRetireTimes.TryGetValue(pcm.name, out double retTime))
+                {
+                    double stupidityPenalty = UtilMath.Lerp(Settings.retireOffsetStupidMin, Settings.retireOffsetStupidMax, pcm.stupidity);
+                    Debug.Log($"[LRTR]  stupidityPenalty for {pcm.stupidity}: {stupidityPenalty}");
+                    double retireOffset = retirementMult * 86400 * Settings.retireOffsetBaseMult / stupidityPenalty;
+
+                    if (retireOffset > 0)
+                    {
+                        KerbalRetireIncreases.TryGetValue(pcm.name, out double retIncreaseTotal);
+                        retIncreaseTotal += retireOffset;
+                        if (retIncreaseTotal > Settings.retireIncreaseCap)
+                        {
+                            // Cap the total retirement increase at a specific number of years
+                            retireOffset -= retIncreaseTotal - Settings.retireIncreaseCap;
+                            retIncreaseTotal = Settings.retireIncreaseCap;
+                        }
+                        KerbalRetireIncreases[pcm.name] = retIncreaseTotal;
+
+                        string sRetireOffset = KSPUtil.PrintDateDelta(retireOffset, false, false);
+                        Debug.Log("[LRTR] retire date increased by: " + sRetireOffset);
+
+                        retTime += retireOffset;
+                        KerbalRetireTimes[pcm.name] = retTime;
+                        retirementChanges.Add($"\n{pcm.name}, +{sRetireOffset}, no earlier than {KSPUtil.PrintDate(retTime, false)}");
+                    }
+                }
+
+                inactivityMult = Math.Max(1, inactivityMult);
+                double elapsedTimeDays = elapsedTime / 86400;
+                double inactiveTimeDays = Math.Pow(Math.Max(Settings.inactivityMinFlightDurationDays, elapsedTimeDays), Settings.inactivityFlightDurationExponent) *
+                                          Math.Min(Settings.inactivityMaxSituationMult, inactivityMult) / acMult;
+                double inactiveTime = inactiveTimeDays * 86400;
+                Debug.Log("[LRTR] inactive for: " + KSPUtil.PrintDateDeltaCompact(inactiveTime, true, false));
+
+                pcm.SetInactive(inactiveTime, false);
+                inactivity.Add($"\n{pcm.name}, until {KSPUtil.PrintDate(inactiveTime + UT, true, false)}");
+            }
+
+            if (inactivity.Count > 0)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("The following crew members will be on leave:");
+                foreach (string s in inactivity)
+                {
+                    sb.Append(s);
+                }
+
+                if (RetirementEnabled && retirementChanges.Count > 0)
+                {
+                    sb.Append("\n\nThe following retirement changes have occurred:");
+                    foreach (string s in retirementChanges)
+                        sb.Append(s);
+                }
+
+                PopupDialog.SpawnPopupDialog(new Vector2(0.5f, 0.5f),
+                                             new Vector2(0.5f, 0.5f),
+                                             "CrewUpdateNotification",
+                                             "Crew Updates",
+                                             sb.ToString(),
+                                             "OK",
+                                             true,
+                                             HighLogic.UISkin);
+            }
+        }
+
+        private bool TryGetBestSituationMatch(string body, string situation, string type, out double situationMult)
+        {
+            var key = $"{body}-{situation}-{type}";
+            if (Settings.situationValues.TryGetValue(key, out situationMult))
+                return true;
+
+            if (body != FlightGlobals.GetHomeBodyName())
+            {
+                key = $"Other-{situation}-{type}";
+                if (Settings.situationValues.TryGetValue(key, out situationMult))
+                    return true;
+            }
+
+            situationMult = 0;
+            return false;
+        }
+
+        private void OnCrewHired(ProtoCrewMember pcm, int idx)
+        {
+            double retireTime = Planetarium.GetUniversalTime() + GetServiceTime(pcm);
+            KerbalRetireTimes[pcm.name] = retireTime;
+
+            if (RetirementEnabled && idx != int.MinValue)
+            {
+                PopupDialog.SpawnPopupDialog(new Vector2(0.5f, 0.5f),
+                                             new Vector2(0.5f, 0.5f),
+                                             "InitialRetirementDateNotification",
+                                             "Initial Retirement Date",
+                                             $"{pcm.name} will retire no earlier than {KSPUtil.PrintDate(retireTime, false)}\n(Retirement will be delayed the more interesting flights they fly.)",
+                                             "OK",
+                                             false,
+                                             HighLogic.UISkin);
+            }
+        }
+
+        private void UpdateFlightLog()
+        {
+            if (!FlightGlobals.currentMainBody.isHomeWorld) return;
+
+            foreach (Vessel v in FlightGlobals.VesselsLoaded)
+            {
+                if (v.crewedParts == 0) continue;
+
+                if (!_vesselAltitudes.TryGetValue(v.id, out double prevAltitude))
+                {
+                    prevAltitude = v.altitude;
+                }
+                _vesselAltitudes[v.id] = v.altitude;
+
+                if (prevAltitude < Settings.flightHighAltitude && v.altitude >= Settings.flightHighAltitude)
+                {
+                    foreach (ProtoCrewMember c in v.GetVesselCrew())
+                    {
+                        c.flightLog.AddEntryUnique(new FlightLog.Entry(c.flightLog.Flight, Situation_FlightHigh, v.mainBody.name));
+                    }
+                }
+
+                if (prevAltitude < KarmanAltitude && v.altitude >= KarmanAltitude)
+                {
+                    foreach (ProtoCrewMember c in v.GetVesselCrew())
+                    {
+                        c.flightLog.AddEntryUnique(FlightLog.EntryType.Suborbit, v.mainBody.name);
+                    }
+                }
+            }
+        }
+
+        private void ProcessFirstLoad()
+        {
+            var newHires = new List<string>();
+            foreach (ProtoCrewMember pcm in HighLogic.CurrentGame.CrewRoster.Crew)
+            {
+                if ((pcm.rosterStatus == ProtoCrewMember.RosterStatus.Assigned || pcm.rosterStatus == ProtoCrewMember.RosterStatus.Available) &&
+                    !KerbalRetireTimes.ContainsKey(pcm.name))
+                {
+                    newHires.Add(pcm.name);
+                    OnCrewHired(pcm, int.MinValue);
+                }
+            }
+
+            if (newHires.Count > 0)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("Crew will retire as follows:");
+                foreach (string s in newHires)
+                    sb.Append($"\n{s}, no earlier than {KSPUtil.PrintDate(KerbalRetireTimes[s], false)}");
+
+                sb.Append("\n(Retirement will be delayed the more interesting flights they fly.)");
+                PopupDialog.SpawnPopupDialog(new Vector2(0.5f, 0.5f),
+                                             new Vector2(0.5f, 0.5f),
+                                             "InitialRetirementDateNotification",
+                                             "Initial Retirement Date",
+                                             sb.ToString(),
+                                             "OK",
+                                             false,
+                                             HighLogic.UISkin);
+            }
+        }
+
+        private void ProcessRetirements(double time)
+        {
+            if (RetirementEnabled)
+            {
+                foreach (KeyValuePair<string, double> kvp in KerbalRetireTimes)
+                {
+                    ProtoCrewMember pcm = HighLogic.CurrentGame.CrewRoster[kvp.Key];
+                    if (pcm == null)
+                        _toRemove.Add(kvp.Key);
+                    else
+                    {
+                        if (pcm.rosterStatus != ProtoCrewMember.RosterStatus.Available)
+                        {
+                            if (pcm.rosterStatus != ProtoCrewMember.RosterStatus.Assigned)
+                                _toRemove.Add(kvp.Key);
+
+                            continue;
+                        }
+
+                        if (pcm.inactive)
+                            continue;
+
+                        if (time > kvp.Value)
+                        {
+                            _toRemove.Add(kvp.Key);
+                            _retirees.Add(kvp.Key);
+                            pcm.rosterStatus = ProtoCrewMember.RosterStatus.Dead;
+                        }
+                    }
+                }
+            }
+
+            // TODO remove from courses? Except I think they won't retire if inactive either so that's ok.
+            if (_toRemove.Count > 0)
+            {
+                string msgStr = string.Empty;
+                foreach (string s in _toRemove)
+                {
+                    KerbalRetireTimes.Remove(s);
+                    if (HighLogic.CurrentGame.CrewRoster[s] != null && _retirees.Contains(s))
+                    {
+                        msgStr = $"{msgStr}\n{s}";
+                    }
+                }
+                if (!string.IsNullOrEmpty(msgStr))
+                {
+
+                    PopupDialog.SpawnPopupDialog(new Vector2(0.5f, 0.5f),
+                                                 new Vector2(0.5f, 0.5f),
+                                                 "CrewRetirementNotification",
+                                                 "Crew Retirement",
+                                                 "The following retirements have occurred:\n" + msgStr,
+                                                 "OK",
+                                                 true,
+                                                 HighLogic.UISkin);
+                }
+
+                _toRemove.Clear();
+            }
+
+            if (_toRemove.Count > 0)
+            {
+                MaintenanceHandler.Instance?.ScheduleMaintenanceUpdate();
+            }
+        }
+
+        private void ProcessCourses(double time)
+        {
+            bool anyCourseEnded = false;
+            for (int i = ActiveCourses.Count; i-- > 0;)
+            {
+                ActiveCourse course = ActiveCourses[i];
+                if (course.ProgressTime(time)) //returns true when the course completes
+                {
+                    ActiveCourses.RemoveAt(i);
+                    anyCourseEnded = true;
+                }
+            }
+
+            for (int i = _expireTimes.Count; i-- > 0;)
+            {
+                TrainingExpiration e = _expireTimes[i];
+                if (time > e.Expiration)
+                {
+                    ProtoCrewMember pcm = HighLogic.CurrentGame.CrewRoster[e.PcmName];
+                    if (pcm != null)
+                    {
+                        for (int j = pcm.careerLog.Entries.Count; j-- > 0;)
+                        {
+                            if (e.Entries.Count == 0)
+                                break;
+                            FlightLog.Entry ent = pcm.careerLog[j];
+                            for (int k = e.Entries.Count; k-- > 0;)
+                            {
+                                // Allow only mission trainings to expire.
+                                // This check is actually only needed for old savegames as only these can have expirations on proficiencies.
+                                if (ent.type == "TRAINING_mission" && e.Compare(k, ent))
+                                {
+                                    ScreenMessages.PostScreenMessage($"{pcm.name}: Expired: {GetPrettyCourseName(ent.type)}{ent.target}");
+                                    ent.type = "expired_" + ent.type;
+                                    e.Entries.RemoveAt(k);
+                                }
+                            }
+                        }
+                    }
+                    _expireTimes.RemoveAt(i);
+                }
+            }
+
+            if (anyCourseEnded)
+            {
+                MaintenanceHandler.Instance?.ScheduleMaintenanceUpdate();
+            }
+        }
+
+        private double GetServiceTime(ProtoCrewMember pcm)
+        {
+            return 86400d * 365d * 
+                (Settings.retireBaseYears + 
+                 UtilMath.Lerp(Settings.retireCourageMin, Settings.retireCourageMax, pcm.courage) + 
+                 UtilMath.Lerp(Settings.retireStupidMin, Settings.retireStupidMax, pcm.stupidity));
+        }
+
+        private void FixAstronauComplexUI()
+        {
+            if (_astronautComplex == null)
+            {
+                AstronautComplex[] mbs = FindObjectsOfType<AstronautComplex>();
+                int maxCount = -1;
+                foreach (AstronautComplex c in mbs)
+                {
+                    int count = c.ScrollListApplicants.Count + c.ScrollListAssigned.Count + c.ScrollListAvailable.Count + c.ScrollListKia.Count;
+                    if (count > maxCount)
+                    {
+                        maxCount = count;
+                        _astronautComplex = c;
+                    }
+                }
+
+                if (_astronautComplex == null)
+                    return;
+            }
+            int newAv = _astronautComplex.ScrollListAvailable.Count;
+            int newAsgn = _astronautComplex.ScrollListAssigned.Count;
+            int newKIA = _astronautComplex.ScrollListKia.Count;
+            if (newAv != _countAvailable || newKIA != _countKIA || newAsgn != _countAssigned)
+            {
+                _countAvailable = newAv;
+                _countAssigned = newAsgn;
+                _countKIA = newKIA;
+
+                foreach (UIListData<UIListItem> u in _astronautComplex.ScrollListAvailable)
+                {
+                    CrewListItem cli = u.listItem.GetComponent<CrewListItem>();
+                    if (cli == null) continue;
+
+                    FixTooltip(cli);
+                    if (cli.GetCrewRef().inactive)
+                    {
+                        cli.MouseoverEnabled = false;
+                        bool notTraining = true;
+                        for (int i = ActiveCourses.Count; i-- > 0 && notTraining;)
+                        {
+                            foreach (ProtoCrewMember pcm in ActiveCourses[i].Students)
+                            {
+                                if (pcm == cli.GetCrewRef())
+                                {
+                                    notTraining = false;
+                                    cli.SetLabel("Training, done " + KSPUtil.PrintDate(ActiveCourses[i].startTime + ActiveCourses[i].GetTime(ActiveCourses[i].Students), false));
+                                    break;
+                                }
+                            }
+                        }
+                        if (notTraining)
+                            cli.SetLabel("Recovering");
+                    }
+                }
+
+                foreach (UIListData<UIListItem> u in _astronautComplex.ScrollListAssigned)
+                {
+                    CrewListItem cli = u.listItem.GetComponent<CrewListItem>();
+                    if (cli != null)
+                    {
+                        FixTooltip(cli);
+                    }
+                }
+
+                foreach (UIListData<UIListItem> u in _astronautComplex.ScrollListKia)
+                {
+                    CrewListItem cli = u.listItem.GetComponent<CrewListItem>();
+                    if (cli != null)
+                    {
+                        if (_retirees.Contains(cli.GetName()))
+                        {
+                            cli.SetLabel("Retired");
+                            cli.MouseoverEnabled = false;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void FixTooltip(CrewListItem cli)
+        {
+            ProtoCrewMember pcm = cli.GetCrewRef();
+            if (RetirementEnabled && KerbalRetireTimes.TryGetValue(pcm.name, out double retTime))
+            {
+                cli.SetTooltip(pcm);
+                var ttc = _cliTooltip.GetValue(cli) as TooltipController_CrewAC;
+                // TODO: add flight-high entries here
+                ttc.descriptionString += $"\n\nRetires no earlier than {KSPUtil.PrintDate(retTime, false)}";
+
+                // Training
+                string trainingStr = GetTrainingString(pcm);
+                if (!string.IsNullOrEmpty(trainingStr))
+                    ttc.descriptionString += trainingStr;
+            }
+        }
+
+        private double GetExpiration(string pcmName, FlightLog.Entry ent)
+        {
+            for (int i = _expireTimes.Count; i-- > 0;)
+            {
+                TrainingExpiration e = _expireTimes[i];
+                if (e.PcmName == pcmName)
+                {
+                    for (int j = e.Entries.Count; j-- > 0;)
+                    {
+                        if (e.Compare(j, ent))
+                            return e.Expiration;
+                    }
+                }
+            }
+
+            return 0d;
+        }
+
+        private bool SetExpiration(string pcmName, FlightLog.Entry ent, double expirationUT)
+        {
+            for (int i = _expireTimes.Count; i-- > 0;)
+            {
+                TrainingExpiration e = _expireTimes[i];
+                if (e.PcmName == pcmName)
+                {
+                    for (int j = e.Entries.Count; j-- > 0;)
+                    {
+                        if (e.Compare(j, ent))
+                        {
+                            e.Expiration = expirationUT;
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private void FindAllCourseConfigs()
+        {
+            CourseTemplates.Clear();
+            //find all configs and save them
+            foreach (ConfigNode course in GameDatabase.Instance.GetConfigNodes("FS_COURSE"))
+            {
+                CourseTemplates.Add(new CourseTemplate(course));
+            }
+            Debug.Log($"[LRTR] Found {CourseTemplates.Count} courses.");
+        }
+
+        private void GenerateOfferedCourses()
+        {
+            //convert the saved configs to course offerings
+            foreach (CourseTemplate template in CourseTemplates)
+            {
+                var duplicate = new CourseTemplate(template.sourceNode, true); //creates a duplicate so the initial template is preserved
+                duplicate.PopulateFromSourceNode();
+                if (duplicate.Available)
+                    OfferedCourses.Add(duplicate);
+            }
+
+            foreach (AvailablePart ap in PartLoader.LoadedPartsList)
+            {
+                if (ap.partPrefab.CrewCapacity > 0 &&
+                    ResearchAndDevelopment.PartModelPurchased(ap))
+                {
+                    AddPartCourses(ap);
+                }
+            }
+        }
+
+        private void GenerateCourseProf(AvailablePart ap, bool isTemporary)
+        {
+            var n = new ConfigNode("FS_COURSE");
+            string name = TrainingDatabase.SynonymReplace(ap.name);
+
+            n.AddValue("id", "prof_" + name);
+            n.AddValue("name", "Proficiency: " + name);
+            n.AddValue("time", 1d + (TrainingDatabase.GetTime(name) * 86400));
+            n.AddValue("isTemporary", isTemporary);
+            n.AddValue("conflicts", "TRAINING_proficiency:" + name);
+
+            ConfigNode r = n.AddNode("REWARD");
+            r.AddValue("XPAmt", Settings.trainingProficiencyXP);
+            ConfigNode l = r.AddNode("FLIGHTLOG");
+            l.AddValue("0", "TRAINING_proficiency," + name);
+
+            var c = new CourseTemplate(n);
+            c.PopulateFromSourceNode();
+            OfferedCourses.Add(c);
+        }
+
+        private void GenerateCourseMission(AvailablePart ap)
+        {
+            var n = new ConfigNode("FS_COURSE");
+            string name = TrainingDatabase.SynonymReplace(ap.name);
+
+            n.AddValue("id", "msn_" + name);
+            n.AddValue("name", "Mission: " + name);
+            n.AddValue("time", 1 + TrainingDatabase.GetTime(name + "-Mission") * 86400);
+            n.AddValue("isTemporary", false);
+            n.AddValue("timeUseStupid", true);
+            n.AddValue("seatMax", ap.partPrefab.CrewCapacity * 2);
+            n.AddValue("expiration", Settings.trainingMissionExpirationDays * 86400);
+            n.AddValue("preReqs", "TRAINING_proficiency:" + name);
+
+            ConfigNode r = n.AddNode("REWARD");
+            ConfigNode l = r.AddNode("FLIGHTLOG");
+            l.AddValue("0", "TRAINING_mission," + name);
+
+            var c = new CourseTemplate(n);
+            c.PopulateFromSourceNode();
+            OfferedCourses.Add(c);
+        }
+
+        private void OnPartPurchased(AvailablePart ap)
+        {
+            if (ap.partPrefab.CrewCapacity > 0)
+            {
+                AddPartCourses(ap);
+            }
+        }
+
+        private string GetPrettyCourseName(string str)
+        {
+            switch (str)
+            {
+                case "TRAINING_proficiency":
+                    return "Proficiency with ";
+                case "TRAINING_mission":
+                    return "Mission training for ";
+                default:
+                    return string.Empty;
+            }
+        }
     }
 }

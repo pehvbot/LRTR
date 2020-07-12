@@ -10,20 +10,21 @@ namespace LRTR
         static Rect windowPos = new Rect(500, 240, 0, 0);
         private MaintenanceGUI maintUI = new MaintenanceGUI();
         private Crew.FSGUI fsUI = new LRTR.Crew.FSGUI();
-        private static tabs currentTab;
+        private CareerLogGUI logUI = new CareerLogGUI();
+        private static Tabs currentTab;
 
         public TopWindow()
         {
             // Reset the tab on scene changes
-            currentTab = default(tabs);
+            currentTab = default(Tabs);
         }
 
         public void OnGUI()
         {
-            windowPos = GUILayout.Window("LRTRTop".GetHashCode(), windowPos, DrawWindow, "LRTR");
+            windowPos = GUILayout.Window("RP0Top".GetHashCode(), windowPos, DrawWindow, "RP-1");
         }
 
-        public static void SwitchTabTo(tabs newTab)
+        public static void SwitchTabTo(Tabs newTab)
         {
             currentTab = newTab;
         }
@@ -32,12 +33,14 @@ namespace LRTR
         {
             GUILayout.BeginHorizontal();
             try {
-                if (showTab(tabs.Maintenance) && toggleButton("Maintenance", currentTab == tabs.Maintenance))
-                    currentTab = tabs.Maintenance;
-                if (showTab(tabs.Training) && toggleButton("Astronauts", currentTab == tabs.Training))
-                    currentTab = tabs.Training;
-                if (showTab(tabs.Courses) && toggleButton("Courses", currentTab == tabs.Courses))
-                    currentTab = tabs.Courses;
+                if (showTab(Tabs.Maintenance) && toggleButton("Maintenance", currentTab == Tabs.Maintenance))
+                    currentTab = Tabs.Maintenance;
+                if (showTab(Tabs.Training) && toggleButton("Astronauts", currentTab == Tabs.Training))
+                    currentTab = Tabs.Training;
+                if (showTab(Tabs.Courses) && toggleButton("Courses", currentTab == Tabs.Courses))
+                    currentTab = Tabs.Courses;
+                if (showTab(Tabs.CareerLog) && toggleButton("Career Log", currentTab == Tabs.CareerLog))
+                    currentTab = Tabs.CareerLog;
             } finally {
                 GUILayout.EndHorizontal();
             }
@@ -55,29 +58,29 @@ namespace LRTR
                     tabSelector();
                     if (showTab(currentTab)) {
                         switch (currentTab) {
-                        case tabs.Maintenance:
+                        case Tabs.Maintenance:
                             maintUI.summaryTab();
                             break;
-                        case tabs.Facilities:
+                        case Tabs.Facilities:
                             maintUI.facilitiesTab();
                             break;
-                        case tabs.Integration:
-                            maintUI.integrationTab();
-                            break;
-                        case tabs.Astronauts:
+                        case Tabs.Astronauts:
                             maintUI.astronautsTab();
                             break;
-                        case tabs.Training:
+                        case Tabs.Training:
                             currentTab = fsUI.summaryTab();
                             break;
-                        case tabs.Courses:
+                        case Tabs.Courses:
                             currentTab = fsUI.coursesTab();
                             break;
-                        case tabs.NewCourse:
+                        case Tabs.NewCourse:
                             currentTab = fsUI.newCourseTab();
                             break;
-                        case tabs.Naut:
+                        case Tabs.Naut:
                             fsUI.nautTab();
+                            break;
+                        case Tabs.CareerLog:
+                            logUI.RenderTab();
                             break;
                         default: // can't happen
                             break;

@@ -1,0 +1,9 @@
+/Users/haslam/Documents/GitHub/RP-0/GameData/LRTR/LRRealProgression/Plugins/ClearInputLocks.dll
+/Users/haslam/Documents/GitHub/RP-0/GameData/LRTR/LRRealProgression/Plugins/ClearInputLocks.pdb
+/Users/haslam/Documents/GitHub/RP-0/Source/ClearInputLocks/obj/x64/Debug/ClearInputLocks.csprojAssemblyReference.cache
+/Users/haslam/Documents/GitHub/RP-0/Source/ClearInputLocks/obj/x64/Debug/ClearInputLocks.csproj.CoreCompileInputs.cache
+/Users/haslam/Documents/GitHub/RP-0/Source/ClearInputLocks/obj/x64/Debug/ClearInputLocks.csproj.CopyComplete
+/Users/haslam/Documents/GitHub/RP-0/Source/ClearInputLocks/obj/x64/Debug/ClearInputLocks.dll
+/Users/haslam/Documents/GitHub/RP-0/Source/ClearInputLocks/obj/x64/Debug/ClearInputLocks.pdb
+/Users/haslam/Documents/GitHub/RP-0/GameData/LRTR/plugins/ClearInputLocks.dll
+/Users/haslam/Documents/GitHub/RP-0/GameData/LRTR/plugins/ClearInputLocks.pdb

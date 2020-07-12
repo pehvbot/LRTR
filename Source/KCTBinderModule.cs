@@ -21,11 +21,16 @@ namespace LRTR
         protected bool skipTwo = true;
 
         private EventData<RDTech> onKctTechQueuedEvent;
+        private EventData<ProtoTechNode> onKctTechCompletedEvent;
+        private EventData<KCT_UpgradingBuilding> onKctFacilityUpgradeQueuedEvent;
+        private EventData<KCT_UpgradingBuilding> onKctFacilityUpgradeCompletedEvent;
 
         public override void OnAwake()
         {
             base.OnAwake();
 
+            CareerLog.FnGetKCTUpgdCounts = GetKCTUpgradeCounts;
+            CareerLog.FnGetKCTSciPoints = GetSciPointTotalFromKCT;
             KCT_GUI.UseAvailabilityChecker = true;
             KCT_GUI.AvailabilityChecker = CheckCrewForPart;
         }
@@ -36,6 +41,28 @@ namespace LRTR
             if (onKctTechQueuedEvent != null)
             {
                 onKctTechQueuedEvent.Add(OnKctTechQueued);
+                Debug.Log($"[LRTR] Bound to OnKctTechQueued");
+            }
+
+            onKctTechCompletedEvent = GameEvents.FindEvent<EventData<ProtoTechNode>>("OnKctTechCompleted");
+            if (onKctTechCompletedEvent != null)
+            {
+                onKctTechCompletedEvent.Add(OnKctTechCompleted);
+                Debug.Log($"[LRTR] Bound to OnKctTechCompleted");
+            }
+
+            onKctFacilityUpgradeQueuedEvent = GameEvents.FindEvent<EventData<KCT_UpgradingBuilding>>("OnKctFacilityUpgradeQueued");
+            if (onKctFacilityUpgradeQueuedEvent != null)
+            {
+                onKctFacilityUpgradeQueuedEvent.Add(OnKctFacilityUpgdQueued);
+                Debug.Log($"[LRTR] Bound to OnKctFacilityUpgradeQueued");
+            }
+
+            onKctFacilityUpgradeCompletedEvent = GameEvents.FindEvent<EventData<KCT_UpgradingBuilding>>("OnKctFacilityUpgradeComplete");
+            if (onKctFacilityUpgradeCompletedEvent != null)
+            {
+                onKctFacilityUpgradeCompletedEvent.Add(OnKctFacilityUpgdComplete);
+                Debug.Log($"[LRTR] Bound to OnKctFacilityUpgradeComplete");
             }
 
             StartCoroutine(CreateCoursesRoutine());
@@ -44,6 +71,20 @@ namespace LRTR
         public void OnDestroy()
         {
             if (onKctTechQueuedEvent != null) onKctTechQueuedEvent.Remove(OnKctTechQueued);
+            if (onKctTechCompletedEvent != null) onKctTechCompletedEvent.Remove(OnKctTechCompleted);
+            if (onKctFacilityUpgradeQueuedEvent != null) onKctFacilityUpgradeQueuedEvent.Remove(OnKctFacilityUpgdQueued);
+            if (onKctFacilityUpgradeCompletedEvent != null) onKctFacilityUpgradeCompletedEvent.Remove(OnKctFacilityUpgdComplete);
+        }
+
+        public static int GetKCTUpgradeCounts(SpaceCenterFacility facility)
+        {
+            return KCT_Utilities.SpentUpgradesFor(facility);
+        }
+
+        public static float GetSciPointTotalFromKCT()
+        {
+            // KCT returns -1 if the player hasn't earned any sci yet
+            return Math.Max(0, KCT_GameStates.SciPointsTotal);
         }
 
         public static bool CheckCrewForPart(ProtoCrewMember pcm, string partName)
@@ -57,37 +98,7 @@ namespace LRTR
             if (!requireTraining || EntryCostStorage.GetCost(partName) == 1)
                 return true;
 
-            partName = TrainingDatabase.SynonymReplace(partName);
-
-            FlightLog.Entry ent = pcm.careerLog.Last();
-            if (ent == null)
-                return false;
-
-            bool lacksMission = true;
-            for (int i = pcm.careerLog.Entries.Count; i-- > 0;)
-            {
-                FlightLog.Entry e = pcm.careerLog.Entries[i];
-                if (lacksMission)
-                {
-                    if (string.IsNullOrEmpty(e.type) || string.IsNullOrEmpty(e.target))
-                        continue;
-
-                    if (e.type == "TRAINING_mission" && e.target == partName)
-                    {
-                        double exp = CrewHandler.Instance.GetExpiration(pcm.name, e);
-                        lacksMission = exp == 0d || exp < Planetarium.GetUniversalTime();
-                    }
-                }
-                else
-                {
-                    if (string.IsNullOrEmpty(e.type) || string.IsNullOrEmpty(e.target))
-                        continue;
-
-                    if (e.type == "TRAINING_proficiency" && e.target == partName)
-                        return true;
-                }
-            }
-            return false;
+            return CrewHandler.Instance.NautHasTrainingForPart(pcm, partName);
         }
 
         protected void Update()
@@ -148,7 +159,30 @@ namespace LRTR
 
         private void OnKctTechQueued(RDTech data)
         {
+            Debug.Log($"[LRTR] OnKctTechQueued");
             CrewHandler.Instance.AddCoursesForTechNode(data);
+        }
+
+        private void OnKctTechCompleted(ProtoTechNode data)
+        {
+            Debug.Log($"[LRTR] OnKctTechCompleted");
+            CareerLog.Instance?.AddTechEvent(data.techID);
+        }
+
+        private void OnKctFacilityUpgdQueued(KCT_UpgradingBuilding data)
+        {
+            Debug.Log($"[LRTR] OnKctFacilityUpgdQueued");
+            if (!data.facilityType.HasValue) return;    // can be null in case of third party mods that define custom facilities
+
+            CareerLog.Instance?.AddFacilityConstructionEvent(data.facilityType.Value, data.upgradeLevel, data.cost, ConstructionState.Started);
+        }
+
+        private void OnKctFacilityUpgdComplete(KCT_UpgradingBuilding data)
+        {
+            Debug.Log($"[LRTR] OnKctFacilityUpgdComplete");
+            if (!data.facilityType.HasValue) return;    // can be null in case of third party mods that define custom facilities
+
+            CareerLog.Instance?.AddFacilityConstructionEvent(data.facilityType.Value, data.upgradeLevel, data.cost, ConstructionState.Completed);
         }
 
         private IEnumerator CreateCoursesRoutine()

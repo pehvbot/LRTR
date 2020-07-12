@@ -1,0 +1,9 @@
+/Users/haslam/Documents/GitHub/RP-0/GameData/LRTR/LRRealProgression/Plugins/LRTRKCTBinder.dll
+/Users/haslam/Documents/GitHub/RP-0/GameData/LRTR/LRRealProgression/Plugins/LRTRKCTBinder.pdb
+/Users/haslam/Documents/GitHub/RP-0/Source/obj/x64/Debug/LRTRKCTBinder.csprojAssemblyReference.cache
+/Users/haslam/Documents/GitHub/RP-0/Source/obj/x64/Debug/LRTRKCTBinder.csproj.CoreCompileInputs.cache
+/Users/haslam/Documents/GitHub/RP-0/Source/obj/x64/Debug/LRTRKCTBinder.csproj.CopyComplete
+/Users/haslam/Documents/GitHub/RP-0/Source/obj/x64/Debug/LRTRKCTBinder.dll
+/Users/haslam/Documents/GitHub/RP-0/Source/obj/x64/Debug/LRTRKCTBinder.pdb
+/Users/haslam/Documents/GitHub/RP-0/GameData/LRTR/plugins/LRTRKCTBinder.dll
+/Users/haslam/Documents/GitHub/RP-0/GameData/LRTR/plugins/LRTRKCTBinder.pdb

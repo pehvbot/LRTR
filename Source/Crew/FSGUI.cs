@@ -79,7 +79,7 @@ namespace LRTR.Crew
             PopupDialog.SpawnPopupDialog(diag, false, HighLogic.UISkin);
         }
 
-        protected void nautListRow(tabs currentTab, ProtoCrewMember student)
+        protected void nautListRow(Tabs currentTab, ProtoCrewMember student)
         {
             GUIStyle style = HighLogic.Skin.label;
             ActiveCourse currentCourse = null;
@@ -99,7 +99,7 @@ namespace LRTR.Crew
                         else
                             selectedCourse.AddStudent(student);
                     }
-                } else if (currentTab == tabs.Training) {
+                } else if (currentTab == Tabs.Training) {
                     if (GUILayout.Button(student.name, GUILayout.Width(144))) {
                         selectedNaut = student;
                     }
@@ -127,9 +127,9 @@ namespace LRTR.Crew
                 }
                 GUILayout.Label(course, GUILayout.Width(96));
                 GUILayout.Label(complete, GUILayout.Width(80));
-                if (CrewHandler.Instance.kerbalRetireTimes.ContainsKey(student.name))
+                if (CrewHandler.Instance.KerbalRetireTimes.ContainsKey(student.name))
                 {
-                    retires = CrewHandler.Instance.retirementEnabled ? KSPUtil.PrintDate(CrewHandler.Instance.kerbalRetireTimes[student.name], false) : "(n/a)";
+                    retires = CrewHandler.Instance.RetirementEnabled ? KSPUtil.PrintDate(CrewHandler.Instance.KerbalRetireTimes[student.name], false) : "(n/a)";
                 }
                 else
                 {
@@ -149,9 +149,9 @@ namespace LRTR.Crew
                     {
                         // CrewHandler processes trainings every 3600 seconds. Need to account for that to set up accurate KAC alarms.
                         double completeUT = currentCourse.CompletionTime();
-                        double timeDiff = completeUT - CrewHandler.Instance.nextUpdate;
-                        double timesChRun = Math.Ceiling(timeDiff / CrewHandler.Instance.updateInterval);
-                        double alarmUT = CrewHandler.Instance.nextUpdate + timesChRun * CrewHandler.Instance.updateInterval;
+                        double timeDiff = completeUT - CrewHandler.Instance.NextUpdate;
+                        double timesChRun = Math.Ceiling(timeDiff / CrewHandler.UpdateInterval);
+                        double alarmUT = CrewHandler.Instance.NextUpdate + timesChRun * CrewHandler.UpdateInterval;
                         string alarmTxt = $"{currentCourse.name} - {student.name}";
                         KACWrapper.KAC.CreateAlarm(KACWrapper.KACAPI.AlarmTypeEnum.Crew, alarmTxt, alarmUT);
                     }
@@ -161,10 +161,10 @@ namespace LRTR.Crew
             }
         }
 
-        private void summaryBody(tabs currentTab)
+        private void summaryBody(Tabs currentTab)
         {
             updateActiveMap();
-            float scrollHeight = currentTab == tabs.Training ? 420 : 305;
+            float scrollHeight = currentTab == Tabs.Training ? 420 : 305;
             nautListScroll = GUILayout.BeginScrollView(nautListScroll, GUILayout.Width(505), GUILayout.Height(scrollHeight));
             try {
                 nautListHeading();
@@ -173,7 +173,7 @@ namespace LRTR.Crew
                     ProtoCrewMember student = HighLogic.CurrentGame.CrewRoster[i];
                     if (student.type == ProtoCrewMember.KerbalType.Crew && 
                         (student.rosterStatus == ProtoCrewMember.RosterStatus.Available ||
-                         (currentTab == tabs.Training && student.rosterStatus == ProtoCrewMember.RosterStatus.Assigned)))
+                         (currentTab == Tabs.Training && student.rosterStatus == ProtoCrewMember.RosterStatus.Assigned)))
                     {
                         nautListRow(currentTab, student);
                     }
@@ -183,12 +183,12 @@ namespace LRTR.Crew
             }
         }
 
-        public tabs summaryTab()
+        public Tabs summaryTab()
         {
             selectedCourse = null;
             selectedNaut = null;
-            summaryBody(tabs.Training);
-            return selectedNaut == null ? tabs.Training : tabs.Naut;
+            summaryBody(Tabs.Training);
+            return selectedNaut == null ? Tabs.Training : Tabs.Naut;
         }
 
         protected void courseSelector()
@@ -211,14 +211,14 @@ namespace LRTR.Crew
             }
         }
 
-        public tabs coursesTab()
+        public Tabs coursesTab()
         {
             selectedCourse = null;
             courseSelector();
-            return selectedCourse == null ? tabs.Courses : tabs.NewCourse;
+            return selectedCourse == null ? Tabs.Courses : Tabs.NewCourse;
         }
 
-        public tabs newCourseTab()
+        public Tabs newCourseTab()
         {
             if (tempCourseLblStyle == null)
             {
@@ -238,12 +238,12 @@ namespace LRTR.Crew
                 GUILayout.Label(selectedCourse.description);
             if (selectedCourse.isTemporary)
                 GUILayout.Label("Tech for this part is still being researched", tempCourseLblStyle);
-            summaryBody(tabs.NewCourse);
+            summaryBody(Tabs.NewCourse);
             if (selectedCourse.seatMax > 0)
                 GUILayout.Label(selectedCourse.seatMax - selectedCourse.Students.Count + " remaining seat(s).");
             if (selectedCourse.seatMin > selectedCourse.Students.Count)
                 GUILayout.Label(selectedCourse.seatMin - selectedCourse.Students.Count + " more student(s) required.");
-            GUILayout.Label("Will take " + KSPUtil.PrintDateDeltaCompact(selectedCourse.GetTime(), false, false));
+            GUILayout.Label("Will take " + KSPUtil.PrintDateDeltaCompact(selectedCourse.GetTime(), true, false));
             GUILayout.Label("and finish on " + KSPUtil.PrintDate(selectedCourse.CompletionTime(), false));
             if (GUILayout.Button("Start Course", GUILayout.ExpandWidth(false))) {
                 if (selectedCourse.StartCourse()) {
@@ -252,7 +252,7 @@ namespace LRTR.Crew
                     MaintenanceHandler.Instance?.UpdateUpkeep();
                 }
             }
-            return selectedCourse == null ? tabs.Training : tabs.NewCourse;
+            return selectedCourse == null ? Tabs.Training : Tabs.NewCourse;
         }
 
         public void nautTab()
@@ -268,15 +268,24 @@ namespace LRTR.Crew
             }
             GUILayout.BeginHorizontal();
             try {
-                GUILayout.Label(String.Format("{0} {1:D}", selectedNaut.trait, selectedNaut.experienceLevel.ToString()));
-                if (CrewHandler.Instance.retirementEnabled && CrewHandler.Instance.kerbalRetireTimes.ContainsKey(selectedNaut.name)) {
+                GUILayout.Label($"{selectedNaut.trait} {selectedNaut.experienceLevel.ToString():D}");
+                if (CrewHandler.Instance.RetirementEnabled && CrewHandler.Instance.KerbalRetireTimes.ContainsKey(selectedNaut.name)) {
                     GUILayout.Space(8);
-                    GUILayout.Label(String.Format("Retires NET {0}", KSPUtil.PrintDate(CrewHandler.Instance.kerbalRetireTimes[selectedNaut.name], false)),
-                                    rightLabel);
+                    GUILayout.Label($"Retires NET {KSPUtil.PrintDate(CrewHandler.Instance.KerbalRetireTimes[selectedNaut.name], false)}", rightLabel);
                 }
             } finally {
                 GUILayout.EndHorizontal();
             }
+
+            double nlt = CrewHandler.Instance.GetLatestRetireTime(selectedNaut);
+            if (nlt > 0)
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Label(string.Empty, GUILayout.ExpandWidth(true));
+                GUILayout.Label($"Retires NLT {KSPUtil.PrintDate(nlt, false)}", rightLabel);
+                GUILayout.EndHorizontal();
+            }
+
             if (activeMap.ContainsKey(selectedNaut)) {
                 ActiveCourse currentCourse = activeMap[selectedNaut];
                 GUILayout.BeginHorizontal();

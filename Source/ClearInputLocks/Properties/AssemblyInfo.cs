@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("ClearInputLocks")]
 [assembly: AssemblyDescription("Simple DLL to Map ClearInputLocks from Cheat Menu to F7 key")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("KSP-RO")]
+[assembly: AssemblyCompany("LRTR")]
 [assembly: AssemblyProduct("ClearInputLocks")]
 [assembly: AssemblyCopyright("Copyright ©  2019 CC-BY-NC-SA 4.0")]
 [assembly: AssemblyTrademark("")]

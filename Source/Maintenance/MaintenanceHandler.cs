@@ -95,6 +95,16 @@ namespace LRTR
             GameEvents.OnGameSettingsApplied.Add(SettingsChanged);
             GameEvents.onGameStateLoad.Add(LoadSettings);
         }
+        public void Start()
+        {
+            double ut = Planetarium.GetUniversalTime();
+            if (nextUpdate > ut + updateInterval)
+            {
+                // KRASH has a bad habit of not reverting state properly when exiting sims.
+                // This means that the updateInterval could end up years into the future.
+                nextUpdate = ut + 5;
+            }
+        }
 
         public override void OnLoad(ConfigNode node)
         {
@@ -117,6 +127,11 @@ namespace LRTR
                 s += costs[i];
 
             return s;
+        }
+
+        public void ScheduleMaintenanceUpdate()
+        {
+            nextUpdate = 0;
         }
 
         public void UpdateUpkeep()
@@ -261,7 +276,12 @@ namespace LRTR
 
             double timePassed = time - lastUpdate;
 
-            Funding.Instance.AddFunds(-timePassed * ((totalUpkeep + settings.maintenanceOffset) * (1d / 86400d)), TransactionReasons.StructureRepair);
+            using (new CareerEventScope(CareerEventType.Maintenance))
+            {
+                double cost = -timePassed * ((totalUpkeep + settings.maintenanceOffset) * (1d / 86400d));
+                Debug.Log($"[LRTR] MaintenanceHandler removing {cost} funds");
+                Funding.Instance.AddFunds(cost, TransactionReasons.StructureRepair);
+            }
 
             lastUpdate = time;
 
@@ -273,7 +293,8 @@ namespace LRTR
             else
             {
                 wasWarpingHigh = true;
-                nextUpdate = time + updateInterval * (TimeWarp.CurrentRate * (1f / 100f));
+                // Scale the update interval up with timewarp but don't allow longer than 1 day steps
+                nextUpdate = time + Math.Min(3600 * 24, updateInterval * TimeWarp.CurrentRate / 100f);
             }
         }
 

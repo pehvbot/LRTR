@@ -1,23 +1,37 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workbench ActiveDocument="KCTBinderModule.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="DifficultyPresets.cs">
     <Files>
-      <File FileName="KCTBinderModule.cs" Line="29" Column="13" />
-      <File FileName="Properties/AssemblyInfoKCT.cs" Line="1" Column="1" />
+      <File FileName="ClearInputLocks/Properties/AssemblyInfo.cs" Line="1" Column="1" />
+      <File FileName="ClearInputLocks/ClearInputLocks.cs" />
+      <File FileName="CareerLog/CareerEvent.cs" />
+      <File FileName="CareerLog/CareerEventScope.cs" />
+      <File FileName="CareerLog/CareerLog.cs" />
+      <File FileName="CC_LRTR/Properties/AssemblyInfo.cs" />
+      <File FileName="Crew/CrewHandler.cs" />
+      <File FileName="LoadingScreenChanger.cs" />
+      <File FileName="Crew/FSGUI.cs" />
+      <File FileName="UI/UIHolder.cs" />
+      <File FileName="LRTRConfigs.cs" />
+      <File FileName="ModuleManager.cs" />
+      <File FileName="CC_LRTR/AcceptContractBehaviour.cs" Line="1" Column="1" />
+      <File FileName="CC_LRTR/AcceptContractBehaviourFactory.cs" Line="1" Column="1" />
+      <File FileName="CC_LRTR/CustomExpressionParserRegistrer.cs" Line="1" Column="1" />
+      <File FileName="CC_LRTR/DownrangeDistanceFactory.cs" Line="1" Column="1" />
+      <File FileName="CC_LRTR/DownrangeDistanceVesselParam.cs" Line="1" Column="1" />
+      <File FileName="CC_LRTR/ImpactCBFactory.cs" Line="1" Column="1" />
+      <File FileName="CC_LRTR/ImpactCBParam.cs" Line="1" Column="1" />
+      <File FileName="DifficultyPresets.cs" Line="53" Column="22" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="LRTR" expanded="True">
-            <Node name="ClearInputLocks" expanded="True" />
+            <Node name="CC_LRTR" expanded="True" />
             <Node name="LRTR" expanded="True">
-              <Node name="Crew" expanded="True" />
-              <Node name="Properties" expanded="True" />
-              <Node name="Utilities" expanded="True" />
-            </Node>
-            <Node name="LRTRKCTBinder" expanded="True">
               <Node name="References" expanded="True" />
-              <Node name="Properties" expanded="True" />
-              <Node name="KCTBinderModule.cs" selected="True" />
+              <Node name="Crew" expanded="True" />
+              <Node name="UI" expanded="True" />
+              <Node name="DifficultyPresets.cs" selected="True" />
             </Node>
           </Node>
         </State>
@@ -25,7 +39,7 @@
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x64" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

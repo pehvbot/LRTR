@@ -1,8 +1,4 @@
-//Originally from RP-1 v1.1.1 
-//https://github.com/KSP-RO/RP-0
-//Used under Creative Commons License
-
-CONTRACT_TYPE:NEEDS[LRTRContracts]
+CONTRACT_TYPE
 {
     name = flybyJupiterMoons
     title = Flyby @/targetBodyValid1
@@ -34,7 +30,7 @@ CONTRACT_TYPE:NEEDS[LRTRContracts]
     // ************ REWARDS ************
 
     prestige            	= Exceptional // 1.50
-    advanceFunds        	= 2000 * @LRTR:globalHardContractMultiplier
+    advanceFunds        	= 2000 * @RP0:globalHardContractMultiplier
     rewardScience       	= 0
     rewardReputation    	= 20
     rewardFunds         	= @advanceFunds * 4
@@ -47,7 +43,7 @@ CONTRACT_TYPE:NEEDS[LRTRContracts]
     DATA_EXPAND
 	{
 		type				= CelestialBody
-		targetBody1			= @LRTR:jupiterMoons
+		targetBody1			= @RP0:jupiterMoons
 	}
 	
 	DATA
@@ -74,7 +70,7 @@ CONTRACT_TYPE:NEEDS[LRTRContracts]
 		title				= Reached Bodies
 		type				= List<CelestialBody>
 		requiredValue		= false
-		targetBodyList1		= @LRTR:reachBodies
+		targetBodyList1		= @RP0:reachBodies
 	}
 
 
