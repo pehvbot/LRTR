@@ -1,5 +1,5 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workbench ActiveDocument="DifficultyPresets.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Crew/CrewHandler.cs">
     <Files>
       <File FileName="ClearInputLocks/Properties/AssemblyInfo.cs" Line="1" Column="1" />
       <File FileName="ClearInputLocks/ClearInputLocks.cs" />
@@ -7,20 +7,21 @@
       <File FileName="CareerLog/CareerEventScope.cs" />
       <File FileName="CareerLog/CareerLog.cs" />
       <File FileName="CC_LRTR/Properties/AssemblyInfo.cs" />
-      <File FileName="Crew/CrewHandler.cs" />
+      <File FileName="Crew/CrewHandler.cs" Line="844" Column="20" />
       <File FileName="LoadingScreenChanger.cs" />
       <File FileName="Crew/FSGUI.cs" />
       <File FileName="UI/UIHolder.cs" />
       <File FileName="LRTRConfigs.cs" />
       <File FileName="ModuleManager.cs" />
-      <File FileName="CC_LRTR/AcceptContractBehaviour.cs" Line="1" Column="1" />
-      <File FileName="CC_LRTR/AcceptContractBehaviourFactory.cs" Line="1" Column="1" />
-      <File FileName="CC_LRTR/CustomExpressionParserRegistrer.cs" Line="1" Column="1" />
-      <File FileName="CC_LRTR/DownrangeDistanceFactory.cs" Line="1" Column="1" />
-      <File FileName="CC_LRTR/DownrangeDistanceVesselParam.cs" Line="1" Column="1" />
-      <File FileName="CC_LRTR/ImpactCBFactory.cs" Line="1" Column="1" />
-      <File FileName="CC_LRTR/ImpactCBParam.cs" Line="1" Column="1" />
+      <File FileName="CC_LRTR/AcceptContractBehaviour.cs" />
+      <File FileName="CC_LRTR/AcceptContractBehaviourFactory.cs" />
+      <File FileName="CC_LRTR/CustomExpressionParserRegistrer.cs" />
+      <File FileName="CC_LRTR/DownrangeDistanceFactory.cs" />
+      <File FileName="CC_LRTR/DownrangeDistanceVesselParam.cs" />
+      <File FileName="CC_LRTR/ImpactCBFactory.cs" />
+      <File FileName="CC_LRTR/ImpactCBParam.cs" />
       <File FileName="DifficultyPresets.cs" Line="53" Column="22" />
+      <File FileName="Crew/CrewHandlerSettings.cs" Line="15" Column="38" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -29,9 +30,10 @@
             <Node name="CC_LRTR" expanded="True" />
             <Node name="LRTR" expanded="True">
               <Node name="References" expanded="True" />
-              <Node name="Crew" expanded="True" />
+              <Node name="Crew" expanded="True">
+                <Node name="CrewHandler.cs" selected="True" />
+              </Node>
               <Node name="UI" expanded="True" />
-              <Node name="DifficultyPresets.cs" selected="True" />
             </Node>
           </Node>
         </State>

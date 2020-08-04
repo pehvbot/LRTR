@@ -7,3 +7,10 @@
 /Users/haslam/Documents/GitHub/RP-0/Source/obj/x64/Debug/LRTR.pdb
 /Users/haslam/Documents/GitHub/RP-0/GameData/LRTR/plugins/LRTR.dll
 /Users/haslam/Documents/GitHub/RP-0/GameData/LRTR/plugins/LRTR.pdb
+/Users/haslam/Documents/GitHub/LRTR/GameData/LRTR/plugins/LRTR.dll
+/Users/haslam/Documents/GitHub/LRTR/GameData/LRTR/plugins/LRTR.pdb
+/Users/haslam/Documents/GitHub/LRTR/Source/obj/x64/Debug/LRTR.csprojAssemblyReference.cache
+/Users/haslam/Documents/GitHub/LRTR/Source/obj/x64/Debug/LRTR.csproj.CoreCompileInputs.cache
+/Users/haslam/Documents/GitHub/LRTR/Source/obj/x64/Debug/LRTR.csproj.CopyComplete
+/Users/haslam/Documents/GitHub/LRTR/Source/obj/x64/Debug/LRTR.dll
+/Users/haslam/Documents/GitHub/LRTR/Source/obj/x64/Debug/LRTR.pdb

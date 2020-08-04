@@ -605,6 +605,11 @@ namespace LRTR.Crew
                 if ((pcm.rosterStatus == ProtoCrewMember.RosterStatus.Assigned || pcm.rosterStatus == ProtoCrewMember.RosterStatus.Available) &&
                     !KerbalRetireTimes.ContainsKey(pcm.name))
                 {
+                    if (pcm.trait != KerbalRoster.pilotTrait)
+                    {
+                        KerbalRoster.SetExperienceTrait(pcm, KerbalRoster.pilotTrait);
+                    }
+
                     newHires.Add(pcm.name);
                     OnCrewHired(pcm, int.MinValue);
                 }
@@ -613,15 +618,15 @@ namespace LRTR.Crew
             if (newHires.Count > 0)
             {
                 StringBuilder sb = new StringBuilder();
-                sb.Append("Crew will retire as follows:");
+                sb.Append("Earliest crew retirement dates:");
                 foreach (string s in newHires)
-                    sb.Append($"\n{s}, no earlier than {KSPUtil.PrintDate(KerbalRetireTimes[s], false)}");
+                    sb.Append($"\n{s}, {KSPUtil.PrintDate(KerbalRetireTimes[s], false)}");
 
-                sb.Append("\n(Retirement will be delayed the more interesting flights they fly.)");
+                sb.Append($"\n\nInteresting flights will delay retirement up to an additional {Math.Round(Settings.retireIncreaseCap / 31536000)} years.");
                 PopupDialog.SpawnPopupDialog(new Vector2(0.5f, 0.5f),
                                              new Vector2(0.5f, 0.5f),
                                              "InitialRetirementDateNotification",
-                                             "Initial Retirement Date",
+                                             "Initial Retirement Dates",
                                              sb.ToString(),
                                              "OK",
                                              false,
@@ -747,7 +752,7 @@ namespace LRTR.Crew
         private double GetServiceTime(ProtoCrewMember pcm)
         {
             return 86400d * 365d * 
-                (Settings.retireBaseYears + 
+                (Settings.retireBaseYears + Settings.retireVeteranYears +
                  UtilMath.Lerp(Settings.retireCourageMin, Settings.retireCourageMax, pcm.courage) + 
                  UtilMath.Lerp(Settings.retireStupidMin, Settings.retireStupidMax, pcm.stupidity));
         }

@@ -15,6 +15,9 @@ namespace LRTR.Crew
         public double retireBaseYears = 5, retireCourageMin = 0, retireCourageMax = 3, retireStupidMin = 1, retireStupidMax = 0;
 
         [Persistent]
+        public double retireVeteranYears = 0;
+
+        [Persistent]
         public double trainingProficiencyStupidMin = 1.5, trainingProficiencyStupidMax = 0.5, trainingProficiencyRefresherTimeMult = 0.25;
 
         [Persistent]
