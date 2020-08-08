@@ -20,8 +20,8 @@
       <File FileName="CC_LRTR/DownrangeDistanceVesselParam.cs" />
       <File FileName="CC_LRTR/ImpactCBFactory.cs" />
       <File FileName="CC_LRTR/ImpactCBParam.cs" />
-      <File FileName="DifficultyPresets.cs" Line="53" Column="22" />
-      <File FileName="Crew/CrewHandlerSettings.cs" Line="15" Column="38" />
+      <File FileName="DifficultyPresets.cs" />
+      <File FileName="Crew/CrewHandlerSettings.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
