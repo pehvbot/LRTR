@@ -4,7 +4,8 @@
     "name"		   : "Less Real Than Real(ism)",
 	"abstract"     : "Real Progression One without RealismOverhaul",    
 	"$kref"        : "#/ckan/github/pehvbot/LRTR",
-    "ksp_version"  : "1.9.1",
+    "ksp_version_min"  : "1.8",
+    "ksp_version_max"	:	"1.10"
     "license"      : "CC-BY-NC-SA-4.0",
     "depends"      : [
     	{ "name"   : "ModuleManager" },
