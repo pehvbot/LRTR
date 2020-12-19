@@ -14,7 +14,7 @@ ModularFlightIntegrator<br/>
 Module Manager<br/>
 DMagicScienceAnimate<br/>
 Contract Configurator<br/>
-Custom Barn Kit - RO build<br/>
+Custom Barn Kit<br/>
 Real Solar System<br/>
 Kerbal Construction Time<br/>
 
