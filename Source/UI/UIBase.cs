@@ -29,6 +29,7 @@ namespace LRTR
         {
             switch (tab) {
                 case Tabs.Maintenance:
+                    return HighLogic.CurrentGame.Mode == Game.Modes.CAREER;
                 case Tabs.Facilities:
                 case Tabs.Astronauts:
                     return HighLogic.LoadedScene == GameScenes.SPACECENTER;

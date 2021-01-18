@@ -1,5 +1,5 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workbench ActiveDocument="Crew/CrewHandler.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="UI/TopWindow.cs">
     <Files>
       <File FileName="ClearInputLocks/Properties/AssemblyInfo.cs" Line="1" Column="1" />
       <File FileName="ClearInputLocks/ClearInputLocks.cs" />
@@ -22,6 +22,10 @@
       <File FileName="CC_LRTR/ImpactCBParam.cs" />
       <File FileName="DifficultyPresets.cs" />
       <File FileName="Crew/CrewHandlerSettings.cs" />
+      <File FileName="Maintenance/MaintenanceGUI.cs" Line="50" Column="3" />
+      <File FileName="Maintenance/MaintenanceHandler.cs" Line="1" Column="1" />
+      <File FileName="UI/TopWindow.cs" Line="55" Column="72" />
+      <File FileName="UI/UIBase.cs" Line="34" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -29,11 +33,10 @@
           <Node name="LRTR" expanded="True">
             <Node name="CC_LRTR" expanded="True" />
             <Node name="LRTR" expanded="True">
-              <Node name="References" expanded="True" />
-              <Node name="Crew" expanded="True">
-                <Node name="CrewHandler.cs" selected="True" />
+              <Node name="Maintenance" expanded="True" />
+              <Node name="UI" expanded="True">
+                <Node name="TopWindow.cs" selected="True" />
               </Node>
-              <Node name="UI" expanded="True" />
             </Node>
           </Node>
         </State>
