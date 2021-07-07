@@ -1,4 +1,8 @@
-CONTRACT_TYPE	
+//Originally from RP-1 v1.9.0
+//https://github.com/KSP-RO/RP-0
+//Used under Creative Commons License
+
+CONTRACT_TYPE:NEEDS[LRTRContracts]	
 {	
 	//name = EOSCamera
 	//title = Earth Observation Imaging Satellite

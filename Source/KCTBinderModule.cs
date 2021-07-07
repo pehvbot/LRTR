@@ -84,7 +84,7 @@ namespace LRTR
         public static float GetSciPointTotalFromKCT()
         {
             // KCT returns -1 if the player hasn't earned any sci yet
-            return Math.Max(0, KCT_GameStates.SciPointsTotal);
+            return Math.Max(0, KCT_GameStates.SciencePointsAllocated);
         }
 
         public static bool CheckCrewForPart(ProtoCrewMember pcm, string partName)

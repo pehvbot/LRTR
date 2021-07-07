@@ -1,5 +1,5 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workbench ActiveDocument="UI/TopWindow.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="CC_LRTR/ReachMachFactory.cs">
     <Files>
       <File FileName="ClearInputLocks/Properties/AssemblyInfo.cs" Line="1" Column="1" />
       <File FileName="ClearInputLocks/ClearInputLocks.cs" />
@@ -7,7 +7,7 @@
       <File FileName="CareerLog/CareerEventScope.cs" />
       <File FileName="CareerLog/CareerLog.cs" />
       <File FileName="CC_LRTR/Properties/AssemblyInfo.cs" />
-      <File FileName="Crew/CrewHandler.cs" Line="844" Column="20" />
+      <File FileName="Crew/CrewHandler.cs" />
       <File FileName="LoadingScreenChanger.cs" />
       <File FileName="Crew/FSGUI.cs" />
       <File FileName="UI/UIHolder.cs" />
@@ -22,28 +22,34 @@
       <File FileName="CC_LRTR/ImpactCBParam.cs" />
       <File FileName="DifficultyPresets.cs" />
       <File FileName="Crew/CrewHandlerSettings.cs" />
-      <File FileName="Maintenance/MaintenanceGUI.cs" Line="50" Column="3" />
-      <File FileName="Maintenance/MaintenanceHandler.cs" Line="1" Column="1" />
-      <File FileName="UI/TopWindow.cs" Line="55" Column="72" />
-      <File FileName="UI/UIBase.cs" Line="34" Column="1" />
+      <File FileName="Maintenance/MaintenanceGUI.cs" />
+      <File FileName="Maintenance/MaintenanceHandler.cs" />
+      <File FileName="UI/TopWindow.cs" />
+      <File FileName="UI/UIBase.cs" />
+      <File FileName="KCTBinderModule.cs" />
+      <File FileName="ModuleUnpressurizedCockpit.cs" />
+      <File FileName="ModuleShowInfo.cs" />
+      <File FileName="ModuleRangeSafety.cs" />
+      <File FileName="ModuleNonReentryRated.cs" />
+      <File FileName="ModuleNonRecharge.cs" Line="1" Column="1" />
+      <File FileName="CC_LRTR/ReachMachFactory.cs" Line="3" Column="36" />
+      <File FileName="CC_LRTR/ReachMachVesselParam.cs" Line="4" Column="36" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="LRTR" expanded="True">
-            <Node name="CC_LRTR" expanded="True" />
-            <Node name="LRTR" expanded="True">
-              <Node name="Maintenance" expanded="True" />
-              <Node name="UI" expanded="True">
-                <Node name="TopWindow.cs" selected="True" />
-              </Node>
-            </Node>
+            <Node name="CC_LRTR" expanded="True" selected="True" />
+            <Node name="LRTRKCTBinder" expanded="True" />
           </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <DisabledProjects>
+    <String>ClearInputLocks/ClearInputLocks.csproj</String>
+  </DisabledProjects>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x64" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

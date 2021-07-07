@@ -80,37 +80,34 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="ModularFlightIntegrator">
-      <HintPath>..\dlls_110\ModularFlightIntegrator.dll</HintPath>
+      <HintPath>..\dlls_112\ModularFlightIntegrator.dll</HintPath>
     </Reference>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>..\dlls_110\Assembly-CSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>..\dlls_110\Assembly-CSharp-firstpass.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\dlls_110\UnityEngine.CoreModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine">
-      <HintPath>..\dlls_110\UnityEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.AnimationModule">
-      <HintPath>..\dlls_110\UnityEngine.AnimationModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.IMGUIModule">
-      <HintPath>..\dlls_110\UnityEngine.IMGUIModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.PhysicsModule">
-      <HintPath>..\dlls_110\UnityEngine.PhysicsModule.dll</HintPath>
+    <Reference Include="ModuleManager.4.1.4">
+      <HintPath>..\dlls_112\ModuleManager.4.1.4.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TextRenderingModule">
-      <HintPath>..\dlls_110\UnityEngine.TextRenderingModule.dll</HintPath>
+      <HintPath>..\dlls_112\UnityEngine.TextRenderingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>..\dlls_112\UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>..\dlls_112\UnityEngine.IMGUIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\dlls_112\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>..\dlls_110\UnityEngine.UI.dll</HintPath>
+      <HintPath>..\dlls_112\UnityEngine.UI.dll</HintPath>
     </Reference>
-    <Reference Include="ModuleManager.4.1.3">
-      <HintPath>..\dlls_110\ModuleManager.4.1.3.dll</HintPath>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\dlls_112\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AnimationModule">
+      <HintPath>..\dlls_112\UnityEngine.AnimationModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>..\dlls_112\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
