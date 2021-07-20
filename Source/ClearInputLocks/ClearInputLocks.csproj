@@ -41,19 +41,19 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\dlls_110\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\dlls_112\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>..\..\dlls_110\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>..\..\dlls_112\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\..\dlls_110\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\..\dlls_112\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>..\..\dlls_110\UnityEngine.dll</HintPath>
+      <HintPath>..\..\dlls_112\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.InputLegacyModule">
-      <HintPath>..\..\dlls_110\UnityEngine.InputLegacyModule.dll</HintPath>
+      <HintPath>..\..\dlls_112\UnityEngine.InputLegacyModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LRTRKCTBinder", "LRTRKCTBin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CC_LRTR", "CC_LRTR\CC_LRTR.csproj", "{CB4E4485-39C3-4C4A-9C24-CDD85841AA4E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClearInputLocks", "ClearInputLocks\ClearInputLocks.csproj", "{25CFD266-ED2F-47CD-AF33-4365C8D381E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -27,6 +29,10 @@ Global
 		{CB4E4485-39C3-4C4A-9C24-CDD85841AA4E}.Debug|x64.Build.0 = Debug|x64
 		{CB4E4485-39C3-4C4A-9C24-CDD85841AA4E}.Release|x64.ActiveCfg = Release|x64
 		{CB4E4485-39C3-4C4A-9C24-CDD85841AA4E}.Release|x64.Build.0 = Release|x64
+		{25CFD266-ED2F-47CD-AF33-4365C8D381E5}.Debug|x64.ActiveCfg = Debug|x64
+		{25CFD266-ED2F-47CD-AF33-4365C8D381E5}.Debug|x64.Build.0 = Debug|x64
+		{25CFD266-ED2F-47CD-AF33-4365C8D381E5}.Release|x64.ActiveCfg = Release|x64
+		{25CFD266-ED2F-47CD-AF33-4365C8D381E5}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,8 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workbench ActiveDocument="CC_LRTR/ReachMachFactory.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Crew/CourseTemplate.cs">
     <Files>
       <File FileName="ClearInputLocks/Properties/AssemblyInfo.cs" Line="1" Column="1" />
-      <File FileName="ClearInputLocks/ClearInputLocks.cs" />
+      <File FileName="ClearInputLocks/ClearInputLocks.cs" Line="1" Column="1" />
       <File FileName="CareerLog/CareerEvent.cs" />
       <File FileName="CareerLog/CareerEventScope.cs" />
       <File FileName="CareerLog/CareerLog.cs" />
@@ -10,7 +10,7 @@
       <File FileName="Crew/CrewHandler.cs" />
       <File FileName="LoadingScreenChanger.cs" />
       <File FileName="Crew/FSGUI.cs" />
-      <File FileName="UI/UIHolder.cs" />
+      <File FileName="UI/UIHolder.cs" Line="1" Column="1" />
       <File FileName="LRTRConfigs.cs" />
       <File FileName="ModuleManager.cs" />
       <File FileName="CC_LRTR/AcceptContractBehaviour.cs" />
@@ -24,23 +24,31 @@
       <File FileName="Crew/CrewHandlerSettings.cs" />
       <File FileName="Maintenance/MaintenanceGUI.cs" />
       <File FileName="Maintenance/MaintenanceHandler.cs" />
-      <File FileName="UI/TopWindow.cs" />
-      <File FileName="UI/UIBase.cs" />
+      <File FileName="UI/TopWindow.cs" Line="1" Column="1" />
+      <File FileName="UI/UIBase.cs" Line="1" Column="1" />
       <File FileName="KCTBinderModule.cs" />
       <File FileName="ModuleUnpressurizedCockpit.cs" />
       <File FileName="ModuleShowInfo.cs" />
       <File FileName="ModuleRangeSafety.cs" />
       <File FileName="ModuleNonReentryRated.cs" />
-      <File FileName="ModuleNonRecharge.cs" Line="1" Column="1" />
+      <File FileName="ModuleNonRecharge.cs" />
       <File FileName="CC_LRTR/ReachMachFactory.cs" Line="3" Column="36" />
-      <File FileName="CC_LRTR/ReachMachVesselParam.cs" Line="4" Column="36" />
+      <File FileName="CC_LRTR/ReachMachVesselParam.cs" />
+      <File FileName="Utilities/KACWrapper.cs" Line="1" Column="1" />
+      <File FileName="Crew/ActiveCourse.cs" Line="1" Column="1" />
+      <File FileName="Crew/CourseTemplate.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="LRTR" expanded="True">
-            <Node name="CC_LRTR" expanded="True" selected="True" />
-            <Node name="LRTRKCTBinder" expanded="True" />
+            <Node name="LRTR" expanded="True">
+              <Node name="Crew" expanded="True">
+                <Node name="CourseTemplate.cs" selected="True" />
+              </Node>
+              <Node name="UI" expanded="True" />
+              <Node name="Utilities" expanded="True" />
+            </Node>
           </Node>
         </State>
       </Pad>

@@ -145,7 +145,7 @@ namespace LRTR.Crew
                             leaveCourse(currentCourse, student);
                     }
 
-                    if (KACWrapper.APIReady && GUILayout.Button(nautRowAlarmBtnContent, GUILayout.ExpandWidth(false)))
+                    if (GUILayout.Button(nautRowAlarmBtnContent, GUILayout.ExpandWidth(false)))
                     {
                         // CrewHandler processes trainings every 3600 seconds. Need to account for that to set up accurate KAC alarms.
                         double completeUT = currentCourse.CompletionTime();
@@ -153,7 +153,23 @@ namespace LRTR.Crew
                         double timesChRun = Math.Ceiling(timeDiff / CrewHandler.UpdateInterval);
                         double alarmUT = CrewHandler.Instance.NextUpdate + timesChRun * CrewHandler.UpdateInterval;
                         string alarmTxt = $"{currentCourse.name} - {student.name}";
-                        KACWrapper.KAC.CreateAlarm(KACWrapper.KACAPI.AlarmTypeEnum.Crew, alarmTxt, alarmUT);
+                        AlarmTypeRaw alarmToSet = new AlarmTypeRaw
+                        {
+                            title = alarmTxt,
+                            description = alarmTxt,
+                            actions =
+                            {
+                                warp = AlarmActions.WarpEnum.KillWarp,
+                                message = AlarmActions.MessageEnum.Yes
+                            },
+                            ut = alarmUT
+                        };
+                        AlarmClockScenario.AddAlarm(alarmToSet);
+
+                        if (KACWrapper.APIReady)
+                        {
+                            KACWrapper.KAC.CreateAlarm(KACWrapper.KACAPI.AlarmTypeEnum.Crew, alarmTxt, alarmUT);
+                        }
                     }
                 }
             } finally {
