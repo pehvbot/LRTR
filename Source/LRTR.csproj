@@ -82,9 +82,6 @@
     <Reference Include="ModularFlightIntegrator">
       <HintPath>..\dlls_112\ModularFlightIntegrator.dll</HintPath>
     </Reference>
-    <Reference Include="ModuleManager.4.1.4">
-      <HintPath>..\dlls_112\ModuleManager.4.1.4.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine.TextRenderingModule">
       <HintPath>..\dlls_112\UnityEngine.TextRenderingModule.dll</HintPath>
     </Reference>
@@ -108,6 +105,9 @@
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>..\dlls_112\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="ModuleManager.4.2.1">
+      <HintPath>..\dlls_112\ModuleManager.4.2.1.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

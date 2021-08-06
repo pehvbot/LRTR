@@ -1,17 +1,17 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workbench ActiveDocument="Crew/CourseTemplate.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Maintenance/MaintenanceGUI.cs">
     <Files>
       <File FileName="ClearInputLocks/Properties/AssemblyInfo.cs" Line="1" Column="1" />
-      <File FileName="ClearInputLocks/ClearInputLocks.cs" Line="1" Column="1" />
+      <File FileName="ClearInputLocks/ClearInputLocks.cs" />
       <File FileName="CareerLog/CareerEvent.cs" />
       <File FileName="CareerLog/CareerEventScope.cs" />
       <File FileName="CareerLog/CareerLog.cs" />
       <File FileName="CC_LRTR/Properties/AssemblyInfo.cs" />
-      <File FileName="Crew/CrewHandler.cs" />
+      <File FileName="Crew/CrewHandler.cs" Line="627" Column="109" />
       <File FileName="LoadingScreenChanger.cs" />
       <File FileName="Crew/FSGUI.cs" />
-      <File FileName="UI/UIHolder.cs" Line="1" Column="1" />
-      <File FileName="LRTRConfigs.cs" />
+      <File FileName="UI/UIHolder.cs" />
+      <File FileName="LRTRConfigs.cs" Line="1" Column="1" />
       <File FileName="ModuleManager.cs" />
       <File FileName="CC_LRTR/AcceptContractBehaviour.cs" />
       <File FileName="CC_LRTR/AcceptContractBehaviourFactory.cs" />
@@ -20,34 +20,42 @@
       <File FileName="CC_LRTR/DownrangeDistanceVesselParam.cs" />
       <File FileName="CC_LRTR/ImpactCBFactory.cs" />
       <File FileName="CC_LRTR/ImpactCBParam.cs" />
-      <File FileName="DifficultyPresets.cs" />
+      <File FileName="DifficultyPresets.cs" Line="64" Column="97" />
       <File FileName="Crew/CrewHandlerSettings.cs" />
-      <File FileName="Maintenance/MaintenanceGUI.cs" />
-      <File FileName="Maintenance/MaintenanceHandler.cs" />
-      <File FileName="UI/TopWindow.cs" Line="1" Column="1" />
-      <File FileName="UI/UIBase.cs" Line="1" Column="1" />
+      <File FileName="Maintenance/MaintenanceGUI.cs" Line="24" Column="104" />
+      <File FileName="Maintenance/MaintenanceHandler.cs" Line="203" Column="18" />
+      <File FileName="UI/TopWindow.cs" />
+      <File FileName="UI/UIBase.cs" />
       <File FileName="KCTBinderModule.cs" />
       <File FileName="ModuleUnpressurizedCockpit.cs" />
       <File FileName="ModuleShowInfo.cs" />
       <File FileName="ModuleRangeSafety.cs" />
       <File FileName="ModuleNonReentryRated.cs" />
       <File FileName="ModuleNonRecharge.cs" />
-      <File FileName="CC_LRTR/ReachMachFactory.cs" Line="3" Column="36" />
+      <File FileName="CC_LRTR/ReachMachFactory.cs" />
       <File FileName="CC_LRTR/ReachMachVesselParam.cs" />
-      <File FileName="Utilities/KACWrapper.cs" Line="1" Column="1" />
+      <File FileName="Utilities/KACWrapper.cs" />
       <File FileName="Crew/ActiveCourse.cs" Line="1" Column="1" />
-      <File FileName="Crew/CourseTemplate.cs" Line="1" Column="1" />
+      <File FileName="Crew/CourseTemplate.cs" />
+      <File FileName="ModuleNoEVA.cs" />
+      <File FileName="Maintenance/MaintenanceSettings.cs" Line="25" Column="38" />
+      <File FileName="Utilities/MathUtils.cs" Line="1" Column="1" />
+      <File FileName="Crew/TrainingDatabase.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="LRTR" expanded="True">
+            <Node name="CC_LRTR" expanded="True" />
             <Node name="LRTR" expanded="True">
-              <Node name="Crew" expanded="True">
-                <Node name="CourseTemplate.cs" selected="True" />
+              <Node name="Crew" expanded="True" />
+              <Node name="Maintenance" expanded="True">
+                <Node name="MaintenanceGUI.cs" selected="True" />
               </Node>
-              <Node name="UI" expanded="True" />
               <Node name="Utilities" expanded="True" />
+            </Node>
+            <Node name="LRTRKCTBinder" expanded="True">
+              <Node name="References" expanded="True" />
             </Node>
           </Node>
         </State>

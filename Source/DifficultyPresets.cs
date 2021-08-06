@@ -58,6 +58,12 @@ namespace LRTR
         [GameParameters.CustomParameterUI("Enable career progress logging")]
         public bool CareerLogEnabled = true;
 
+        [GameParameters.CustomIntParameterUI("Hours per day", minValue = 6, maxValue = 24, stepSize = 6)]
+        public int DayLength = 24;
+
+        [GameParameters.CustomFloatParameterUI("Days per year", minValue = 365f, maxValue = 426f, displayFormat = "N0")]
+        public float YearLength = 365f;
+
         public override void SetDifficultyPreset(GameParameters.Preset preset)
         {
             switch (preset)

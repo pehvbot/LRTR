@@ -464,12 +464,14 @@ namespace LRTR.Crew
 
                 double acMult = ScenarioUpgradeableFacilities.GetFacilityLevel(SpaceCenterFacility.AstronautComplex) + 1;
                 Debug.Log("[LRTR]  AC multiplier: " + acMult);
+                int hoursPerDay = HighLogic.CurrentGame.Parameters.CustomParams<LRTRSettings>().DayLength;
 
                 if (KerbalRetireTimes.TryGetValue(pcm.name, out double retTime))
                 {
+
                     double stupidityPenalty = UtilMath.Lerp(Settings.retireOffsetStupidMin, Settings.retireOffsetStupidMax, pcm.stupidity);
                     Debug.Log($"[LRTR]  stupidityPenalty for {pcm.stupidity}: {stupidityPenalty}");
-                    double retireOffset = retirementMult * 86400 * Settings.retireOffsetBaseMult / stupidityPenalty;
+                    double retireOffset = retirementMult * hoursPerDay * 3600d * Settings.retireOffsetBaseMult / stupidityPenalty;
 
                     if (retireOffset > 0)
                     {
@@ -493,10 +495,10 @@ namespace LRTR.Crew
                 }
 
                 inactivityMult = Math.Max(1, inactivityMult);
-                double elapsedTimeDays = elapsedTime / 86400;
+                double elapsedTimeDays = elapsedTime / (hoursPerDay * 3600d);
                 double inactiveTimeDays = Math.Pow(Math.Max(Settings.inactivityMinFlightDurationDays, elapsedTimeDays), Settings.inactivityFlightDurationExponent) *
                                           Math.Min(Settings.inactivityMaxSituationMult, inactivityMult) / acMult;
-                double inactiveTime = inactiveTimeDays * 86400;
+                double inactiveTime = inactiveTimeDays * hoursPerDay * 3600d;
                 Debug.Log("[LRTR] inactive for: " + KSPUtil.PrintDateDeltaCompact(inactiveTime, true, false));
 
                 pcm.SetInactive(inactiveTime, false);
@@ -621,8 +623,10 @@ namespace LRTR.Crew
                 sb.Append("Earliest crew retirement dates:");
                 foreach (string s in newHires)
                     sb.Append($"\n{s}, {KSPUtil.PrintDate(KerbalRetireTimes[s], false)}");
+                int hoursPerDay = HighLogic.CurrentGame.Parameters.CustomParams<LRTRSettings>().DayLength;
+                float daysPerYear = HighLogic.CurrentGame.Parameters.CustomParams<LRTRSettings>().YearLength;
 
-                sb.Append($"\n\nInteresting flights will delay retirement up to an additional {Math.Round(Settings.retireIncreaseCap / 31536000)} years.");
+                sb.Append($"\n\nInteresting flights will delay retirement up to an additional {Math.Round(Settings.retireIncreaseCap / (3600d * hoursPerDay * daysPerYear))} years.");
                 PopupDialog.SpawnPopupDialog(new Vector2(0.5f, 0.5f),
                                              new Vector2(0.5f, 0.5f),
                                              "InitialRetirementDateNotification",
@@ -751,7 +755,9 @@ namespace LRTR.Crew
 
         private double GetServiceTime(ProtoCrewMember pcm)
         {
-            return 86400d * 365d * 
+            int hoursPerDay = HighLogic.CurrentGame.Parameters.CustomParams<LRTRSettings>().DayLength;
+            float daysPerYear = HighLogic.CurrentGame.Parameters.CustomParams<LRTRSettings>().YearLength;
+            return hoursPerDay * 3600d * daysPerYear * 
                 (Settings.retireBaseYears + Settings.retireVeteranYears +
                  UtilMath.Lerp(Settings.retireCourageMin, Settings.retireCourageMax, pcm.courage) + 
                  UtilMath.Lerp(Settings.retireStupidMin, Settings.retireStupidMax, pcm.stupidity));
@@ -928,10 +934,11 @@ namespace LRTR.Crew
         {
             var n = new ConfigNode("FS_COURSE");
             string name = TrainingDatabase.SynonymReplace(ap.name);
+            int hoursPerDay = HighLogic.CurrentGame.Parameters.CustomParams<LRTRSettings>().DayLength;
 
             n.AddValue("id", "prof_" + name);
             n.AddValue("name", "Proficiency: " + name);
-            n.AddValue("time", 1d + (TrainingDatabase.GetTime(name) * 86400));
+            n.AddValue("time", 1d + (TrainingDatabase.GetTime(name) * 3600f * hoursPerDay));
             n.AddValue("isTemporary", isTemporary);
             n.AddValue("conflicts", "TRAINING_proficiency:" + name);
 
@@ -949,14 +956,15 @@ namespace LRTR.Crew
         {
             var n = new ConfigNode("FS_COURSE");
             string name = TrainingDatabase.SynonymReplace(ap.name);
+            int hoursPerDay = HighLogic.CurrentGame.Parameters.CustomParams<LRTRSettings>().DayLength;
 
             n.AddValue("id", "msn_" + name);
             n.AddValue("name", "Mission: " + name);
-            n.AddValue("time", 1 + TrainingDatabase.GetTime(name + "-Mission") * 86400);
+            n.AddValue("time", 1 + TrainingDatabase.GetTime(name + "-Mission") * 3600d * hoursPerDay);
             n.AddValue("isTemporary", false);
             n.AddValue("timeUseStupid", true);
             n.AddValue("seatMax", ap.partPrefab.CrewCapacity * 2);
-            n.AddValue("expiration", Settings.trainingMissionExpirationDays * 86400);
+            n.AddValue("expiration", Settings.trainingMissionExpirationDays * 3600d * hoursPerDay);
             n.AddValue("preReqs", "TRAINING_proficiency:" + name);
 
             ConfigNode r = n.AddNode("REWARD");

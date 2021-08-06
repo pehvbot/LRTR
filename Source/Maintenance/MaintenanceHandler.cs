@@ -200,7 +200,9 @@ namespace LRTR
             nautBaseUpkeep = 0d;
             nautInFlightUpkeep = 0d;
             nautTotalUpkeep = 0d;
-            double perNaut = nautYearlyUpkeep * (1d / 365d);
+            float daysPerYear = HighLogic.CurrentGame.Parameters.CustomParams<LRTRSettings>().YearLength;
+
+            double perNaut = nautYearlyUpkeep * (1d / daysPerYear);
             int nautCount = 0;
             for (int i = HighLogic.CurrentGame.CrewRoster.Count; i-- > 0;)
             {
@@ -232,8 +234,9 @@ namespace LRTR
 
             nautBaseUpkeep += nautCount * perNaut;
             nautTotalUpkeep = nautBaseUpkeep + trainingUpkeep + nautInFlightUpkeep;
+            int hoursPerDay = HighLogic.CurrentGame.Parameters.CustomParams<LRTRSettings>().DayLength;
 
-            researchUpkeep = maintenanceCostMult * kctResearchRate * settings.kctResearchMult;
+            researchUpkeep = maintenanceCostMult * kctResearchRate * settings.kctResearchMult * 3600d * hoursPerDay;
 
             totalUpkeep = facilityUpkeep + integrationUpkeep + researchUpkeep + nautTotalUpkeep;
         }
@@ -275,10 +278,11 @@ namespace LRTR
             UpdateUpkeep();
 
             double timePassed = time - lastUpdate;
+            int hoursPerDay = HighLogic.CurrentGame.Parameters.CustomParams<LRTRSettings>().DayLength;
 
             using (new CareerEventScope(CareerEventType.Maintenance))
             {
-                double cost = -timePassed * ((totalUpkeep + settings.maintenanceOffset) * (1d / 86400d));
+                double cost = -timePassed * ((totalUpkeep + settings.maintenanceOffset) * (1d / (hoursPerDay * 3600d)));
                 Debug.Log($"[LRTR] MaintenanceHandler removing {cost} funds");
                 Funding.Instance.AddFunds(cost, TransactionReasons.StructureRepair);
             }
@@ -294,7 +298,7 @@ namespace LRTR
             {
                 wasWarpingHigh = true;
                 // Scale the update interval up with timewarp but don't allow longer than 1 day steps
-                nextUpdate = time + Math.Min(3600 * 24, updateInterval * TimeWarp.CurrentRate / 100f);
+                nextUpdate = time + Math.Min(3600 * hoursPerDay, updateInterval * TimeWarp.CurrentRate / 100f);
             }
         }
 

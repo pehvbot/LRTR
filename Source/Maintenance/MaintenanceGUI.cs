@@ -21,7 +21,7 @@ namespace LRTR
                     case per.MONTH:
                         return 30d;
                     case per.YEAR:
-                        return 365d;
+                        return HighLogic.CurrentGame.Parameters.CustomParams<LRTRSettings>().YearLength;
                     default: // can't happen
                         return 0d;
                 }
