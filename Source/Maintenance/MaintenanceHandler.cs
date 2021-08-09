@@ -21,6 +21,9 @@ namespace LRTR
         protected double updateInterval = 3600d;
         protected double maintenanceCostMult = 1d;
 
+        private static int hoursPerDay = 24;
+        private static int daysPerYear = 365;
+
         protected bool wasWarpingHigh = false;
 
         protected static bool firstLoad = true;
@@ -109,6 +112,27 @@ namespace LRTR
         public override void OnLoad(ConfigNode node)
         {
             base.OnLoad(node);
+
+            ConfigNode paramsNode = null;
+
+            foreach (ConfigNode lrtrConfig in GameDatabase.Instance.GetConfigNodes("LRTRCONFIG"))
+                paramsNode = lrtrConfig;
+
+            if (paramsNode == null)
+            {
+                Debug.LogError("[LRTRCONFIG] Could not find LRTRCONFIG node.");
+                return;
+            }
+
+            if (paramsNode.GetValue("hoursPerDay") != null)
+            {
+                hoursPerDay = Convert.ToInt32(paramsNode.GetValue("hoursPerDay"));
+            }
+
+            if (paramsNode.GetValue("daysPerYear") != null)
+            {
+                daysPerYear = Convert.ToInt32(paramsNode.GetValue("daysPerYear"));
+            }
 
             foreach (ConfigNode n in GameDatabase.Instance.GetConfigNodes("MAINTENANCESETTINGS"))
                 settings.Load(n);
@@ -200,7 +224,6 @@ namespace LRTR
             nautBaseUpkeep = 0d;
             nautInFlightUpkeep = 0d;
             nautTotalUpkeep = 0d;
-            float daysPerYear = HighLogic.CurrentGame.Parameters.CustomParams<LRTRSettings>().YearLength;
 
             double perNaut = nautYearlyUpkeep * (1d / daysPerYear);
             int nautCount = 0;
@@ -234,7 +257,6 @@ namespace LRTR
 
             nautBaseUpkeep += nautCount * perNaut;
             nautTotalUpkeep = nautBaseUpkeep + trainingUpkeep + nautInFlightUpkeep;
-            int hoursPerDay = HighLogic.CurrentGame.Parameters.CustomParams<LRTRSettings>().DayLength;
 
             researchUpkeep = maintenanceCostMult * kctResearchRate * settings.kctResearchMult * 3600d * hoursPerDay;
 
@@ -278,7 +300,6 @@ namespace LRTR
             UpdateUpkeep();
 
             double timePassed = time - lastUpdate;
-            int hoursPerDay = HighLogic.CurrentGame.Parameters.CustomParams<LRTRSettings>().DayLength;
 
             using (new CareerEventScope(CareerEventType.Maintenance))
             {

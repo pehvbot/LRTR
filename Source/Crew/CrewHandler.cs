@@ -16,7 +16,10 @@ namespace LRTR.Crew
         public const string Situation_FlightHigh = "Flight-High";
         public const double UpdateInterval = 3600;
         public const int FlightLogUpdateInterval = 50;
-        public const int KarmanAltitude = 100000;
+
+        private static int KarmanAltitude = 100000;
+        private static int hoursPerDay = 24;
+        private static int daysPerYear = 365;
 
         public static CrewHandler Instance { get; private set; } = null;
         public static CrewHandlerSettings Settings { get; private set; } = null;
@@ -78,6 +81,32 @@ namespace LRTR.Crew
         public override void OnLoad(ConfigNode node)
         {
             base.OnLoad(node);
+
+            ConfigNode paramsNode = null;
+
+            foreach (ConfigNode lrtrConfig in GameDatabase.Instance.GetConfigNodes("LRTRCONFIG"))
+                paramsNode = lrtrConfig;
+
+            if (paramsNode == null)
+            {
+                Debug.LogError("[LRTRCONFIG] Could not find LRTRCONFIG node.");
+                return;
+            }
+
+            if (paramsNode.GetValue("KarmanAltitude") != null)
+            {
+                KarmanAltitude = Convert.ToInt32(paramsNode.GetValue("KarmanAltitude"));
+            }
+            if (paramsNode.GetValue("hoursPerDay") != null)
+            {
+                hoursPerDay = Convert.ToInt32(paramsNode.GetValue("hoursPerDay"));
+            }
+
+            if (paramsNode.GetValue("daysPerYear") != null)
+            {
+                daysPerYear = Convert.ToInt32(paramsNode.GetValue("daysPerYear"));
+            }
+
 
             if (Settings == null)
             {
@@ -464,7 +493,6 @@ namespace LRTR.Crew
 
                 double acMult = ScenarioUpgradeableFacilities.GetFacilityLevel(SpaceCenterFacility.AstronautComplex) + 1;
                 Debug.Log("[LRTR]  AC multiplier: " + acMult);
-                int hoursPerDay = HighLogic.CurrentGame.Parameters.CustomParams<LRTRSettings>().DayLength;
 
                 if (KerbalRetireTimes.TryGetValue(pcm.name, out double retTime))
                 {
@@ -623,9 +651,7 @@ namespace LRTR.Crew
                 sb.Append("Earliest crew retirement dates:");
                 foreach (string s in newHires)
                     sb.Append($"\n{s}, {KSPUtil.PrintDate(KerbalRetireTimes[s], false)}");
-                int hoursPerDay = HighLogic.CurrentGame.Parameters.CustomParams<LRTRSettings>().DayLength;
-                float daysPerYear = HighLogic.CurrentGame.Parameters.CustomParams<LRTRSettings>().YearLength;
-
+   
                 sb.Append($"\n\nInteresting flights will delay retirement up to an additional {Math.Round(Settings.retireIncreaseCap / (3600d * hoursPerDay * daysPerYear))} years.");
                 PopupDialog.SpawnPopupDialog(new Vector2(0.5f, 0.5f),
                                              new Vector2(0.5f, 0.5f),
@@ -755,8 +781,6 @@ namespace LRTR.Crew
 
         private double GetServiceTime(ProtoCrewMember pcm)
         {
-            int hoursPerDay = HighLogic.CurrentGame.Parameters.CustomParams<LRTRSettings>().DayLength;
-            float daysPerYear = HighLogic.CurrentGame.Parameters.CustomParams<LRTRSettings>().YearLength;
             return hoursPerDay * 3600d * daysPerYear * 
                 (Settings.retireBaseYears + Settings.retireVeteranYears +
                  UtilMath.Lerp(Settings.retireCourageMin, Settings.retireCourageMax, pcm.courage) + 
@@ -934,7 +958,6 @@ namespace LRTR.Crew
         {
             var n = new ConfigNode("FS_COURSE");
             string name = TrainingDatabase.SynonymReplace(ap.name);
-            int hoursPerDay = HighLogic.CurrentGame.Parameters.CustomParams<LRTRSettings>().DayLength;
 
             n.AddValue("id", "prof_" + name);
             n.AddValue("name", "Proficiency: " + name);
@@ -956,7 +979,6 @@ namespace LRTR.Crew
         {
             var n = new ConfigNode("FS_COURSE");
             string name = TrainingDatabase.SynonymReplace(ap.name);
-            int hoursPerDay = HighLogic.CurrentGame.Parameters.CustomParams<LRTRSettings>().DayLength;
 
             n.AddValue("id", "msn_" + name);
             n.AddValue("name", "Mission: " + name);

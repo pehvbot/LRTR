@@ -7,6 +7,8 @@ namespace LRTR
     {
         private Vector2 nautListScroll = new Vector2();
 
+        private double daysPerYear = 365;
+       
         private enum per { DAY, MONTH, YEAR };
         private per displayPer = per.YEAR;
 
@@ -21,7 +23,7 @@ namespace LRTR
                     case per.MONTH:
                         return 30d;
                     case per.YEAR:
-                        return HighLogic.CurrentGame.Parameters.CustomParams<LRTRSettings>().YearLength;
+                        return daysPerYear;
                     default: // can't happen
                         return 0d;
                 }
@@ -32,6 +34,22 @@ namespace LRTR
 
         private void perSelector()
         {
+            ConfigNode paramsNode = null;
+
+            foreach (ConfigNode lrtrConfig in GameDatabase.Instance.GetConfigNodes("LRTRCONFIG"))
+                paramsNode = lrtrConfig;
+
+            if (paramsNode == null)
+            {
+                Debug.LogError("[LRTRCONFIG] Could not find LRTRCONFIG node.");
+                return;
+            }
+
+            if (paramsNode.GetValue("daysPerYear") != null)
+            {
+                daysPerYear = Convert.ToDouble(paramsNode.GetValue("daysPerYear"));
+            }
+
             GUILayout.BeginHorizontal();
             try {
                 if (toggleButton("Day", displayPer == per.DAY))
