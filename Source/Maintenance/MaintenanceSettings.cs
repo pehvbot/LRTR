@@ -22,7 +22,7 @@ namespace LRTR
         public double kctBPMult = 20d;
 
         [Persistent]
-        public double kctResearchMult = 100d;
+        public double kctResearchMult = 2160000d;
 
         [Persistent]
         public double nautYearlyUpkeepAdd = 5000d;

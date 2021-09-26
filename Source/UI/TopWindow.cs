@@ -1,99 +1,193 @@
-﻿using System;
+﻿using ClickThroughFix;
+using System;
 using UnityEngine;
-using KSP.UI.Screens;
 
 namespace LRTR
 {
     public class TopWindow : UIBase
     {
-        // GUI
-        static Rect windowPos = new Rect(500, 240, 0, 0);
-        private MaintenanceGUI maintUI = new MaintenanceGUI();
-        private Crew.FSGUI fsUI = new LRTR.Crew.FSGUI();
-        private CareerLogGUI logUI = new CareerLogGUI();
-        private static Tabs currentTab;
+        private const float TooltipMaxWidth = 200f;
+        private const double TooltipShowDelay = 500;
+
+        private static Rect _windowPos = new Rect(500, 240, 0, 0);
+        private static readonly int _mainWindowId = "LRTRTop".GetHashCode();
+        private static readonly int _tooltipWindowId = "LRTRTooltip".GetHashCode();
+        private static UITab _currentTab;
+        private static bool _shouldResetUISize;
+
+        private Rect _tooltipRect;
+        private GUIStyle _tooltipStyle;
+        private DateTime _tooltipBeginDt;
+        private string _tooltipText = string.Empty;
+        private bool _isTooltipChanged;
+
+        private readonly MaintenanceGUI _maintUI = new MaintenanceGUI();
+        private readonly Crew.FSGUI _fsUI = new Crew.FSGUI();
+        private readonly CareerLogGUI _logUI = new CareerLogGUI();
 
         public TopWindow()
         {
             // Reset the tab on scene changes
-            currentTab = default(Tabs);
+            _currentTab = HighLogic.LoadedSceneIsEditor ? UITab.Maintenance : default;
+            _shouldResetUISize = true;
         }
 
         public void OnGUI()
         {
-            windowPos = GUILayout.Window("RP0Top".GetHashCode(), windowPos, DrawWindow, "RP-1");
+            if (_shouldResetUISize && Event.current.type == EventType.Layout)
+            {
+                _windowPos.width = 0;
+                _windowPos.height = 0;
+                _shouldResetUISize = false;
+            }
+            _windowPos = ClickThruBlocker.GUILayoutWindow(_mainWindowId, _windowPos, DrawWindow, "LRTR", HighLogic.Skin.window);
+            ShowTooltip();
         }
 
-        public static void SwitchTabTo(Tabs newTab)
+        protected override void OnStart()
         {
-            currentTab = newTab;
+            _maintUI.Start();
+            _fsUI.Start();
+            _logUI.Start();
         }
 
-        private void tabSelector()
+        public static void SwitchTabTo(UITab newTab)
+        {
+            if (newTab == _currentTab)
+                return;
+            _currentTab = newTab;
+            _shouldResetUISize = true;
+        }
+
+        private void UpdateSelectedTab()
         {
             GUILayout.BeginHorizontal();
-            try {
-                if (showTab(Tabs.Maintenance) && toggleButton("Maintenance", currentTab == Tabs.Maintenance))
-                    currentTab = Tabs.Maintenance;
-                if (showTab(Tabs.Training) && toggleButton("Astronauts", currentTab == Tabs.Training))
-                    currentTab = Tabs.Training;
-                if (showTab(Tabs.Courses) && toggleButton("Courses", currentTab == Tabs.Courses))
-                    currentTab = Tabs.Courses;
-                if (showTab(Tabs.CareerLog) && toggleButton("Career Log", currentTab == Tabs.CareerLog))
-                    currentTab = Tabs.CareerLog;
-            } finally {
-                GUILayout.EndHorizontal();
-            }
+            if (ShouldShowTab(UITab.Maintenance) && RenderToggleButton("Maintenance", _currentTab == UITab.Maintenance))
+                SwitchTabTo(UITab.Maintenance);
+            if (ShouldShowTab(UITab.Training) && RenderToggleButton("Astronauts", _currentTab == UITab.Training))
+                SwitchTabTo(UITab.Training);
+            if (ShouldShowTab(UITab.Courses) && RenderToggleButton("Courses", _currentTab == UITab.Courses))
+                SwitchTabTo(UITab.Courses);
+             if (ShouldShowTab(UITab.CareerLog) && RenderToggleButton("Career Log", _currentTab == UITab.CareerLog))
+                SwitchTabTo(UITab.CareerLog);
+            GUILayout.EndHorizontal();
         }
 
         public void DrawWindow(int windowID)
         {
-            try {
-                GUILayout.BeginVertical();
-                try {
-                    /* If totalUpkeep is zero, we probably haven't calculated the upkeeps yet, so recalculate now */
-                    if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER && MaintenanceHandler.Instance.totalUpkeep == 0d)
-                        MaintenanceHandler.Instance.UpdateUpkeep();
+            GUILayout.BeginVertical();
+            try
+            {
+                // If TotalUpkeep is zero, we probably haven't calculated the upkeeps yet, so recalculate now
+                if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER && MaintenanceHandler.Instance.TotalUpkeep == 0)
+                    MaintenanceHandler.Instance?.UpdateUpkeep();
 
-                    tabSelector();
-                    if (showTab(currentTab)) {
-                        switch (currentTab) {
-                        case Tabs.Maintenance:
-                            maintUI.summaryTab();
+                UpdateSelectedTab();
+                if (ShouldShowTab(_currentTab))
+                {
+                    switch (_currentTab)
+                    {
+                        case UITab.Maintenance:
+                            _maintUI.RenderSummaryTab();
                             break;
-                        case Tabs.Facilities:
-                            maintUI.facilitiesTab();
+                        case UITab.Facilities:
+                            _maintUI.RenderFacilitiesTab();
                             break;
-                        case Tabs.Astronauts:
-                            maintUI.astronautsTab();
+                        case UITab.Integration:
+                            _maintUI.RenderIntegrationTab();
                             break;
-                        case Tabs.Training:
-                            currentTab = fsUI.summaryTab();
+                        case UITab.Astronauts:
+                            _maintUI.RenderAstronautsTab();
                             break;
-                        case Tabs.Courses:
-                            currentTab = fsUI.coursesTab();
+                        case UITab.Training:
+                            SwitchTabTo(_fsUI.RenderSummaryTab());
                             break;
-                        case Tabs.NewCourse:
-                            currentTab = fsUI.newCourseTab();
+                        case UITab.Courses:
+                            SwitchTabTo(_fsUI.RenderCoursesTab());
                             break;
-                        case Tabs.Naut:
-                            fsUI.nautTab();
+                        case UITab.NewCourse:
+                            SwitchTabTo(_fsUI.RenderNewCourseTab());
                             break;
-                        case Tabs.CareerLog:
-                            logUI.RenderTab();
+                        case UITab.Naut:
+                            _fsUI.RenderNautTab();
                             break;
-                        default: // can't happen
+                        case UITab.CareerLog:
+                            _logUI.RenderTab();
                             break;
-                        }
+                        default:    // can't happen
+                            break;
                     }
-                } finally {
-                    GUILayout.FlexibleSpace();
-                    GUILayout.EndVertical();
                 }
-            } finally {
-                GUI.DragWindow();
             }
+            catch (Exception ex)
+            {
+                Debug.LogException(ex);
+            }
+
+            GUILayout.FlexibleSpace();
+            GUILayout.EndVertical();
+            GUI.DragWindow();
+
+            RecordTooltip();
+        }
+
+        protected void RecordTooltip()
+        {
+            if (Event.current.type == EventType.Repaint && _tooltipText != GUI.tooltip)
+            {
+                _isTooltipChanged = true;
+                if (!string.IsNullOrEmpty(_tooltipText))
+                {
+                    _tooltipBeginDt = DateTime.UtcNow;
+                }
+                _tooltipText = GUI.tooltip;
+            }
+        }
+
+        protected void ShowTooltip()
+        {
+            if (!string.IsNullOrEmpty(_tooltipText) &&
+                (DateTime.UtcNow - _tooltipBeginDt).TotalMilliseconds > TooltipShowDelay)
+            {
+                if (_isTooltipChanged)
+                {
+                    var c = new GUIContent(_tooltipText);
+                    GetTooltipStyle().CalcMinMaxWidth(c, out _, out float width);
+
+                    width = Math.Min(width, TooltipMaxWidth);
+                    float height = GetTooltipStyle().CalcHeight(c, TooltipMaxWidth);
+                    _tooltipRect = new Rect(
+                        Input.mousePosition.x + 15,
+                        Screen.height - Input.mousePosition.y + 10,
+                        width, height);
+                    _isTooltipChanged = false;
+                }
+
+                GUI.Window(
+                    _tooltipWindowId,
+                    _tooltipRect,
+                    (_) => { },
+                    _tooltipText,
+                    GetTooltipStyle());
+                GUI.BringWindowToFront(_tooltipWindowId);
+            }
+        }
+
+        protected GUIStyle GetTooltipStyle()
+        {
+            if (_tooltipStyle == null)
+            {
+                Texture2D backTex = new Texture2D(1, 1, TextureFormat.ARGB32, false);
+                backTex.SetPixel(0, 0, new Color(0.5f, 0.5f, 0.5f));
+                backTex.Apply();
+
+                _tooltipStyle = new GUIStyle(HighLogic.Skin.label);
+                _tooltipStyle.normal.background = backTex;
+                _tooltipStyle.normal.textColor = new Color32(224, 224, 224, 255);
+                _tooltipStyle.padding = new RectOffset(3, 3, 3, 3);
+                _tooltipStyle.alignment = TextAnchor.MiddleCenter;
+            }
+            return _tooltipStyle;
         }
     }
 }
-

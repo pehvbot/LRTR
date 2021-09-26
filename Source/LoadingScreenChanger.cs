@@ -9,7 +9,7 @@ namespace LRTR
     [KSPAddon(KSPAddon.Startup.Instantly, true)]
     class LoadingScreenChanger : MonoBehaviour
     {
-        public const string TipFilePath = @"GameData/LRTR/pluginData/LoadingScreenTips.txt";
+        public const string TipFilePath = @"GameData/LRTR/loading/LoadingScreenTips.txt";
         protected bool done = false;
 
         protected void Awake()
@@ -44,7 +44,7 @@ namespace LRTR
 
                 List<Texture2D> textures = new List<Texture2D>();
 
-                DirectoryInfo di = new DirectoryInfo(KSPUtil.ApplicationRootPath + "GameData/LRTR/pluginData/Screens");
+                DirectoryInfo di = new DirectoryInfo(KSPUtil.ApplicationRootPath + "GameData/LRTR/loading/Screens");
                 foreach (FileInfo fi in di.GetFiles())
                 {
                     if (fi.FullName.ToLowerInvariant().EndsWith(".dds"))
@@ -82,7 +82,7 @@ namespace LRTR
                 }
                 else
                 {
-                    Debug.LogError("[LRTR]: No screens found in LRTR/LRRealProgression/PluginData/Screens!");
+                    Debug.LogError("[LRTR]: No screens found in LRTR/loading/Screens!");
                 }
             }
             catch (Exception e)

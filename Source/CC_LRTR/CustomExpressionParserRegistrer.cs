@@ -10,6 +10,8 @@ namespace ContractConfigurator.LRTR
     /// Used for registering some custom CC functions specific to LRTR.
     /// Needs to inherit from BaseParser just to have access to the protected static RegisterGlobalFunction() method.
     /// </summary>
+    ///
+
     public class CustomExpressionParserRegistrer : BaseParser, IExpressionParserRegistrer
     {
         public override MethodInfo methodParseStatementInner => throw new NotImplementedException();
@@ -26,9 +28,17 @@ namespace ContractConfigurator.LRTR
 
         public override MethodInfo method_ConvertType => throw new NotImplementedException();
 
+        public static LRTRHomeWorldParameters Config { get; private set; } = null;
+
         static CustomExpressionParserRegistrer()
         {
             RegisterMethods();
+            if (Config == null)
+            {
+                Config = new LRTRHomeWorldParameters();
+                foreach (ConfigNode stg in GameDatabase.Instance.GetConfigNodes("HOMEWORLDPARAMETERS"))
+                    Config.Load(stg);
+            }
         }
 
         public override void ExecuteAndStoreExpression(string key, string expression, DataNode dataNode)
@@ -50,51 +60,51 @@ namespace ContractConfigurator.LRTR
         {
             Debug.Log("[LRTR] CustomExpressionParserRegistrer registering methods");
             RegisterGlobalFunction(new Function<float>("LRTRDeadlineMult", GetDeadlineMult, false));
-            RegisterGlobalFunction(new Function<float>("LRTRDayInSeconds", GetDayInSeconds, false));
-            RegisterGlobalFunction(new Function<float>("LRTRYearInDays", GetYearInDays, false));
+            RegisterGlobalFunction(new Function<bool>("LRTRYesPlanes", GetPlaneContractsEnabled, false));
+            RegisterGlobalFunction(new Function<float>("LRTRDaysPerYear", GetDaysPerYear, false));
+            RegisterGlobalFunction(new Function<float>("LRTRHoursPerDay", GetHoursPerDay, false));
+            RegisterGlobalFunction(new Function<float>("LRTRKarmanLine", GetKarmanLine, false));
         }
 
         private static float GetDeadlineMult()
         {
             return HighLogic.CurrentGame?.Parameters.CustomParams<LRTRSettings>()?.ContractDeadlineMult ?? 1;
         }
-        private static float GetDayInSeconds()
+
+        private static bool GetPlaneContractsEnabled()
         {
-            ConfigNode paramsNode = null;
-
-            foreach (ConfigNode lrtrConfig in GameDatabase.Instance.GetConfigNodes("LRTRCONFIG"))
-                paramsNode = lrtrConfig;
-
-            if (paramsNode == null)
-            {
-                Debug.LogError("[LRTRCONFIG] Could not find LRTRCONFIG node.");
-                return 86400;
-            }
-
-            if (paramsNode.GetValue("hoursPerDay") != null)
-            {
-                return float.Parse(paramsNode.GetValue("hoursPerDay")) * 3600;
-            }
-            return 86400;
+            return HighLogic.CurrentGame?.Parameters.CustomParams<LRTRSettings>()?.PlaneContractsEnabled ?? true;
         }
-        private static float GetYearInDays()
+
+        private static float GetDaysPerYear()
         {
-            ConfigNode paramsNode = null;
+            return (float)Config.daysPerYear;
+        }
 
-            foreach (ConfigNode lrtrConfig in GameDatabase.Instance.GetConfigNodes("LRTRCONFIG"))
-                paramsNode = lrtrConfig;
+        private static float GetHoursPerDay()
+        {
+            return (float)Config.hoursPerDay;
+        }
 
-            if (paramsNode == null)
+        private static float GetKarmanLine()
+        {
+            return (float)Config.karmanAltitude;
+        }
+
+        private static bool WithdrawContract(string contractName)
+        {
+            if (ContractPreLoader.Instance == null) return false;
+            foreach (ConfiguredContract cc in ContractPreLoader.Instance.PendingContracts())
             {
-                //Debug.LogError("[LRTRCONFIG] Could not find LRTRCONFIG node.");
-                return 365;
+                string name = cc?.contractType?.name;
+                if (name == contractName)
+                {
+                    cc.Withdraw();
+                    return true;
+                }
             }
 
-            if (paramsNode.GetValue("daysPerYear") != null)
-            {
-                return float.Parse(paramsNode.GetValue("daysPerYear"));
-            }
-            return 365;
+            return false;
         }
     }
 }

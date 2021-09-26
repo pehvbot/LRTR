@@ -48,6 +48,9 @@ namespace LRTR
         [Persistent]
         public int RnDUpgrades;
 
+        [Persistent]
+        public double FundsGainMult;
+
         public LogPeriod()
         {
         }

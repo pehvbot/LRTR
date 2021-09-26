@@ -6,16 +6,13 @@ namespace LRTR.Crew
     public class CrewHandlerSettings : IConfigNode
     {
         [Persistent]
-        public double retireOffsetBaseMult = 100, retireOffsetFlightNumPow = 1.5, retireOffsetStupidMin = 1.4, retireOffsetStupidMax = 0.8, retireIncreaseCap = 473040000;
+        public double retireOffsetBaseMult = 100, retireOffsetFlightNumPow = 1.5, retireOffsetStupidMin = 1.4, retireOffsetStupidMax = 0.8, retireIncreaseCap = 15;
 
         [Persistent]
         public double inactivityMinFlightDurationDays = 10, inactivityFlightDurationExponent = 0.7, inactivityMaxSituationMult = 20;
 
         [Persistent]
-        public double retireBaseYears = 5, retireCourageMin = 0, retireCourageMax = 3, retireStupidMin = 1, retireStupidMax = 0;
-
-        [Persistent]
-        public double retireVeteranYears = 0;
+        public double retireBaseYears = 5, retireCourageMin = 0, retireCourageMax = 3, retireStupidMin = 1, retireStupidMax = 0, retireVeteranYears = 5;
 
         [Persistent]
         public double trainingProficiencyStupidMin = 1.5, trainingProficiencyStupidMax = 0.5, trainingProficiencyRefresherTimeMult = 0.25;

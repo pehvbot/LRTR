@@ -1,70 +1,53 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workbench ActiveDocument="CC_LRTR/CustomExpressionParserRegistrer.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="CC_LRTR/HasPartInInventoryParam.cs">
     <Files>
-      <File FileName="ClearInputLocks/Properties/AssemblyInfo.cs" Line="1" Column="1" />
-      <File FileName="ClearInputLocks/ClearInputLocks.cs" />
-      <File FileName="CareerLog/CareerEvent.cs" Line="1" Column="1" />
-      <File FileName="CareerLog/CareerEventScope.cs" Line="1" Column="1" />
-      <File FileName="CareerLog/CareerLog.cs" Line="26" Column="33" />
-      <File FileName="CC_LRTR/Properties/AssemblyInfo.cs" />
-      <File FileName="Crew/CrewHandler.cs" Line="86" Column="1" />
-      <File FileName="LoadingScreenChanger.cs" />
-      <File FileName="Crew/FSGUI.cs" Line="1" Column="1" />
-      <File FileName="UI/UIHolder.cs" />
-      <File FileName="LRTRConfigs.cs" Line="46" Column="1" />
-      <File FileName="ModuleManager.cs" Line="6" Column="35" />
-      <File FileName="CC_LRTR/AcceptContractBehaviour.cs" />
-      <File FileName="CC_LRTR/AcceptContractBehaviourFactory.cs" />
-      <File FileName="CC_LRTR/CustomExpressionParserRegistrer.cs" Line="54" Column="54" />
-      <File FileName="CC_LRTR/DownrangeDistanceFactory.cs" />
-      <File FileName="CC_LRTR/DownrangeDistanceVesselParam.cs" />
-      <File FileName="CC_LRTR/ImpactCBFactory.cs" />
-      <File FileName="CC_LRTR/ImpactCBParam.cs" />
-      <File FileName="DifficultyPresets.cs" Line="59" Column="45" />
-      <File FileName="Crew/CrewHandlerSettings.cs" Line="6" Column="18" />
-      <File FileName="Maintenance/MaintenanceGUI.cs" Line="50" Column="47" />
-      <File FileName="Maintenance/MaintenanceHandler.cs" Line="129" Column="1" />
-      <File FileName="UI/TopWindow.cs" />
+      <File FileName="UI/TopWindow.cs" Line="71" Column="2" />
+      <File FileName="LRTRConfigs.cs" />
+      <File FileName="CC_LRTR/CustomExpressionParserRegistrer.cs" />
+      <File FileName="KerbalConstructionTime/Utilities/Utilities.cs" />
+      <File FileName="Properties/AssemblyInfo.cs" />
+      <File FileName="Modules/ModuleUnpressurizedCockpit.cs" />
+      <File FileName="Modules/ModuleTag.cs" />
+      <File FileName="Modules/ModuleStationPart.cs" />
       <File FileName="UI/UIBase.cs" />
-      <File FileName="KCTBinderModule.cs" />
-      <File FileName="ModuleUnpressurizedCockpit.cs" Line="1" Column="1" />
-      <File FileName="ModuleShowInfo.cs" Line="1" Column="1" />
-      <File FileName="ModuleRangeSafety.cs" Line="1" Column="1" />
-      <File FileName="ModuleNonReentryRated.cs" Line="1" Column="1" />
-      <File FileName="ModuleNonRecharge.cs" Line="1" Column="1" />
+      <File FileName="UI/UIHolder.cs" />
+      <File FileName="KerbalConstructionTime/GUI/GUI_Presets.cs" />
+      <File FileName="Crew/ActiveCourse.cs" />
+      <File FileName="Crew/CourseTemplate.cs" />
+      <File FileName="Crew/CrewHandler.cs" />
+      <File FileName="Crew/CrewHandlerSettings.cs" />
+      <File FileName="Crew/TrainingDatabase.cs" />
+      <File FileName="Crew/TrainingExpiration.cs" />
+      <File FileName="Crew/FSGUI.cs" />
+      <File FileName="DifficultyPresets.cs" />
+      <File FileName="Maintenance/MaintenanceGUI.cs" />
+      <File FileName="Maintenance/MaintenanceHandler.cs" />
+      <File FileName="Maintenance/MaintenanceSettings.cs" />
+      <File FileName="KerbalConstructionTime/GUI/GUI_Upgrades.cs" />
+      <File FileName="KerbalConstructionTime/GUI/GUI_BuildList.cs" />
+      <File FileName="KerbalConstructionTime/GUI/GUI_Main.cs" />
+      <File FileName="KerbalConstructionTime/BuildItems/TechItem.cs" />
+      <File FileName="CC_LRTR/HasPartInInventoryFactory.cs" />
+      <File FileName="CC_LRTR/HasPartInInventoryParam.cs" Line="45" Column="1" />
+      <File FileName="CC_LRTR/DownrangeDistanceFactory.cs" />
+      <File FileName="CC_LRTR/ImpactCBFactory.cs" />
+      <File FileName="CC_LRTR/LRTRFixedResourceConsumptionFactory.cs" />
+      <File FileName="Modules/ModuleShowInfo.cs" />
+      <File FileName="CC_LRTR/LRTRRendezvousFactory.cs" />
+      <File FileName="CC_LRTR/LRTRRendezvousVesselParam.cs" />
       <File FileName="CC_LRTR/ReachMachFactory.cs" />
       <File FileName="CC_LRTR/ReachMachVesselParam.cs" />
-      <File FileName="Utilities/KACWrapper.cs" />
-      <File FileName="Crew/ActiveCourse.cs" Line="182" Column="24" />
-      <File FileName="Crew/CourseTemplate.cs" Line="1" Column="1" />
-      <File FileName="ModuleNoEVA.cs" Line="1" Column="1" />
-      <File FileName="Maintenance/MaintenanceSettings.cs" Line="1" Column="1" />
-      <File FileName="Utilities/MathUtils.cs" />
-      <File FileName="Crew/TrainingDatabase.cs" Line="1" Column="1" />
-      <File FileName="CareerLog/CareerLogGUI.cs" Line="1" Column="1" />
-      <File FileName="CareerLog/ContractEvent.cs" Line="1" Column="1" />
-      <File FileName="CareerLog/FacilityConstructionEvent.cs" Line="1" Column="1" />
-      <File FileName="CareerLog/LaunchEvent.cs" Line="1" Column="1" />
-      <File FileName="CareerLog/LogPeriod.cs" Line="1" Column="1" />
-      <File FileName="CareerLog/TechResearchEvent.cs" Line="1" Column="1" />
-      <File FileName="Crew/TrainingExpiration.cs" Line="1" Column="1" />
-      <File FileName="EntryCostStorage.cs" Line="10" Column="34" />
+      <File FileName="CC_LRTR/ImpactCBParam.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="LRTR" expanded="True">
             <Node name="CC_LRTR" expanded="True">
-              <Node name="CustomExpressionParserRegistrer.cs" selected="True" />
+              <Node name="HasPartInInventoryParam.cs" selected="True" />
             </Node>
             <Node name="LRTR" expanded="True">
-              <Node name="Crew" expanded="True" />
-              <Node name="Maintenance" expanded="True" />
-              <Node name="UI" expanded="True" />
-              <Node name="Utilities" expanded="True" />
-            </Node>
-            <Node name="LRTRKCTBinder" expanded="True">
-              <Node name="References" expanded="True" />
+              <Node name="Modules" expanded="True" />
             </Node>
           </Node>
         </State>
@@ -72,10 +55,7 @@
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <DisabledProjects>
-    <String>ClearInputLocks/ClearInputLocks.csproj</String>
-  </DisabledProjects>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x64" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

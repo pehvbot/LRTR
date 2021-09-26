@@ -54,29 +54,49 @@ namespace LRTR
 			foreach (ConfigNode feature in paramsNode.GetNodes())
 			{
 				bool enableFeature = false;
-
 				if (feature.GetValue("enabled") != null)
 				{
 					enableFeature = feature.GetValue("enabled").ToLower() == "true";
 				}
 				string[] disabledBy = feature.GetValues("disabledBy");
-                foreach (string modName in disabledBy)
+
+				if(enableFeature)
                 {
-					foreach (UrlDir subDir in gameData.children)
-                    {
-						if (String.Compare(modName, subDir.name,true)==0)
-						{
+					foreach (string modName in disabledBy)
+					{
+						if(String.Compare(modName.Substring(0,1),"!", true)==0)
+                        {
 							enableFeature = false;
-							Debug.Log("[LRTRCONFIG] " + feature.name + " disabled by " + modName);
+							foreach(UrlDir subDir in gameData.children)
+                            {
+								if(String.Compare(modName.Substring(1),subDir.name,true)==0)
+                                {
+									enableFeature = true;
+                                }
+                            }
+							if (!enableFeature)
+								Debug.Log("[LRTRCONFIG] " + feature.name + " disabled without " + modName.Substring(1));
 						}
-                    }
-                }
+						else
+                        {
+							foreach(UrlDir subDir in gameData.children)
+                            {
+								if (String.Compare(modName, subDir.name, true) == 0)
+								{
+									enableFeature = false;
+									Debug.Log("[LRTRCONFIG] " + feature.name + " disabled by " + modName);
+								}
+							}
+                        }
+					}
+				}
+
 				if (enableFeature)
 				{
 					Inject(root, "LRTR", feature.name);
 				}
 			}
-	    }
+		}
 
 		// inject an MM patch on-the-fly, so that NEEDS[TypeId] can be used in MM patches
 		static void Inject(UrlDir.UrlFile root, string type, string id)

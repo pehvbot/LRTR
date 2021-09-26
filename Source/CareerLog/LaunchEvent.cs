@@ -9,6 +9,15 @@ namespace LRTR
         [Persistent]
         public string VesselName;
 
+        [Persistent]
+        public string VesselUID;
+
+        [Persistent]
+        public string LaunchID;
+
+        [Persistent]
+        public EditorFacility BuiltAt;
+
         public LaunchEvent(double UT) : base(UT)
         {
         }

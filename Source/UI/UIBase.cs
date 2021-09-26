@@ -1,52 +1,80 @@
-﻿using System;
-using UnityEngine;
-using KSP.UI.Screens;
+﻿using UnityEngine;
 
 namespace LRTR
 {
-    public class UIBase
+    public abstract class UIBase
     {
-        protected GUIStyle rightLabel, boldLabel, boldRightLabel, pressedButton;
-        public UIBase()
+        public enum UITab
         {
-            rightLabel = new GUIStyle(HighLogic.Skin.label);
-            rightLabel.alignment = TextAnchor.MiddleRight;
-            boldLabel = new GUIStyle(HighLogic.Skin.label);
-            boldLabel.fontStyle = FontStyle.Bold;
-            boldRightLabel = new GUIStyle(rightLabel);
-            boldRightLabel.fontStyle = FontStyle.Bold;
-            pressedButton = new GUIStyle(HighLogic.Skin.button);
-            pressedButton.normal = pressedButton.active;
-        }
-
-        public enum Tabs
-        { 
-            Maintenance, Facilities, Integration, Astronauts, 
+            Maintenance, Facilities, Integration, Astronauts,
             Training, Courses, NewCourse, Naut, CareerLog
         };
 
-        protected bool showTab(Tabs tab)
+        protected GUIStyle RightLabel, BoldLabel, BoldRightLabel, PressedButton, InfoButton;
+
+        public UIBase()
         {
-            switch (tab) {
-                case Tabs.Maintenance:
-                    return HighLogic.CurrentGame.Mode == Game.Modes.CAREER;
-                case Tabs.Facilities:
-                case Tabs.Astronauts:
+            RightLabel = new GUIStyle(HighLogic.Skin.label)
+            {
+                alignment = TextAnchor.MiddleRight
+            };
+            BoldLabel = new GUIStyle(HighLogic.Skin.label)
+            {
+                fontStyle = FontStyle.Bold
+            };
+            BoldRightLabel = new GUIStyle(RightLabel)
+            {
+                fontStyle = FontStyle.Bold
+            };
+
+            PressedButton = new GUIStyle(HighLogic.Skin.button);
+            PressedButton.normal = PressedButton.active;
+
+            InfoButton = new GUIStyle(HighLogic.Skin.button)
+            {
+                alignment = TextAnchor.MiddleCenter,
+                fixedHeight = 17f,
+                fixedWidth = 19f,
+                contentOffset = new Vector2(1, -1),
+                margin = new RectOffset(4, 4, 6, 4)
+            };
+        }
+
+        internal void Start()
+        {
+            OnStart();
+        }
+
+        protected virtual void OnStart() { }
+
+        protected bool ShouldShowTab(UITab tab)
+        {
+            switch (tab)
+            {
+                case UITab.Maintenance:
+                case UITab.Facilities:
+                case UITab.Integration:
+                    return HighLogic.LoadedScene == GameScenes.SPACECENTER && HighLogic.CurrentGame.Mode == Game.Modes.CAREER;
+                case UITab.Astronauts:
                     return HighLogic.LoadedScene == GameScenes.SPACECENTER;
-                case Tabs.Training:
-                case Tabs.Courses:
-                case Tabs.NewCourse:
-                case Tabs.Naut:
-                case Tabs.CareerLog:
+                case UITab.Training:
+                case UITab.Courses:
+                case UITab.NewCourse:
+                case UITab.Naut:
+                case UITab.CareerLog:
                 default:
                     return true;
             }
         }
 
-        public bool toggleButton(string text, bool selected, params GUILayoutOption[] options)
+        public bool RenderToggleButton(string text, bool selected, params GUILayoutOption[] options)
         {
-            return GUILayout.Button(text, selected ? pressedButton : HighLogic.Skin.button, options);
+            return GUILayout.Button(text, selected ? PressedButton : HighLogic.Skin.button, options);
+        }
+
+        public bool RenderToggleButton(GUIContent c, bool selected, params GUILayoutOption[] options)
+        {
+            return GUILayout.Button(c, selected ? PressedButton : HighLogic.Skin.button, options);
         }
     }
 }
-

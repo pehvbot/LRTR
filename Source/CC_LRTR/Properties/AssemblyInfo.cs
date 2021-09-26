@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("CC_LRTR")]
 [assembly: AssemblyDescription("ContractConfigurator extension for LRTR mod")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("LRTR")]
+[assembly: AssemblyCompany("KSP-RO")]
 [assembly: AssemblyProduct("")]
 [assembly: AssemblyCopyright("Copyright © KSP-RO 2020 CC-BY-NC-SA 4.0")]
 [assembly: AssemblyTrademark("")]
@@ -32,7 +32,8 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.5.0.0")]
+[assembly: AssemblyFileVersion("1.9.0.0")]
 
 [assembly: KSPAssembly("CC_LRTR", 1, 0)]
 [assembly: KSPAssemblyDependency("ContractConfigurator", 1, 0)]
+[assembly: KSPAssemblyDependency("LRTR", 1, 0)]
