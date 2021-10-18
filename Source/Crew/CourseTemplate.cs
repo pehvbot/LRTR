@@ -42,6 +42,8 @@ namespace LRTR.Crew
 
         public bool isTemporary = false;
 
+        internal string PartsTooltip;
+
         public CourseTemplate(ConfigNode source)
         {
             sourceNode = source;

@@ -10,6 +10,7 @@ namespace KerbalConstructionTime
         public KCT_Preset ActivePreset;
         public List<KCT_Preset> Presets;
         public List<string> PresetPaths;
+        public static LRTRHomeWorldParameters Config { get; private set; } = null;
 
         public static string SettingsFilePath => $"{KSPUtil.ApplicationRootPath}/saves/{HighLogic.SaveFolder}/KCT_Settings.cfg";
 
@@ -62,6 +63,13 @@ namespace KerbalConstructionTime
 
         public void SetActiveFromSaveData()
         {
+            if (Config == null)
+            {
+                Config = new LRTRHomeWorldParameters();
+                foreach (ConfigNode stg in GameDatabase.Instance.GetConfigNodes("HOMEWORLDPARAMETERS"))
+                    Config.Load(stg);
+            }
+
             if (File.Exists(SettingsFilePath))
             {
                 KCT_Preset saved = new KCT_Preset(SettingsFilePath);
@@ -79,7 +87,7 @@ namespace KerbalConstructionTime
             }
             else
             {
-                KCT_Preset defaultSettings = FindPresetByShortName("LRTR");
+                KCT_Preset defaultSettings = FindPresetByShortName(Config.kctPresetShortName);
                 if (defaultSettings != null)
                     ActivePreset = defaultSettings;
                 else
@@ -239,7 +247,15 @@ namespace KerbalConstructionTime
 
             node.AddNode(GeneralSettings.AsConfigNode());
             node.AddNode(TimeSettings.AsConfigNode());
-            node.AddNode(FormulaSettings.AsConfigNode());
+
+            ConfigNode fNode = FormulaSettings.AsConfigNode();
+            if (FormulaSettings.YearBasedRateMult != null)
+            {
+                ConfigNode rateNode = fNode.AddNode("YearBasedRateMult");
+                FormulaSettings.YearBasedRateMult.Save(rateNode);
+            }
+            node.AddNode(fNode);
+
             node.AddNode(PartVariables.AsConfigNode());
             return node;
         }
@@ -259,7 +275,17 @@ namespace KerbalConstructionTime
 
             ConfigNode.LoadObjectFromConfig(GeneralSettings, node.GetNode("KCT_Preset_General"));
             ConfigNode.LoadObjectFromConfig(TimeSettings, node.GetNode("KCT_Preset_Time"));
-            ConfigNode.LoadObjectFromConfig(FormulaSettings, node.GetNode("KCT_Preset_Formula"));
+
+            ConfigNode fNode = node.GetNode("KCT_Preset_Formula");
+            ConfigNode.LoadObjectFromConfig(FormulaSettings, fNode);
+            if (fNode.HasNode("YearBasedRateMult"))
+            {
+                var fc = new FloatCurve();
+                var rateNode = fNode.GetNode("YearBasedRateMult");
+                fc.Load(rateNode);
+                FormulaSettings.YearBasedRateMult = fc;
+            }
+
             if (node.HasNode("KCT_Preset_Part_Variables"))
                 PartVariables.FromConfigNode(node.GetNode("KCT_Preset_Part_Variables"));
         }
@@ -300,7 +326,7 @@ namespace KerbalConstructionTime
     public class KCT_Preset_Time : ConfigNodeStorage
     {
         [Persistent]
-        public double OverallMultiplier = 1.0, BuildEffect = 1.0, InventoryEffect = 100.0, ReconditioningEffect = 1728, MaxReconditioning = 345600, RolloutReconSplit = 0.25;
+        public double OverallMultiplier = 1.0, BuildEffect = 1.0, InventoryEffect = 100.0, ReconditioningEffect = 1728, MaxReconditioning = 345600, RolloutReconSplit = 0.25, MergingTimePenalty = 0.05;
     }
 
     public class KCT_Preset_Formula : ConfigNodeStorage
@@ -324,7 +350,11 @@ namespace KerbalConstructionTime
             NewLaunchPadCostFormula = "100000*([N]^3)",    //[N]=total number of unlocked launchpads (negative disables)
             RushCostFormula = "[TC]*0.2",
             AirlaunchCostFormula = "[E]*0.25",
-            AirlaunchTimeFormula = "[BP]*0.25";
+            AirlaunchTimeFormula = "[BP]*0.25",
+            EngineRefurbFormula = "0.5*(1+max(0,1-([RT]/10)))";    //[RT]=Runtime of used engine
+
+        [Persistent]
+        public FloatCurve YearBasedRateMult = null;
     }
 
     public class KCT_Preset_Part_Variables

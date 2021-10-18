@@ -59,37 +59,33 @@ namespace LRTR
 					enableFeature = feature.GetValue("enabled").ToLower() == "true";
 				}
 				string[] disabledBy = feature.GetValues("disabledBy");
+				string[] enabledBy = feature.GetValues("enabledBy");
 
-				if(enableFeature)
+				foreach (string modName in enabledBy)
                 {
-					foreach (string modName in disabledBy)
+					foreach (UrlDir subDir in gameData.children)
 					{
-						if(String.Compare(modName.Substring(0,1),"!", true)==0)
-                        {
-							enableFeature = false;
-							foreach(UrlDir subDir in gameData.children)
-                            {
-								if(String.Compare(modName.Substring(1),subDir.name,true)==0)
-                                {
-									enableFeature = true;
-                                }
-                            }
-							if (!enableFeature)
-								Debug.Log("[LRTRCONFIG] " + feature.name + " disabled without " + modName.Substring(1));
+						if (String.Compare(modName, subDir.name, true) == 0)
+						{
+							enableFeature = true;
+							Debug.Log("[LRTRCONFIG] " + feature.name + " enabled by " + modName);
 						}
-						else
-                        {
-							foreach(UrlDir subDir in gameData.children)
-                            {
-								if (String.Compare(modName, subDir.name, true) == 0)
-								{
-									enableFeature = false;
-									Debug.Log("[LRTRCONFIG] " + feature.name + " disabled by " + modName);
-								}
-							}
-                        }
+					}
+
+				}
+
+				foreach (string modName in disabledBy)
+				{
+					foreach (UrlDir subDir in gameData.children)
+					{
+						if (String.Compare(modName, subDir.name, true) == 0)
+						{
+							enableFeature = false;
+							Debug.Log("[LRTRCONFIG] " + feature.name + " disabled by " + modName);
+						}
 					}
 				}
+
 
 				if (enableFeature)
 				{

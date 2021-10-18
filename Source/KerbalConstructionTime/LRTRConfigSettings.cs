@@ -7,8 +7,12 @@ namespace KerbalConstructionTime
     {
         [Persistent]
         public double karmanAltitude = FlightGlobals.GetHomeBody().atmosphereDepth;
-        public double hoursPerDay = KSPUtil.dateTimeFormatter.Day / 3600;
-        public double daysPerYear = KSPUtil.dateTimeFormatter.Year / KSPUtil.dateTimeFormatter.Day;
+        [Persistent]
+        public float hoursPerDay = KSPUtil.dateTimeFormatter.Day / 3600;
+        [Persistent]
+        public float daysPerYear = KSPUtil.dateTimeFormatter.Year / KSPUtil.dateTimeFormatter.Day;
+        [Persistent]
+        public string kctPresetShortName = "LRTR_STOCK";
 
         public void Load(ConfigNode node)
         {

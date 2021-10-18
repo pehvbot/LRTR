@@ -1,5 +1,5 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workbench ActiveDocument="CC_LRTR/HasPartInInventoryParam.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="KerbalConstructionTime/GUI/GUI_BuildList.cs">
     <Files>
       <File FileName="UI/TopWindow.cs" Line="71" Column="2" />
       <File FileName="LRTRConfigs.cs" />
@@ -24,11 +24,11 @@
       <File FileName="Maintenance/MaintenanceHandler.cs" />
       <File FileName="Maintenance/MaintenanceSettings.cs" />
       <File FileName="KerbalConstructionTime/GUI/GUI_Upgrades.cs" />
-      <File FileName="KerbalConstructionTime/GUI/GUI_BuildList.cs" />
+      <File FileName="KerbalConstructionTime/GUI/GUI_BuildList.cs" Line="664" Column="29" />
       <File FileName="KerbalConstructionTime/GUI/GUI_Main.cs" />
       <File FileName="KerbalConstructionTime/BuildItems/TechItem.cs" />
       <File FileName="CC_LRTR/HasPartInInventoryFactory.cs" />
-      <File FileName="CC_LRTR/HasPartInInventoryParam.cs" Line="45" Column="1" />
+      <File FileName="CC_LRTR/HasPartInInventoryParam.cs" />
       <File FileName="CC_LRTR/DownrangeDistanceFactory.cs" />
       <File FileName="CC_LRTR/ImpactCBFactory.cs" />
       <File FileName="CC_LRTR/LRTRFixedResourceConsumptionFactory.cs" />
@@ -38,16 +38,32 @@
       <File FileName="CC_LRTR/ReachMachFactory.cs" />
       <File FileName="CC_LRTR/ReachMachVesselParam.cs" />
       <File FileName="CC_LRTR/ImpactCBParam.cs" />
+      <File FileName="LRTRHomeWorldParameters.cs" />
+      <File FileName="KerbalConstructionTime/LRTRConfigSettings.cs" />
+      <File FileName="KerbalConstructionTime/GUI/GUI_FirstRun.cs" />
+      <File FileName="KerbalConstructionTime/InstallChecker.cs" />
+      <File FileName="KerbalConstructionTime/Presets/PresetManager.cs" />
+      <File FileName="KerbalConstructionTime/KerbalConstructionTime.cs" />
+      <File FileName="KerbalConstructionTime/Utilities/MathParser.cs" />
+      <File FileName="CC_LRTR/LRTRReturnHome.cs" />
+      <File FileName="CC_LRTR/LRTRReturnHomeFactory.cs" />
+      <File FileName="CC_LRTR/HorizontalLandingFactory.cs" />
+      <File FileName="CC_LRTR/HorizontalLandingVesselParam.cs" />
+      <File FileName="KerbalConstructionTime/BuildItems/ReconRollout.cs" />
+      <File FileName="KerbalConstructionTime/KCTTechNodePeriod.cs" />
+      <File FileName="KerbalConstructionTime/KCTGameStates.cs" />
+      <File FileName="KerbalConstructionTime/KCTDataLoader.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="LRTR" expanded="True">
-            <Node name="CC_LRTR" expanded="True">
-              <Node name="HasPartInInventoryParam.cs" selected="True" />
-            </Node>
-            <Node name="LRTR" expanded="True">
-              <Node name="Modules" expanded="True" />
+            <Node name="KerbalConstructionTime" expanded="True">
+              <Node name="GUI" expanded="True">
+                <Node name="GUI_BuildList.cs" selected="True" />
+              </Node>
+              <Node name="Presets" expanded="True" />
+              <Node name="Utilities" expanded="True" />
             </Node>
           </Node>
         </State>

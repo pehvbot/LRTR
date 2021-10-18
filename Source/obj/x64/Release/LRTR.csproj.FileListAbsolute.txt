@@ -1,0 +1,10 @@
+/Volumes/GoogleDrive/My Drive/kerbal/LRTR.rebuild/GameData/LRTR/plugins/LRTR.dll
+/Volumes/GoogleDrive/My Drive/kerbal/LRTR.rebuild/Source/obj/x64/Release/LRTR.csproj.AssemblyReference.cache
+/Volumes/GoogleDrive/My Drive/kerbal/LRTR.rebuild/Source/obj/x64/Release/LRTR.csproj.CoreCompileInputs.cache
+/Volumes/GoogleDrive/My Drive/kerbal/LRTR.rebuild/Source/obj/x64/Release/LRTR.csproj.CopyComplete
+/Volumes/GoogleDrive/My Drive/kerbal/LRTR.rebuild/Source/obj/x64/Release/LRTR.dll
+/Users/haslam/Google Drive/kerbal/LRTR.rebuild/GameData/LRTR/plugins/LRTR.dll
+/Users/haslam/Google Drive/kerbal/LRTR.rebuild/Source/obj/x64/Release/LRTR.csproj.AssemblyReference.cache
+/Users/haslam/Google Drive/kerbal/LRTR.rebuild/Source/obj/x64/Release/LRTR.csproj.CoreCompileInputs.cache
+/Users/haslam/Google Drive/kerbal/LRTR.rebuild/Source/obj/x64/Release/LRTR.csproj.CopyComplete
+/Users/haslam/Google Drive/kerbal/LRTR.rebuild/Source/obj/x64/Release/LRTR.dll

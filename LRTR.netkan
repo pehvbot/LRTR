@@ -4,30 +4,28 @@
     "name"		   : "Less Real Than Real(ism)",
 	"abstract"     : "Real Progression One without RealismOverhaul",    
 	"$kref"        : "#/ckan/github/pehvbot/LRTR",
-    "ksp_version_min"  : "1.8",
-    "ksp_version_max"	:	"1.10"
+    "ksp_version_min"  : "1.12",
+    "ksp_version_max"	:	"1.12"
     "license"      : "CC-BY-NC-SA-4.0",
     "depends"      : [
     	{ "name"   : "ModuleManager" },
-    	{ "name"   : "RealSolarSystem" },
-    	{ "name"   : "CustomBarnKit" },
-    	{ "name"   : "RSSDateTimeFormatter" },
-        { "name"   : "KerbalConstructionTime" },
+     	{ "name"   : "ClickThroughBlocker" },
+	   	{ "name"   : "CustomBarnKit" },
     	{ "name"   : "ContractConfigurator" },
-    	{ "name"   : "DMagicScienceAnimate" }
+    	{ "name"   : "DMagicScienceAnimate" },
+    	{ "name"   : "MagiCore" },
+    	{ "name"   : "ModularFlightIntegrator" }
     ],
     "recommends"   : [
     	{ "name" : "ReStockPlus" },
+    	{ "name" : "RealSolarSystem" },
 		{ "name" : "KSCSwitcher" },
         { "name" : "Kerbalism" }
     ],
     "suggests"	: [
-		{ "name" : "KerbalAlarmClock" },
-		{ "name" : "KRASH" },
-		{ "name" : "ScrapYard" },
-		{ "name" : "OhScrap" }
 	],
     "conflicts" : [
+        { "name" : "KerbalConstructionTime" },
     	{ "name" : "RealismOverhaul" }
     ],
     "tags" : [

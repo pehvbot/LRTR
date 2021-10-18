@@ -26,12 +26,18 @@ namespace KerbalConstructionTime
 
         private WaitForSeconds _wfsHalf = null, _wfsOne = null, _wfsTwo = null;
         private bool _isIconUpdated = false;
-        private double _lastUT = 0;
+        private double _lastRateUpdateUT = 0;
+        private double _lastYearMultUpdateUT = 0;
 
         internal const string KCTLaunchLock = "KCTLaunchLock";
         internal const string KCTKSCLock = "KCTKSCLock";
         private const float BUILD_TIME_INTERVAL = 0.5f;
+        private const float YEAR_MULT_TIME_INTERVAL = 86400 * 7;
+
+        public static LRTRHomeWorldParameters Config { get; private set; } = null;
+
         public static readonly Dictionary<string, KCTCostModifier> KCTCostModifiers = new Dictionary<string, KCTCostModifier>();
+        public static readonly Dictionary<string, KCTTechNodePeriod> TechNodePeriods = new Dictionary<string, KCTTechNodePeriod>();
 
         private DateTime _simMoveDeferTime = DateTime.MaxValue;
         private int _simMoveSecondsRemain = 0;
@@ -513,7 +519,7 @@ namespace KerbalConstructionTime
             if (maxSize.x < float.MaxValue && maxSize.y < float.MaxValue && maxSize.z < float.MaxValue)
             {
                 refERsizeRH.text =
-                            "<line-height=110%>  \n<color=" + sizeForeAftHex + ">" + KSPUtil.LocalizeNumber(craftSize.y, "0.0") + cacheAutoLOC_7001411 + 
+                            "<line-height=110%>  \n<color=" + sizeForeAftHex + ">" + KSPUtil.LocalizeNumber(craftSize.y, "0.0") + cacheAutoLOC_7001411 +
                                 " / " + KSPUtil.LocalizeNumber(maxSize.y, "0.0") + cacheAutoLOC_7001411 + "</color>\n<color=" +
                             sizeSpanHex + ">" + KSPUtil.LocalizeNumber(craftSize.x, "0.0") + cacheAutoLOC_7001411 + " / " +
                             KSPUtil.LocalizeNumber(maxSize.x, "0.0") +
@@ -597,12 +603,25 @@ namespace KerbalConstructionTime
 
         public void FixedUpdate()
         {
+
+            if (Config == null)
+            {
+                Config = new LRTRHomeWorldParameters();
+                foreach (ConfigNode stg in GameDatabase.Instance.GetConfigNodes("HOMEWORLDPARAMETERS"))
+                    Config.Load(stg);
+            }
+
             if (Utilities.CurrentGameIsMission()) return;
             if (!PresetManager.Instance?.ActivePreset?.GeneralSettings.Enabled == true)
                 return;
             double UT = Utilities.GetUT();
-            if (!KCT_GUI.IsPrimarilyDisabled && (TimeWarp.CurrentRateIndex > 0 || UT - _lastUT > BUILD_TIME_INTERVAL))
+            if (!KCT_GUI.IsPrimarilyDisabled && (TimeWarp.CurrentRateIndex > 0 || UT - _lastRateUpdateUT > BUILD_TIME_INTERVAL))
+            {
                 ProgressBuildTime();
+
+                if (UT - _lastYearMultUpdateUT > Config.hoursPerDay * 3600 * 7)
+                    UpdateTechYearMults();
+            }
 
             if (HighLogic.LoadedSceneIsFlight && KCTGameStates.IsSimulatedFlight && KCTGameStates.SimulationParams != null)
             {
@@ -768,9 +787,9 @@ namespace KerbalConstructionTime
         {
             Profiler.BeginSample("KCT ProgressBuildTime");
             double UT = Utilities.GetUT();
-            if (_lastUT == 0)
-                _lastUT = UT;
-            double UTDiff = UT - _lastUT;
+            if (_lastRateUpdateUT == 0)
+                _lastRateUpdateUT = UT;
+            double UTDiff = UT - _lastRateUpdateUT;
             if (UTDiff > 0)
             {
                 foreach (KSCItem ksc in KCTGameStates.KSCs)
@@ -815,8 +834,17 @@ namespace KerbalConstructionTime
                     KCTGameStates.TechList[i].IncrementProgress(UTDiff);
             }
 
-            _lastUT = UT;
+            _lastRateUpdateUT = UT;
             Profiler.EndSample();
+        }
+
+        private void UpdateTechYearMults()
+        {
+            for (int i = KCTGameStates.TechList.Count - 1; i >= 0; i--)
+            {
+                var t = KCTGameStates.TechList[i];
+                t.UpdateBuildRate(i);
+            }
         }
 
         private IEnumerator UpdateTechlistIconColorDelayed()
@@ -981,7 +1009,10 @@ namespace KerbalConstructionTime
                     FlightDriver.CanRevertToPrelaunch)    // Used for checking whether the player has saved and then loaded back into that save
                 {
                     KCTDebug.Log($"Setting simulation UT to {KCTGameStates.SimulationParams.SimulationUT}");
-                    Planetarium.SetUniversalTime(KCTGameStates.SimulationParams.SimulationUT);
+                    if (!Utilities.IsPrincipiaInstalled)
+                        Planetarium.SetUniversalTime(KCTGameStates.SimulationParams.SimulationUT);
+                    else
+                        StartCoroutine(EaseSimulationUT_Coroutine(Planetarium.GetUniversalTime(), KCTGameStates.SimulationParams.SimulationUT));
                 }
 
                 AddSimulationWatermark();
@@ -989,11 +1020,45 @@ namespace KerbalConstructionTime
 
             if (KCTGameStates.IsSimulatedFlight && HighLogic.LoadedSceneIsGame && !HighLogic.LoadedSceneIsFlight)
             {
-                string msg = "Current save appears to be a simulation with no way to automatically revert to the pre-simulation state. An older save needs to be loaded manually now.";
+                string msg = $"The current save appears to be a simulation and KCT cannot automatically find a suitable pre-simulation save. Please load an older save manually; we recommend the backup that should have been saved to \\saves\\{HighLogic.SaveFolder}\\Backup\\KCT_simulation_backup.sfs";
                 PopupDialog.SpawnPopupDialog(new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), "errorPopup", "KCT Simulation error", msg, "Understood", false, HighLogic.UISkin);
             }
 
             KCTDebug.Log("DelayedStart finished");
+        }
+
+        private IEnumerator EaseSimulationUT_Coroutine(double startUT, double targetUT)
+        {
+            
+
+            if (Config == null)
+            {
+                Config = new LRTRHomeWorldParameters();
+                foreach (ConfigNode stg in GameDatabase.Instance.GetConfigNodes("HOMEWORLDPARAMETERS"))
+                    Config.Load(stg);
+            }
+            double dayInSeconds = Config.hoursPerDay * 3600;
+
+            if (targetUT <= Planetarium.GetUniversalTime()) yield break;
+
+            KCTDebug.Log($"Easing jump to simulation UT in {dayInSeconds}s steps");
+
+            int currentFrame = Time.frameCount;
+            double nextUT = startUT;
+            while (targetUT - nextUT > dayInSeconds)
+            {
+                nextUT += dayInSeconds;
+
+                FlightDriver.fetch.framesBeforeInitialSave += Time.frameCount - currentFrame;
+                currentFrame = Time.frameCount;
+                OrbitPhysicsManager.HoldVesselUnpack();
+                Planetarium.SetUniversalTime(nextUT);
+
+                yield return new WaitForFixedUpdate();
+            }
+
+            OrbitPhysicsManager.HoldVesselUnpack();
+            Planetarium.SetUniversalTime(targetUT);
         }
 
         public static void PopUpVesselError(List<BuildListVessel> errored)
