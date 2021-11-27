@@ -52,6 +52,9 @@
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\..\dlls_1_12_2\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
+    <Reference Include="RealAntennas">
+      <HintPath>..\..\dlls_1_12_2\RealAntennas.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AcceptContractBehaviour.cs" />
@@ -74,6 +77,8 @@
     <Compile Include="LRTRReturnHomeFactory.cs" />
     <Compile Include="HorizontalLandingFactory.cs" />
     <Compile Include="HorizontalLandingVesselParam.cs" />
+    <Compile Include="HasRealAntennaFactory.cs" />
+    <Compile Include="HasRealAntennaParam.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KerbalConstructionTime\KerbalConstructionTime.csproj">
