@@ -74,7 +74,8 @@ namespace ContractConfigurator.LRTR
                         ModuleRealAntenna a = (ModuleRealAntenna)module;
                         bool mG, mAD, RB;
 
-                        mG = a.Gain >= minGain;
+                        //rounds Gain UP to first decimal
+                        mG = System.Math.Ceiling(a.Gain * 10)/10 >= minGain;
                         mAD = a.antennaDiameter >= minAntennaDiameter;
 
                         if (RFBand == "")
