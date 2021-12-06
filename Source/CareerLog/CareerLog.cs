@@ -29,7 +29,7 @@ namespace LRTR
 
         private static readonly DateTime _epoch = new DateTime(1951, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
-        private EventData<ProtoTechNode> onKctTechCompletedEvent;
+        private EventData<TechItem> onKctTechCompletedEvent;
         private EventData<FacilityUpgrade> onKctFacilityUpgradeQueuedEvent;
         private EventData<FacilityUpgrade> onKctFacilityUpgradeCompletedEvent;
         private readonly Dictionary<double, LogPeriod> _periodDict = new Dictionary<double, LogPeriod>();
@@ -46,6 +46,11 @@ namespace LRTR
         private LogPeriod _currentPeriod;
 
         public static CareerLog Instance { get; private set; }
+
+        /// <summary>
+        /// Default means to get hype for career not using Headlines
+        /// </summary>
+        public static Func<double> GetHeadlinesHype = () => { return 0; };
 
         public LogPeriod CurrentPeriod
         { 
@@ -80,7 +85,7 @@ namespace LRTR
 
         public void Start()
         {
-            onKctTechCompletedEvent = GameEvents.FindEvent<EventData<ProtoTechNode>>("OnKctTechCompleted");
+            onKctTechCompletedEvent = GameEvents.FindEvent<EventData<TechItem>>("OnKctTechCompleted");
             if (onKctTechCompletedEvent != null)
             {
                 onKctTechCompletedEvent.Add(OnKctTechCompleted);
@@ -111,6 +116,7 @@ namespace LRTR
             if (_eventsBound)
             {
                 GameEvents.onVesselSituationChange.Remove(VesselSituationChange);
+                GameEvents.onCrewKilled.Remove(CrewKilled);
                 GameEvents.Modifiers.OnCurrencyModified.Remove(CurrenciesModified);
                 GameEvents.Contract.onAccepted.Remove(ContractAccepted);
                 GameEvents.Contract.onCompleted.Remove(ContractCompleted);
@@ -232,13 +238,15 @@ namespace LRTR
             return _epoch.AddSeconds(ut);
         }
 
-        public void AddTechEvent(string nodeName)
+        public void AddTechEvent(TechItem tech)
         {
             if (CareerEventScope.ShouldIgnore || !IsEnabled) return;
 
             _techEvents.Add(new TechResearchEvent(KSPUtils.GetUT())
             {
-                NodeName = nodeName
+                NodeName = tech.ProtoNode.techID,
+                YearMult = tech.YearBasedRateMult,
+                ResearchRate = tech.BuildRate
             });
         }
 
@@ -306,6 +314,8 @@ namespace LRTR
                     p.EntryCosts.ToString("F0"),
                     constructionFees.ToString("F0"),
                     (p.OtherFees - constructionFees).ToString("F0"),
+                    p.Reputation.ToString("F1"),
+                    p.HeadlinesHype.ToString("F1"),
                     string.Join(", ", _launchedVessels.Where(l => l.IsInPeriod(p))
                                                       .Select(l => l.VesselName)
                                                       .ToArray()),
@@ -324,7 +334,7 @@ namespace LRTR
                 };
             });
 
-            var columnNames = new[] { "Month", "VAB", "SPH", "RnD", "Current Funds", "Current Sci", "Total sci earned", "Contract advances", "Contract rewards", "Contract penalties", "Other funds earned", "Launch fees", "Maintenance", "Entry Costs", "Facility construction costs", "Other Fees", "Launches", "Accepted contracts", "Completed contracts", "Tech", "Facilities" };
+            var columnNames = new[] { "Month", "VAB", "SPH", "RnD", "Current Funds", "Current Sci", "Total sci earned", "Contract advances", "Contract rewards", "Contract penalties", "Other funds earned", "Launch fees", "Maintenance", "Entry Costs", "Facility construction costs", "Other Fees", "Reputation", "Headlines Reputation", "Launches", "Accepted contracts", "Completed contracts", "Tech", "Facilities" };
             var csv = CsvWriter.WriteToText(columnNames, rows, ',');
             File.WriteAllText(path, csv);
         }
@@ -468,7 +478,10 @@ namespace LRTR
                 entryCosts = logPeriod.EntryCosts,
                 constructionFees = logPeriod.OtherFees,
                 otherFees = logPeriod.OtherFees - constructionFees,
-                fundsGainMult = logPeriod.FundsGainMult
+                fundsGainMult = logPeriod.FundsGainMult,
+                numNautsKilled = logPeriod.NumNautsKilled,
+                reputation = logPeriod.Reputation,
+                headlinesHype = logPeriod.HeadlinesHype
             };
         }
 
@@ -484,6 +497,8 @@ namespace LRTR
                 _prevPeriod.RnDUpgrades = GetKCTUpgradeCounts(SpaceCenterFacility.ResearchAndDevelopment);
                 _prevPeriod.ScienceEarned = GetSciPointTotalFromKCT();
                 _prevPeriod.FundsGainMult = HighLogic.CurrentGame.Parameters.Career.FundsGainMultiplier;
+                _prevPeriod.Reputation = Reputation.CurrentRep;
+                _prevPeriod.HeadlinesHype = GetHeadlinesHype();
             }
 
             _currentPeriod = GetOrCreatePeriod(NextPeriodStart);
@@ -511,6 +526,7 @@ namespace LRTR
             {
                 _eventsBound = true;
                 GameEvents.onVesselSituationChange.Add(VesselSituationChange);
+                GameEvents.onCrewKilled.Add(CrewKilled);
                 GameEvents.Modifiers.OnCurrencyModified.Add(CurrenciesModified);
                 GameEvents.Contract.onAccepted.Add(ContractAccepted);
                 GameEvents.Contract.onCompleted.Add(ContractCompleted);
@@ -669,6 +685,13 @@ namespace LRTR
             }
         }
 
+        private void CrewKilled(EventReport data)
+        {
+            if (CareerEventScope.ShouldIgnore) return;
+
+            CurrentPeriod.NumNautsKilled++;
+        }
+
         private string GetContractInternalName(Contract c)
         {
             if (_mInfContractName == null)
@@ -708,11 +731,11 @@ namespace LRTR
             }
         }
 
-        private void OnKctTechCompleted(ProtoTechNode data)
+        private void OnKctTechCompleted(TechItem tech)
         {
             if (CareerEventScope.ShouldIgnore) return;
 
-            AddTechEvent(data.techID);
+            AddTechEvent(tech);
         }
 
         private void OnKctFacilityUpgdQueued(FacilityUpgrade data)

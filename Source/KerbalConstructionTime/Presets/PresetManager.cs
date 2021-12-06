@@ -228,6 +228,7 @@ namespace KerbalConstructionTime
             ConfigNode.LoadObjectFromConfig(GeneralSettings, Source.GeneralSettings.AsConfigNode());
             ConfigNode.LoadObjectFromConfig(TimeSettings, Source.TimeSettings.AsConfigNode());
             ConfigNode.LoadObjectFromConfig(FormulaSettings, Source.FormulaSettings.AsConfigNode());
+            FormulaSettings.YearBasedRateMult = Source.FormulaSettings.YearBasedRateMult;
             PartVariables.FromConfigNode(Source.PartVariables.AsConfigNode());
         }
 

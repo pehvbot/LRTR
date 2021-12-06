@@ -51,6 +51,15 @@ namespace LRTR
         [Persistent]
         public double FundsGainMult;
 
+        [Persistent]
+        public int NumNautsKilled;
+
+        [Persistent] 
+        public double Reputation;
+
+        [Persistent] 
+        public double HeadlinesHype;
+
         public LogPeriod()
         {
         }

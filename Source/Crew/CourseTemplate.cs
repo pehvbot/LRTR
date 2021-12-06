@@ -4,7 +4,7 @@ using System.Text;
 
 namespace LRTR.Crew
 {
-    public enum RepeatMode {NEVER, EXPIRED, ALWAYS}; //is the course repeatable?
+    public enum RepeatMode { NEVER, EXPIRED, ALWAYS }; //is the course repeatable?
 
     public class CourseTemplate
     {

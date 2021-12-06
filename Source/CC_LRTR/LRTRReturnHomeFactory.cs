@@ -2,7 +2,7 @@
 
 namespace ContractConfigurator.LRTR
 {
-    public class RP1ReturnHomeFactory : ParameterFactory
+    public class LRTRReturnHomeFactory : ParameterFactory
     {
         protected string landAtFacility;
         protected double maxSpeed;

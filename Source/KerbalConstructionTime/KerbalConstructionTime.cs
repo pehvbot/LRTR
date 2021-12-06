@@ -184,7 +184,7 @@ namespace KerbalConstructionTime
                 KCTGameStates.SimulationParams.Reset();
                 if (b && KCTGameStates.LaunchedVessel != null)
                 {
-                    Utilities.AddVesselToBuildList(KCTGameStates.LaunchedVessel);
+                    Utilities.TryAddVesselToBuildList(KCTGameStates.LaunchedVessel);
                 }
             }
 
@@ -603,14 +603,6 @@ namespace KerbalConstructionTime
 
         public void FixedUpdate()
         {
-
-            if (Config == null)
-            {
-                Config = new LRTRHomeWorldParameters();
-                foreach (ConfigNode stg in GameDatabase.Instance.GetConfigNodes("HOMEWORLDPARAMETERS"))
-                    Config.Load(stg);
-            }
-
             if (Utilities.CurrentGameIsMission()) return;
             if (!PresetManager.Instance?.ActivePreset?.GeneralSettings.Enabled == true)
                 return;
@@ -619,8 +611,11 @@ namespace KerbalConstructionTime
             {
                 ProgressBuildTime();
 
-                if (UT - _lastYearMultUpdateUT > Config.hoursPerDay * 3600 * 7)
+                if (UT - _lastYearMultUpdateUT > YEAR_MULT_TIME_INTERVAL)
+                {
                     UpdateTechYearMults();
+                    _lastYearMultUpdateUT = UT;
+                }
             }
 
             if (HighLogic.LoadedSceneIsFlight && KCTGameStates.IsSimulatedFlight && KCTGameStates.SimulationParams != null)
@@ -1130,7 +1125,7 @@ namespace KerbalConstructionTime
             }
             else
             {
-                Utilities.AddVesselToBuildList(launchSite);
+                Utilities.TryAddVesselToBuildList(launchSite);
                 Utilities.RecalculateEditorBuildTime(EditorLogic.fetch.ship);
             }
         }

@@ -9,6 +9,12 @@ namespace LRTR
         [Persistent]
         public string NodeName;
 
+        [Persistent]
+        public double YearMult;
+
+        [Persistent]
+        public double ResearchRate;
+
         public TechResearchEvent(double UT) : base(UT)
         {
         }

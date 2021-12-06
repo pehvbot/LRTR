@@ -11,6 +11,7 @@ namespace LRTR
         public int vabUpgrades;
         public int sphUpgrades;
         public int rndUpgrades;
+        public int numNautsKilled;
         public double currentFunds;
         public double currentSci;
         public double scienceEarned;
@@ -24,6 +25,8 @@ namespace LRTR
         public double constructionFees;
         public double otherFees;
         public double fundsGainMult;
+        public double reputation;
+        public double headlinesHype;
 
         public override string ToString()
         {
@@ -34,6 +37,7 @@ namespace LRTR
                 $"{nameof(vabUpgrades)}: {vabUpgrades}, " +
                 $"{nameof(sphUpgrades)}: {sphUpgrades}, " +
                 $"{nameof(rndUpgrades)}: {rndUpgrades}, " +
+                $"{nameof(numNautsKilled)}: {numNautsKilled}, " +
                 $"{nameof(currentFunds)}: {currentFunds}, " +
                 $"{nameof(currentSci)}: {currentSci}, " +
                 $"{nameof(scienceEarned)}: {scienceEarned}, " +
@@ -46,7 +50,9 @@ namespace LRTR
                 $"{nameof(entryCosts)}: {entryCosts}, " +
                 $"{nameof(constructionFees)}: {constructionFees}, " +
                 $"{nameof(otherFees)}: {otherFees}, " +
-                $"{nameof(fundsGainMult)}: {fundsGainMult}";
+                $"{nameof(fundsGainMult)}: {fundsGainMult}, " +
+                $"{nameof(reputation)}: {reputation}, " +
+                $"{nameof(headlinesHype)}: {headlinesHype}";
         }
     }
 
@@ -121,6 +127,8 @@ namespace LRTR
     {
         public string date;
         public string nodeName;
+        public double yearMult;
+        public double researchRate;
 
         public TechResearchEventDto()
         {
@@ -130,13 +138,17 @@ namespace LRTR
         {
             date = CareerLog.UTToDate(tre.UT).ToString("o");
             nodeName = tre.NodeName;
+            yearMult = tre.YearMult;
+            researchRate = tre.ResearchRate;
         }
 
         public override string ToString()
         {
             return
                 $"{nameof(date)}: {date}, " +
-                $"{nameof(nodeName)}: {nodeName}";
+                $"{nameof(nodeName)}: {nodeName}, " +
+                $"{nameof(yearMult)}: {yearMult}, " +
+                $"{nameof(researchRate)}: {researchRate}";
         }
     }
 

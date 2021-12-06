@@ -131,7 +131,7 @@ namespace KerbalConstructionTime
                 diffYears = (curDate - new DateTime(EndYear, 1, 1)).TotalDays / Config.daysPerYear;
                 diffYears = Math.Max(0, diffYears);
             }
-            var v = PresetManager.Instance.ActivePreset.FormulaSettings.YearBasedRateMult?.Evaluate((float)diffYears);
+            float? v = PresetManager.Instance.ActivePreset.FormulaSettings.YearBasedRateMult?.Evaluate((float)diffYears);
             return v ?? 1;
         }
 
@@ -176,7 +176,7 @@ namespace KerbalConstructionTime
 
                 try
                 {
-                    KCTEvents.OnTechCompleted?.Fire(ProtoNode);
+                    KCTEvents.OnTechCompleted?.Fire(this);
                 }
                 catch (Exception ex)
                 {

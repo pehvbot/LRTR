@@ -156,6 +156,7 @@
     <Compile Include="LRTRConfigSettings.cs" />
     <Compile Include="KCTTechNodePeriod.cs" />
     <Compile Include="GUI\GUI_VesselMerge.cs" />
+    <Compile Include="VesselBuildValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
