@@ -8,7 +8,7 @@ At it's core it is a modified version of RP-1 (https://github.com/KSP-RO/RP-0) p
 It is intended to be as light weight as possible and to be more 'Kerbal' than the full RO/RP-1.
 
 Minimum Install:
-
+KSP version 1.12+
 Kopernicus Planetary System Modifier<br/>
 ModularFlightIntegrator<br/>
 Module Manager<br/>
@@ -16,7 +16,9 @@ DMagicScienceAnimate<br/>
 Contract Configurator<br/>
 Custom Barn Kit<br/>
 Real Solar System<br/>
-Kerbal Construction Time<br/>
+Click Through Blocker<br/>
+Magicore<br/>
+Modular Flight Integrator<br/>
 
 Supported Life Support Mods:
 
@@ -28,19 +30,15 @@ Suggested Mods:
 ReStock<br/>
 ReStock+<br/>
 BetterTimeWarp<br/>
-Crew R&R<br/>
 Kerbal Alarm Clock<br/>
 KRASH (simulation mod)<br/>
 Oh Scrap!<br/>
-RSS DateTime Formatter<br/>
 Scrapyard<br/>
 Stage Recovery<br/>
-
-Supported Parts Mods:
-
-<a href="https://github.com/CobaltWolf/Bluedog-Design-Bureau">Bluedog Design Bureau</a><br />
-<a href="https://github.com/DylanSemrau/CompletelyNonAggressiveRocketry">Completely Non-Aggressive Rocketry</a><br />
-<a href="https://github.com/Tantares/Tantares/releases">Tantares Spacecraft</a><br />
+Bluedog Design Bureau<br/>
+Tantaras<br/>
+Near Future<br/>
+Real Antennas<br/>
 
 
 License: CC-BY-NC-SA-4.0
