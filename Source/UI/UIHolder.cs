@@ -22,7 +22,7 @@ namespace LRTR
             _tw = new TopWindow();
             _tw.Start();
 
-            Tooltip.RecreateInstance();    // Need to make sure that a new Tooltip instance is created after every scene change
+            //Tooltip.RecreateInstance();    // Need to make sure that a new Tooltip instance is created after every scene change
         }
 
         protected void OnDestroy()
@@ -67,7 +67,7 @@ namespace LRTR
                 null,
                 null,
                 ApplicationLauncher.AppScenes.SPACECENTER | ApplicationLauncher.AppScenes.VAB | ApplicationLauncher.AppScenes.SPH,
-                GameDatabase.Instance.GetTexture("RP-0/maintecost", false));
+                GameDatabase.Instance.GetTexture("LRTF/maintecost", false));
         }
     }
 }
