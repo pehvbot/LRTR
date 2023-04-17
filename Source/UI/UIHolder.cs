@@ -67,7 +67,7 @@ namespace LRTR
                 null,
                 null,
                 ApplicationLauncher.AppScenes.SPACECENTER | ApplicationLauncher.AppScenes.VAB | ApplicationLauncher.AppScenes.SPH,
-                GameDatabase.Instance.GetTexture("LRTF/maintecost", false));
+                GameDatabase.Instance.GetTexture("LRTR/maintecost", false));
         }
     }
 }
